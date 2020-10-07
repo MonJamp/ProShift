@@ -14,7 +14,7 @@ class ManagerControls: AppCompatActivity() {
 
         // Goes back to main activity/home screen when button is clicked
         goBackToHome.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, HomeScreen::class.java))
         }
 
         addRemoveShiftsButton.setOnClickListener {
