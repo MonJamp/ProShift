@@ -11,7 +11,7 @@
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
         <activity android:name=".HomeActivity" android:exported="true"/>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ManagerControls"></activity>
+        <activity android:name=".ManagerControlsActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
