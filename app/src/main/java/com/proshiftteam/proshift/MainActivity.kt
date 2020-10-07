@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
                 // Temporary Code for manager login for testing
                 val accessCode = 1
-                val intentToHome = Intent(this, HomeScreen::class.java)
+                val intentToHome = Intent(this, HomeActivity::class.java)
                 intentToHome.putExtra("accessCode", accessCode)
                 startActivity(intentToHome)
 
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
                 // Temporary Code for employee login for testing
                 val accessCode = 0
-                val intentToHome = Intent(this, HomeScreen::class.java)
+                val intentToHome = Intent(this, HomeActivity::class.java)
                 intentToHome.putExtra("accessCode", accessCode)
                 startActivity(intentToHome)
 
