@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,6 +15,36 @@ class MainActivity : AppCompatActivity() {
         btnRegister.setOnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+
+        btnLoginLogin.setOnClickListener {
+            val username: String = editTextLoginUsername.text.toString()
+            val password: String = editTextLoginPassword.text.toString()
+
+            if (username=="mlogin" && password=="password") {
+
+                // Temporary Code for manager login for testing
+                val accessCode = 1
+                val intentToHome = Intent(this, HomeScreen::class.java)
+                intentToHome.putExtra("accessCode", accessCode)
+                startActivity(intentToHome)
+
+
+            } else if (username=="elogin" && password=="password") {
+
+                // Temporary Code for employee login for testing
+                val accessCode = 0
+                val intentToHome = Intent(this, HomeScreen::class.java)
+                intentToHome.putExtra("accessCode", accessCode)
+                startActivity(intentToHome)
+
+            } else {
+
+
+                // Code for retrieving user information and connecting with appropriate homescreen
+
+
+            }
         }
     }
 }
