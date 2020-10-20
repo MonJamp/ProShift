@@ -25,7 +25,7 @@ SECRET_KEY = 'l_gg(w^w#3_xa7w+uh7ytx823q=wo$og-(nl#+td)5-=5-d+0e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['proshiftonline.com', '127.0.0.1']
 
 
 # Application definition
