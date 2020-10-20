@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.linting.pylintArgs": [
+			"--load-plugins=pylint_django"
+		],
+	
+		"[python]": {
+		
+			"editor.insertSpaces": true,
+			"editor.tabSize": 4
+		}
+	}
+}
