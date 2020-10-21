@@ -1,9 +1,11 @@
-package com.proshiftteam.proshift
+package com.proshiftteam.proshift.Activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
+import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
                 val accessCode = 1
                 val intentToHome = Intent(this, HomeActivity::class.java)
                 intentToHome.putExtra("accessCode", accessCode)
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
                 startActivity(intentToHome)
 
 
@@ -36,11 +39,11 @@ class MainActivity : AppCompatActivity() {
                 val accessCode = 0
                 val intentToHome = Intent(this, HomeActivity::class.java)
                 intentToHome.putExtra("accessCode", accessCode)
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
                 startActivity(intentToHome)
 
             } else {
-
-
+                Toast.makeText(this, "Incorrect information", Toast.LENGTH_LONG).show()
                 // Code for retrieving user information and connecting with appropriate homescreen
 
 

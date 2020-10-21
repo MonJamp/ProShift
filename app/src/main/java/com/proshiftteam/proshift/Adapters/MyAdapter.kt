@@ -1,10 +1,12 @@
-package com.proshiftteam.proshift
+package com.proshiftteam.proshift.Adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.proshiftteam.proshift.R
+import com.proshiftteam.proshift.DataFiles.ScheduleData
 
 class MyAdapter(private val myDataset: Array<ScheduleData>) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
@@ -22,7 +24,7 @@ class MyAdapter(private val myDataset: Array<ScheduleData>) :
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MyAdapter.MyViewHolder {
+                                    viewType: Int): MyViewHolder {
         // create a new view
         val cardView = LayoutInflater.from(parent.context)
             .inflate(R.layout.schedule_item, parent, false) as CardView
