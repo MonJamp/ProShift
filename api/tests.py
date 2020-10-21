@@ -13,7 +13,7 @@ class AccountsTest(APITestCase):
         self.test_user.last_name = 'last'
 
         # URL for creating an account.
-        self.create_url = reverse('register')
+        self.create_url = reverse('api_register')
 
     def test_create_user(self):
         """
