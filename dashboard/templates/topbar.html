@@ -1,12 +1,22 @@
+<style>
+	.hello{
+		font-size: 18px;
+		color: #fff;
+		margin-right: 20px;
+	}
+</style>
+
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
 	<a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>
 	<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
 	  <span class="navbar-toggler-icon"></span>
 	</button>
 	
+	<span class="hello">Hello, {{request.user.first_name}}</span>
+
 	<ul class="navbar-nav px-3">
-	  <li class="nav-item text-nowrap">
-		<a class="nav-link" href="#">Sign out</a>
-	  </li>
+		<li class="nav-item text-nowrap">
+			<a class="nav-link" href="{% url 'logout' %}">Logout</a>
+		</li>
 	</ul>
   </nav>
