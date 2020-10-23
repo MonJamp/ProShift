@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .forms import RegistrationForm
+from .models import *
 
 
 def login_view(request):
@@ -49,4 +50,7 @@ def logout_view(request):
 
 @login_required(login_url='d-login')
 def home_view(request):
-    return render(request, 'home.html')
+    shifts = Shift.objects.filter(employee=request.user)
+
+    context = {'shifts': shifts}
+    return render(request, 'home.html', context)
