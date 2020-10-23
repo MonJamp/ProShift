@@ -13,10 +13,10 @@ def login_view(request):
         return redirect('d-home')
 
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
             login(request, user)
@@ -36,8 +36,8 @@ def register_view(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
+            name = form.cleaned_data.get('first_name')
+            messages.success(request, 'Account was created for ' + name)
             return redirect('d-login')
 
     context = {'form': form}
