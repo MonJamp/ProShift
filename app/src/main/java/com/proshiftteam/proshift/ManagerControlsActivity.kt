@@ -31,10 +31,12 @@ class ManagerControlsActivity: AppCompatActivity() {
 
             when (MenuItem.itemId) {
                 R.id.homeButtonMenu -> {
+                    startActivity(Intent(this, HomeActivity::class.java))
                 }
                 R.id.myScheduleButtonMenu -> {
                 }
                 R.id.logOutButtonMenu -> {
+                    startActivity(Intent(this, MainActivity::class.java))
                 }
             }
             true
