@@ -5,6 +5,25 @@
 <h1 class="h2">My Schedule</h1>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
+<div class="card card-body">
+	<table class="table table-sm">
+		<tr>
+			<th>Date</th>
+			<th>Start Time</th>
+			<th>End Time</th>
+			<th></th>
+		</tr>
+		{% for shift in shifts %}
+		<tr>
+			<td>{{shift.date}}</td>
+			<td>{{shift.time_start}}</td>
+			<td>{{shift.time_end}}</td>
+			<td><a class="btn btn-sm btn-danger" href="#">Drop</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+
 </div>
 
 {% endblock %}
