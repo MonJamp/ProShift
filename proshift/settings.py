@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'djoser'
 ]
 
 MIDDLEWARE = [
@@ -76,11 +77,17 @@ WSGI_APPLICATION = 'proshift.wsgi.application'
 
 # Rest
 REST_FRAMEWORK = {
-  'DEFAULT_AUTHENTICATION_CLASSES': (
-      'rest_framework.authentication.TokenAuthentication',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSIONS_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     )
 }
 
+DJOSER = {
+    
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
