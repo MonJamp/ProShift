@@ -3,9 +3,12 @@ package com.proshiftteam.proshift.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,14 +32,6 @@ class HomeActivity : AppCompatActivity() {
         val accessCode: Int = bundle!!.getInt("accessCode")
         viewManager = LinearLayoutManager(this)
 
-        val managerControlButton : Button = findViewById(R.id.managerControlsButton)
-        if (accessCode == 1) {
-            managerControlButton.visibility = View.VISIBLE
-        }
-        managerControlButton.setOnClickListener {
-            startActivity(Intent(this, ManagerControlsActivity::class.java))
-        }
-
         val drawerLayoutManagerControls: DrawerLayout = findViewById(R.id.drawer_home_controls)
 
 
@@ -50,10 +45,28 @@ class HomeActivity : AppCompatActivity() {
             MenuItem.isChecked = true
 
             when (MenuItem.itemId) {
-                R.id.homeButtonMenu -> {
+                R.id.managerControlsButton -> {
+                    if (accessCode == 1) {
+                        startActivity(Intent(this, ManagerControlsActivity::class.java))
+                    }
+                    else {
+                        Toast.makeText(this, "Manager controls not available for employees", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                R.id.myScheduleButton -> {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
-                R.id.myScheduleButtonMenu -> {
+                R.id.setAvailabilityButton -> {
+                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
+                }
+                R.id.requestTimeOffButton -> {
+                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
+                }
+                R.id.searchOpenShiftsButton -> {
+                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
+                }
+                R.id.viewWorkedHoursButton -> {
+                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
                 R.id.logOutButtonMenu -> {
                     startActivity(Intent(this, MainActivity::class.java))

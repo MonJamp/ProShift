@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/homeButtonMenu"
-        android:title="Home" />
-    <item android:id="@+id/myScheduleButtonMenu"
+
+
+    <item android:id="@+id/managerControlsButton"
+        android:title="Manager Controls"/>
+
+    <item android:id="@+id/myScheduleButton"
         android:title="My Schedule"/>
+
+    <item android:id="@+id/setAvailabilityButton"
+        android:title="Set Availability"/>
+
+    <item android:id="@+id/requestTimeOffButton"
+        android:title="Request Time off"/>
+
+    <item android:id="@+id/searchOpenShiftsButton"
+        android:title="Search Open Shifts"/>
+
+    <item android:id="@+id/viewWorkedHoursButton"
+        android:title="View Worked Hours"/>
+
     <item android:id="@+id/logOutButtonMenu"
         android:title="Log Out"/>
+
 </menu>
