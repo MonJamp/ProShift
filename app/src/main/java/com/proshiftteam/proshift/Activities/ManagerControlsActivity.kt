@@ -17,31 +17,11 @@ class ManagerControlsActivity: AppCompatActivity() {
 
         setContentView(R.layout.activity_manager_controls)
 
-        // Goes back to main activity/home screen when button is clicked
-        val drawerLayoutManagerControls: DrawerLayout = findViewById(R.id.drawer_manager_controls)
 
-
-        findViewById<ImageView>(R.id.imageMenuButton).setOnClickListener {
-            drawerLayoutManagerControls.openDrawer(GravityCompat.START)
+        findViewById<ImageView>(R.id.backArrowButton).setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
         }
 
-        val navigationViewItems : NavigationView = findViewById(R.id.menuNavigationView)
-
-        navigationViewItems.setNavigationItemSelectedListener { MenuItem ->
-            MenuItem.isChecked = true
-
-            when (MenuItem.itemId) {
-                R.id.homeButtonMenu -> {
-                    startActivity(Intent(this, HomeActivity::class.java))
-                }
-                R.id.myScheduleButtonMenu -> {
-                }
-                R.id.logOutButtonMenu -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
-            }
-            true
-        }
 
         addRemoveShiftsButton.setOnClickListener {
 

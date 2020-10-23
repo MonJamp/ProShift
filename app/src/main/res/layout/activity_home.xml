@@ -42,49 +42,12 @@
         </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="440dp">
+            android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvScheduleList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </ScrollView>
-
-        <Button
-            android:id="@+id/managerControlsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:visibility="gone"
-            android:text="Manager Controls" />
-        <Button
-            android:id="@+id/setAvailabilityButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Set Availability" />
-        <Button
-            android:id="@+id/requestTimeOffButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Request Time off" />
-        <Button
-            android:id="@+id/searchOpenShiftsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Search Open Shifts" />
-        <Button
-            android:id="@+id/viewWorkedHoursButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="View worked hours" />
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView

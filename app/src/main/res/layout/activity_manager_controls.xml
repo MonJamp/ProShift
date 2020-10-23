@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activities.ManagerControlsActivity"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:id="@+id/drawer_manager_controls">
+    android:layout_width="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,11 +22,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageMenuButton"
+                android:id="@+id/backArrowButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/image_menu_button"
+                android:src="@drawable/back_arrow"
                 android:tint="@color/whiteColor"/>
             <TextView
                 android:id="@+id/menuTitle"
@@ -86,12 +84,4 @@
             android:text="estimate cost" />
 
     </LinearLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/menuNavigationView"
-        android:layout_gravity = "start"
-        app:headerLayout="@layout/navigation_header_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:itemTextAppearance="@style/menu_text_style"
-        app:menu="@menu/drawer_menu_items"/>
-</androidx.drawerlayout.widget.DrawerLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
