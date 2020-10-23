@@ -1,4 +1,4 @@
-package com.proshiftteam.proshift
+package com.proshiftteam.proshift.Activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +11,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.proshiftteam.proshift.*
+import com.proshiftteam.proshift.Adapters.MyAdapter
+import com.proshiftteam.proshift.DataFiles.HMS
+import com.proshiftteam.proshift.DataFiles.ScheduleData
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -60,17 +64,62 @@ class HomeActivity : AppCompatActivity() {
 
         // Example data
         val dataset: Array<ScheduleData> = arrayOf(
-            ScheduleData("September", 21, HMS(9, 0), HMS(5, 0)),
-            ScheduleData("November", 22, HMS(10, 0), HMS(5, 0)),
-            ScheduleData("October", 25, HMS(12, 0), HMS(5, 0)),
+            ScheduleData(
+                "September",
+                21,
+                HMS(9, 0),
+                HMS(5, 0)
+            ),
+            ScheduleData(
+                "November",
+                22,
+                HMS(10, 0),
+                HMS(5, 0)
+            ),
+            ScheduleData(
+                "October",
+                25,
+                HMS(12, 0),
+                HMS(5, 0)
+            ),
 
             // Added more values for testing purposes
-            ScheduleData("September", 21, HMS(9, 0), HMS(5, 0)),
-            ScheduleData("November", 22, HMS(10, 0), HMS(5, 0)),
-            ScheduleData("October", 25, HMS(12, 0), HMS(5, 0)),
-            ScheduleData("September", 21, HMS(9, 0), HMS(5, 0)),
-            ScheduleData("November", 22, HMS(10, 0), HMS(5, 0)),
-            ScheduleData("October", 25, HMS(12, 0), HMS(5, 0))
+            ScheduleData(
+                "September",
+                21,
+                HMS(9, 0),
+                HMS(5, 0)
+            ),
+            ScheduleData(
+                "November",
+                22,
+                HMS(10, 0),
+                HMS(5, 0)
+            ),
+            ScheduleData(
+                "October",
+                25,
+                HMS(12, 0),
+                HMS(5, 0)
+            ),
+            ScheduleData(
+                "September",
+                21,
+                HMS(9, 0),
+                HMS(5, 0)
+            ),
+            ScheduleData(
+                "November",
+                22,
+                HMS(10, 0),
+                HMS(5, 0)
+            ),
+            ScheduleData(
+                "October",
+                25,
+                HMS(12, 0),
+                HMS(5, 0)
+            )
         )
 
         viewAdapter = MyAdapter(dataset)
