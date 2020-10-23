@@ -1,9 +1,16 @@
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from django.contrib.auth.models import User
+from dashboard.models import User
 
 
+class UserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'phone', 'company_code')
+
+'''
 class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
     email = serializers.CharField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
@@ -19,4 +26,5 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password']
+        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name', 'phone', 'company_code']
+'''
