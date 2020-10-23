@@ -3,6 +3,8 @@ package com.proshiftteam.proshift
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,7 +21,17 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        val bundle: Bundle? = intent.extras
+        val accessCode: Int = bundle!!.getInt("accessCode")
         viewManager = LinearLayoutManager(this)
+
+        val managerControlButton : Button = findViewById(R.id.managerControlsButton)
+        if (accessCode == 1) {
+            managerControlButton.visibility = View.VISIBLE
+        }
+        managerControlButton.setOnClickListener {
+            startActivity(Intent(this, ManagerControlsActivity::class.java))
+        }
 
         val drawerLayoutManagerControls: DrawerLayout = findViewById(R.id.drawer_home_controls)
 
