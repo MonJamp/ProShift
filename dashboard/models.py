@@ -13,3 +13,19 @@ class User(AbstractUser):
 
     def get_username(self):
         return self.email
+    
+    def __str__(self):
+        return str(self.first_name) + " " + str(self.last_name)
+
+class Shift(models.Model):
+    employee = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    is_open = models.BooleanField(default=False)
+    is_dropped = models.BooleanField(default=False)
+    date = models.DateField()
+    time_start = models.TimeField()
+    time_end = models.TimeField()
+
+    REQUIRED_FIELDS = ['data', 'time_start', 'time_end']
+
+    def __str__(self):
+        return ( str(self.date) + " | " + str(self.time_start) + " - " + str(self.time_end) + " | " + self.employee.__str__())
