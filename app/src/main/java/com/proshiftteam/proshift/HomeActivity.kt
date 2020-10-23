@@ -47,10 +47,12 @@ class HomeActivity : AppCompatActivity() {
 
             when (MenuItem.itemId) {
                 R.id.homeButtonMenu -> {
+                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
                 R.id.myScheduleButtonMenu -> {
                 }
                 R.id.logOutButtonMenu -> {
+                    startActivity(Intent(this, MainActivity::class.java))
                 }
             }
             true
