@@ -1,9 +1,14 @@
 package com.proshiftteam.proshift
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -16,8 +21,39 @@ class HomeActivity : AppCompatActivity() {
 
         viewManager = LinearLayoutManager(this)
 
+        val drawerLayoutManagerControls: DrawerLayout = findViewById(R.id.drawer_home_controls)
+
+
+        findViewById<ImageView>(R.id.imageMenuButton).setOnClickListener {
+            drawerLayoutManagerControls.openDrawer(GravityCompat.START)
+        }
+
+        val navigationViewItems : NavigationView = findViewById(R.id.menuNavigationView)
+
+        navigationViewItems.setNavigationItemSelectedListener { MenuItem ->
+            MenuItem.isChecked = true
+
+            when (MenuItem.itemId) {
+                R.id.homeButtonMenu -> {
+                }
+                R.id.myScheduleButtonMenu -> {
+                }
+                R.id.logOutButtonMenu -> {
+                }
+            }
+            true
+        }
+
         // Example data
         val dataset: Array<ScheduleData> = arrayOf(
+            ScheduleData("September", 21, HMS(9, 0), HMS(5, 0)),
+            ScheduleData("November", 22, HMS(10, 0), HMS(5, 0)),
+            ScheduleData("October", 25, HMS(12, 0), HMS(5, 0)),
+
+            // Added more values for testing purposes
+            ScheduleData("September", 21, HMS(9, 0), HMS(5, 0)),
+            ScheduleData("November", 22, HMS(10, 0), HMS(5, 0)),
+            ScheduleData("October", 25, HMS(12, 0), HMS(5, 0)),
             ScheduleData("September", 21, HMS(9, 0), HMS(5, 0)),
             ScheduleData("November", 22, HMS(10, 0), HMS(5, 0)),
             ScheduleData("October", 25, HMS(12, 0), HMS(5, 0))

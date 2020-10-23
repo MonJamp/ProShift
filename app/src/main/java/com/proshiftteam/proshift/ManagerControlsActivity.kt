@@ -2,7 +2,11 @@ package com.proshiftteam.proshift
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_manager_controls.*
 
 class ManagerControlsActivity: AppCompatActivity() {
@@ -13,8 +17,27 @@ class ManagerControlsActivity: AppCompatActivity() {
         setContentView(R.layout.activity_manager_controls)
 
         // Goes back to main activity/home screen when button is clicked
-        goBackToHome.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+        val drawerLayoutManagerControls: DrawerLayout = findViewById(R.id.drawer_manager_controls)
+
+
+        findViewById<ImageView>(R.id.imageMenuButton).setOnClickListener {
+            drawerLayoutManagerControls.openDrawer(GravityCompat.START)
+        }
+
+        val navigationViewItems : NavigationView = findViewById(R.id.menuNavigationView)
+
+        navigationViewItems.setNavigationItemSelectedListener { MenuItem ->
+            MenuItem.isChecked = true
+
+            when (MenuItem.itemId) {
+                R.id.homeButtonMenu -> {
+                }
+                R.id.myScheduleButtonMenu -> {
+                }
+                R.id.logOutButtonMenu -> {
+                }
+            }
+            true
         }
 
         addRemoveShiftsButton.setOnClickListener {
