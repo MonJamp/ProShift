@@ -1,4 +1,4 @@
-package com.proshiftteam.proshift
+package com.proshiftteam.proshift.Activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.activity_manager_controls.*
 
 class ManagerControlsActivity: AppCompatActivity() {
