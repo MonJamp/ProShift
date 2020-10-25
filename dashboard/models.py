@@ -85,3 +85,8 @@ class Position(models.Model):
 
     def __str__(self):
         return self.name
+
+class Employee(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
