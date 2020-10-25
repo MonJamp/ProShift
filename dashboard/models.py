@@ -68,3 +68,20 @@ class Availability(models.Model):
 
     def __str__(self):
         return (str(self.employee) + " | " + str(self.start_date))
+class Company(models.Model):
+    name = models.CharField(max_length=32)
+
+    REQUIRED_FIELDS = ['name']
+
+    def __str__(self):
+        return self.name
+
+class Position(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    name = models.CharField(max_length=32)
+    is_manager = models.BooleanField()
+
+    REQUIRED_FIELDS = ['company', 'name', 'is_manager']
+
+    def __str__(self):
+        return self.name

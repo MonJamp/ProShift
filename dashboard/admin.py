@@ -11,8 +11,13 @@ class UserAdmin(admin.ModelAdmin):
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = ('employee' , 'company' , 'start_date', 'is_approved', 'is_current')
 
+class PositionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'company', 'is_manager')
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Shift)
+admin.site.register(Company)
+admin.site.register(Position, PositionAdmin)
 admin.site.register(RequestedTimeOff)
 admin.site.register(Availability, AvailabilityAdmin)
