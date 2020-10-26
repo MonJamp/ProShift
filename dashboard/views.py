@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, NewShiftForm
 from .models import *
 
 
@@ -54,3 +54,14 @@ def home_view(request):
 
     context = {'shifts': shifts}
     return render(request, 'home.html', context)
+
+@login_required(login_url='d-login')
+def create_shift_view(request):
+    form = NewShiftForm()
+    if request.method == 'POST':
+        form = NewShiftForm(request.POST)
+        if form.is_valid():
+            form.save()
+    
+    context = {'form': form}
+    return render(request, 'create_shift.html', context)
