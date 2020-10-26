@@ -25,7 +25,7 @@ class Shift(models.Model):
     time_start = models.TimeField()
     time_end = models.TimeField()
 
-    REQUIRED_FIELDS = ['data', 'time_start', 'time_end']
+    REQUIRED_FIELDS = ['date', 'time_start', 'time_end']
 
     def __str__(self):
         return ( str(self.date) + " | " + str(self.time_start) + " - " + str(self.time_end) + " | " + self.employee.__str__())
