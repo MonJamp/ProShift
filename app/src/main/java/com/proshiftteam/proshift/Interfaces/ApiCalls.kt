@@ -1,0 +1,15 @@
+package com.proshiftteam.proshift.Interfaces
+
+
+import com.proshiftteam.proshift.DataFiles.Registration
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.POST
+
+interface ApiCalls {
+
+
+    @POST("users")
+    fun registerUser(@Body registration: Registration): Call<Registration>
+
+}
