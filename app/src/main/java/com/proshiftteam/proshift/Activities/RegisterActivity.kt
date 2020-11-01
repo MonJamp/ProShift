@@ -1,5 +1,6 @@
 package com.proshiftteam.proshift.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -58,7 +59,10 @@ class RegisterActivity : AppCompatActivity() {
                     response: Response<Registration>
                 ) {
                     if (response.isSuccessful) {
-                    Toast.makeText(context, "Successfully registered user! Response code " + response.code(), Toast.LENGTH_SHORT).show() }
+                    Toast.makeText(context, "Successfully registered user! Response code " + response.code(), Toast.LENGTH_SHORT).show()
+                        val intentToHome = Intent(context, HomeActivity::class.java)
+                        startActivity(intentToHome)
+                    }
                     else {
                         Toast.makeText(context, "Failed registration process : Response code " + response.code(), Toast.LENGTH_SHORT).show()
                     }
