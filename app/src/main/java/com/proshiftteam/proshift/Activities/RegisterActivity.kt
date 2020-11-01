@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import android.widget.Button
+import android.widget.TextView
 import com.proshiftteam.proshift.DataFiles.Registration
+import com.proshiftteam.proshift.DataFiles.RegistrationResponse
 import com.proshiftteam.proshift.Interfaces.ApiCalls
 import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.activity_register.*
@@ -24,10 +26,11 @@ class RegisterActivity : AppCompatActivity() {
 
             val context = this
 
-            val userNameEntered = plainTextRegisterUsername.text.toString()
+
             val firstNameEntered = plainTextRegisterFirstName.text.toString()
             val lastNameEntered = plainTextRegisterLastName.text.toString()
-            val phoneNumberEntered = (editTextRegisterPhone.text.toString()).toInt()
+            val userNameEntered = plainTextRegisterUsername.text.toString()
+            val phoneNumberEntered = editTextRegisterPhone.text.toString()
             val companyCodeEntered = editTextRegisterCompanyCode.text.toString()
             val emailAddressEntered = plainTextRegisterEmail.text.toString()
             val passwordEntered = editTextRegisterPassword.text.toString()
@@ -50,18 +53,19 @@ class RegisterActivity : AppCompatActivity() {
 
             callApiPost.enqueue(object : Callback<Registration> {
                 override fun onFailure(call: Call<Registration>, t: Throwable) {
-                    Toast.makeText(context, "Failed to register user!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Cannot connect!", Toast.LENGTH_SHORT).show()
                 }
-
                 override fun onResponse(
                     call: Call<Registration>,
                     response: Response<Registration>
                 ) {
-                    Toast.makeText(context, "Successfully Registered!", Toast.LENGTH_SHORT).show()
+                    if (response.isSuccessful) {
+                    Toast.makeText(context, "Successfully registered user! Response code " + response.code(), Toast.LENGTH_SHORT).show() }
+                    else {
+                        Toast.makeText(context, "Failed registration process : Response code " + response.code(), Toast.LENGTH_SHORT).show()
+                    }
                 }
-
             })
-
         }
     }
 }
