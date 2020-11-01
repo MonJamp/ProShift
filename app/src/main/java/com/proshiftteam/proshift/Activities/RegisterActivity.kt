@@ -38,13 +38,11 @@ class RegisterActivity : AppCompatActivity() {
 
             val newRegistration = Registration(userNameEntered,firstNameEntered,lastNameEntered,phoneNumberEntered,companyCodeEntered,emailAddressEntered,passwordEntered,rePasswordEntered)
 
-            val httpClient = OkHttpClient.Builder()
 
 
             val retrofitBuilder = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("http://proshiftonline.com/api/")
-                .client(httpClient.build())
                 .build()
 
             val connectJsonApiCalls = retrofitBuilder.create(ApiCalls::class.java)
