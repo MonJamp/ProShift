@@ -1,0 +1,10 @@
+Demo Django project Superuser info
+
+Username:Richard
+email: rickysoria13@yahoo.com
+Password: Ashley1
+
+
+
+User 2: Richard2
+Password: soria2599

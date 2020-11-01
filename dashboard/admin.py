@@ -9,3 +9,4 @@ class UserAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Shift)
+admin.site.register(Requested_Time_Off)
