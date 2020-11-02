@@ -30,7 +30,7 @@ class Shift(models.Model):
     def __str__(self):
         return ( str(self.date) + " | " + str(self.time_start) + " - " + str(self.time_end) + " | " + self.employee.__str__())
 
-class Requested_Time_Off(models.Model):
+class RequestedTimeOff(models.Model):
     company = models.CharField(null=True, blank=True, max_length=60)
     employee = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True)
     is_approved = models.BooleanField(default=False)

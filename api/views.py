@@ -3,7 +3,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 
 from django.contrib.auth.models import User
-from dashboard.models import Shift, Requested_Time_Off
+from dashboard.models import Shift, RequestedTimeOff
 
 from .serializers import *
 
@@ -37,6 +37,6 @@ def GetAssignedShifts(request, *args, **kwargs):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetRequestedTimeOff(request, *args, **kwargs):
-    requested_time_off = Requested_Time_Off.objects.filter(employee=request.user)
-    serializer = Requested_Time_OffSerializer(requested_time_off)
+    requested_time_off = RequestedTimeOff.objects.filter(employee=request.user)
+    serializer = RequestedTimeOffSerializer(requested_time_off)
     return Response(serializer.data, status=status.HTTP_200_OK)
