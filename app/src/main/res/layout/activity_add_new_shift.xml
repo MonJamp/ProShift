@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/test Button"
+        android:layout_width="194dp"
+        android:layout_height="wrap_content"
+        android:text="Employee Name: " />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/Test Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date: " />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="263dp"
+        android:layout_height="233dp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="114dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Start Time:" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName3"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="End Time:" />
+
+    <EditText
+        android:id="@+id/editTextTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="time" />
+
+    <EditText
+        android:id="@+id/editTextTime2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="time" />
+
+</LinearLayout>
