@@ -29,3 +29,22 @@ class Shift(models.Model):
 
     def __str__(self):
         return ( str(self.date) + " | " + str(self.time_start) + " - " + str(self.time_end) + " | " + self.employee.__str__())
+
+class Requested_Time_Off(models.Model):
+    company = models.CharField(null=True, blank=True, max_length=60)
+    employee = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True)
+    is_approved = models.BooleanField(default=False)
+    start_date = models.DateField()
+    end_date =  models.DateField()
+    time_start = models.TimeField()
+    time_end = models.TimeField()
+
+    REQUIRED_FIELDS = ['start_date', 'end_date', 'time_start', 'time_end']
+
+    def __str__(self):
+        return(str(self.start_date) + " - " + str(self.end_date) + " | " + str(self.time_start) + " - " + str(self.time_end) + " | " + self.employee.__str__())
+
+
+
+
+        
