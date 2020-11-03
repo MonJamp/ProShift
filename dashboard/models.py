@@ -100,3 +100,12 @@ class EmployeeRole(models.Model):
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         EmployeeRole.objects.create(user=instance)
+
+@receiver(post_save, sender=Company)
+def create_default_company_positions(sender, instance, created, **kwargs):
+    """
+    Create a manager and employee position when a company is created
+    """
+    if created:
+        Position.objects.create(company=instance, name='Manager', is_manager=True)
+        Position.objects.create(company=instance, name='Employee', is_manager=False)
