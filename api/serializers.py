@@ -2,7 +2,7 @@ from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from dashboard.models import User, Shift, RequestedTimeOff
+from dashboard.models import User, Shift, RequestedTimeOff, Availability
 
 
 class UserCreateSerializer(UserCreateSerializer):
@@ -19,3 +19,10 @@ class RequestedTimeOffSerializer(serializers.ModelSerializer):
     class Meta:
         model = RequestedTimeOff
         fields = ('company', 'employee', 'is_approved', 'start_date', 'end_date', 'start_time', 'end_time')
+
+class AvailabilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Availability
+        fields = ('company', 'employee', 'is_approved', 'start_date',
+            'is_current', 'mon_earliest', 'mon_latest','tues_earliest', 'tues_latest', 'wed_earliest', 'wed_latest',
+            'thur_earliest', 'thur_latest', 'fri_earliest', 'fri_latest', 'sat_earliest', 'sat_latest', 'sun_earliest', 'sun_latest')
