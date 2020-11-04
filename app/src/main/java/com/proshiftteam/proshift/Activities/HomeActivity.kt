@@ -23,13 +23,16 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        val accessCode = 1
+        /*  TEMPORARILY REMOVED DUE TO ISSUES
         val bundle: Bundle? = intent.extras
-        val accessCode: Int = bundle!!.getInt("accessCode")
+        accessCode= bundle!!.getInt("accessCode")
+
+         */
         viewManager = LinearLayoutManager(this)
 
         val drawerLayoutManagerControls: DrawerLayout = findViewById(R.id.drawer_home_controls)
@@ -63,7 +66,7 @@ class HomeActivity : AppCompatActivity() {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
                 R.id.searchOpenShiftsButton -> {
-                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
+                    startActivity(Intent(this, SearchOpenShiftsActivity::class.java))
                 }
                 R.id.viewWorkedHoursButton -> {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
