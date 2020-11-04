@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
+from .permissions import IsManager
 
 class UserCreate(APIView):
     def post(self, request, format='json'):
@@ -49,3 +50,7 @@ def GetAvailability(request, *args, **kwargs):
     serializer = AvailabilitySerializer(availability,many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
     
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsManager])
+def TestManagerRole(request, *args, **kwargs):
+    return Response(status=status.HTTP_200_OK)
