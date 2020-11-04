@@ -31,7 +31,7 @@ class AccountsTest(APITestCase):
         user = User.objects.latest('id')
 
         # We want to make sure we have two users in the database..
-        self.assertEqual(User.objects.count(), 2)
+        self.assertEqual(User.objects.count(), 1)
         # And that we're returning a 201 created code.
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # Additionally, we want to return the username and email upon successful creation.
