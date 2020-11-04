@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from smart_selects.db_fields import ChainedForeignKey
 
 # Create your models here.
 
@@ -89,9 +90,16 @@ class Position(models.Model):
         return self.name
 
 class EmployeeRole(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
+    # ChainedForeignKey allows to filter positions based on the company chosen in the form, only relevant for the admin panel
+    position = ChainedForeignKey(
+        Position,
+        chained_field="company",
+        chained_model_field="company",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True) #models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.user.email
