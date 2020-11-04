@@ -24,7 +24,7 @@ class ManagerControlsActivity: AppCompatActivity() {
 
 
         addRemoveShiftsButton.setOnClickListener {
-
+            startActivity(Intent(this, CurrentShiftAddRemoveActivity::class.java))
         }
         createNewScheduleButton.setOnClickListener {
 
