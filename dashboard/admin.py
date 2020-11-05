@@ -13,15 +13,15 @@ class EmployeeStatusInline(admin.StackedInline):
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('email', 'username', 'first_name', 'last_name', 'company_code', 'phone')
-
-class AvailabilityAdmin(admin.ModelAdmin):
-    list_display = ('employee' , 'company' , 'start_date', 'is_approved', 'is_current')
     inlines = (EmployeeStatusInline, )
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()
         return super(UserAdmin, self).get_inline_instances(request, obj)
+
+class AvailabilityAdmin(admin.ModelAdmin):
+    list_display = ('employee' , 'company' , 'start_date', 'is_approved', 'is_current')
 
 class PositionAdmin(admin.ModelAdmin):
     list_display = ('name', 'company', 'is_manager')
