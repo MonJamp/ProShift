@@ -17,7 +17,13 @@ import com.google.android.material.navigation.NavigationView
 import com.proshiftteam.proshift.*
 import com.proshiftteam.proshift.Adapters.MyAdapter
 import com.proshiftteam.proshift.DataFiles.HMS
+import com.proshiftteam.proshift.DataFiles.LogoutObject
 import com.proshiftteam.proshift.DataFiles.ScheduleData
+import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -37,6 +43,10 @@ class HomeActivity : AppCompatActivity() {
 
         val drawerLayoutManagerControls: DrawerLayout = findViewById(R.id.drawer_home_controls)
 
+        val context = this
+        val bundle: Bundle? = intent.extras
+        val tokenCode: String? = bundle?.getString("tokenCode")
+
 
         findViewById<ImageView>(R.id.imageMenuButton).setOnClickListener {
             drawerLayoutManagerControls.openDrawer(GravityCompat.START)
@@ -44,16 +54,19 @@ class HomeActivity : AppCompatActivity() {
 
         val navigationViewItems : NavigationView = findViewById(R.id.menuNavigationView)
 
+
         navigationViewItems.setNavigationItemSelectedListener { MenuItem ->
             MenuItem.isChecked = true
 
             when (MenuItem.itemId) {
                 R.id.managerControlsButton -> {
                     if (accessCode == 1) {
-                        startActivity(Intent(this, ManagerControlsActivity::class.java))
+                        val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
+                        intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
+                        startActivity(intentToManagerControlsActivity)
                     }
                     else {
-                        Toast.makeText(this, "Manager controls not available for employees", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Manager controls not available for employees", Toast.LENGTH_SHORT).show()
                     }
                 }
                 R.id.myScheduleButton -> {
@@ -66,13 +79,35 @@ class HomeActivity : AppCompatActivity() {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
                 R.id.searchOpenShiftsButton -> {
-                    startActivity(Intent(this, SearchOpenShiftsActivity::class.java))
+                    val intentToOpenShiftsActivity = Intent(context, SearchOpenShiftsActivity::class.java)
+                    intentToOpenShiftsActivity.putExtra("tokenCode", tokenCode)
+                    startActivity(intentToOpenShiftsActivity)
                 }
                 R.id.viewWorkedHoursButton -> {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
                 R.id.logOutButtonMenu -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    val logoutObjectSend = LogoutObject(tokenCode)
+                    val callApiPost = connectJsonApiCalls.logoutUser("Token $tokenCode", logoutObjectSend)
+
+                    callApiPost.enqueue(object : Callback<LogoutObject> {
+                        override fun onFailure(call: Call<LogoutObject>, t: Throwable) {
+                            Toast.makeText(context, "Cannot connect! Error Logging out.", Toast.LENGTH_SHORT).show()
+                        }
+                        override fun onResponse(
+                            call: Call<LogoutObject>,
+                            response: Response<LogoutObject>
+                        ) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(context, "Successfully logged out user! Response code " + response.code(), Toast.LENGTH_SHORT).show()
+                                val intentToHome = Intent(context, MainActivity::class.java)
+                                startActivity(intentToHome)
+                            }
+                            else {
+                                Toast.makeText(context, "Failed Logout : Response code " + response.code(), Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
                 }
             }
             true

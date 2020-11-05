@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.proshiftteam.proshift.DataFiles.Registration
 import com.proshiftteam.proshift.DataFiles.RegistrationResponse
 import com.proshiftteam.proshift.Interfaces.ApiCalls
+import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.activity_register.*
 import okhttp3.OkHttpClient
@@ -38,15 +39,6 @@ class RegisterActivity : AppCompatActivity() {
             val rePasswordEntered = editTextConfirmPassword.text.toString()
 
             val newRegistration = Registration(userNameEntered,firstNameEntered,lastNameEntered,phoneNumberEntered,companyCodeEntered,emailAddressEntered,passwordEntered,rePasswordEntered)
-
-
-
-            val retrofitBuilder = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://proshiftonline.com/api/")
-                .build()
-
-            val connectJsonApiCalls = retrofitBuilder.create(ApiCalls::class.java)
 
             val callApiPost = connectJsonApiCalls.registerUser(newRegistration)
 

@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.Toast
 import com.proshiftteam.proshift.DataFiles.LoginObject
 import com.proshiftteam.proshift.Interfaces.ApiCalls
+import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -53,12 +54,6 @@ class MainActivity : AppCompatActivity() {
 
 
                 val loginValuesObject = LoginObject(password, emailAddress)
-                val retrofitBuilder = Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl("http://proshiftonline.com/api/")
-                    .build()
-
-                val connectJsonApiCalls = retrofitBuilder.create(ApiCalls::class.java)
 
                 val callApiPost = connectJsonApiCalls.loginUser(loginValuesObject)
 
@@ -75,8 +70,6 @@ class MainActivity : AppCompatActivity() {
                             val accessCode = 1
                             val tokenCode = responseLoginObject?.auth_token
                             val intentToHome = Intent(context, HomeActivity::class.java)
-
-
                             intentToHome.putExtra("accessCode", accessCode)
                             intentToHome.putExtra("tokenCode", tokenCode)
                             startActivity(intentToHome)
@@ -93,5 +86,8 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    override fun onBackPressed() {
     }
 }
