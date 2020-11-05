@@ -52,8 +52,8 @@ class RegisterActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully registered user! Response code " + response.code(), Toast.LENGTH_SHORT).show()
-                        val intentToHome = Intent(context, HomeActivity::class.java)
-                        startActivity(intentToHome)
+                        val intentToMainActivity = Intent(context, MainActivity::class.java)
+                        startActivity(intentToMainActivity)
                     }
                     else {
                         Toast.makeText(context, "Failed registration process : Response code " + response.code(), Toast.LENGTH_SHORT).show()
