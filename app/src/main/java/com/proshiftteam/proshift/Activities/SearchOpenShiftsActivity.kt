@@ -17,11 +17,18 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {
-        setContentView(R.layout.activity_search_open_shifts)
-        findViewById<ImageView>(R.id.backArrowButtonSearchOpen).setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
-        }
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_search_open_shifts)
+        val context = this
+        val bundle: Bundle? = intent.extras
+        val tokenCode: String? = bundle?.getString("tokenCode")
+
+        findViewById<ImageView>(R.id.backArrowButtonSearchOpen).setOnClickListener {
+            val intentToHomeActivity = Intent(context, HomeActivity::class.java)
+            intentToHomeActivity.putExtra("tokenCode", tokenCode)
+            startActivity(intentToHomeActivity)
+        }
+
 
         viewManager = LinearLayoutManager(this)
         val exampleData: Array<ScheduleData> = arrayOf(

@@ -17,14 +17,21 @@ class ManagerControlsActivity: AppCompatActivity() {
 
         setContentView(R.layout.activity_manager_controls)
 
+        val context = this
+        val bundle: Bundle? = intent.extras
+        val tokenCode: String? = bundle?.getString("tokenCode")
+
 
         findViewById<ImageView>(R.id.backArrowButton).setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+            val intentToHomeActivity = Intent(context, HomeActivity::class.java)
+            intentToHomeActivity.putExtra("tokenCode", tokenCode)
+            startActivity(intentToHomeActivity)
         }
 
-
         addRemoveShiftsButton.setOnClickListener {
-            startActivity(Intent(this, CurrentShiftAddRemoveActivity::class.java))
+            val intentToCurrentShiftAddRemoveActivity = Intent(context, CurrentShiftAddRemoveActivity::class.java)
+            intentToCurrentShiftAddRemoveActivity.putExtra("tokenCode", tokenCode)
+            startActivity(intentToCurrentShiftAddRemoveActivity)
         }
         createNewScheduleButton.setOnClickListener {
 

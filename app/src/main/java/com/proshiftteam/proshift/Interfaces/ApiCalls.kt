@@ -2,11 +2,10 @@ package com.proshiftteam.proshift.Interfaces
 
 
 import com.proshiftteam.proshift.DataFiles.LoginObject
+import com.proshiftteam.proshift.DataFiles.LogoutObject
 import com.proshiftteam.proshift.DataFiles.Registration
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiCalls {
 
@@ -15,4 +14,11 @@ interface ApiCalls {
 
     @POST("token/login/")
     fun loginUser(@Body loginObject: LoginObject): Call <LoginObject>
+
+    @Headers(
+        "Accepts: application/json",
+        "Content-Type: application/json"
+    )
+    @POST("token/logout")
+    fun logoutUser(@Header("Authorization") token: String?, @Body logoutObject: LogoutObject): Call<LogoutObject>
 }

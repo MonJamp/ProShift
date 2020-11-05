@@ -16,11 +16,19 @@ class CurrentShiftAddRemoveActivity: AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {
-        setContentView(R.layout.activity_current_shift_add_remove)
-        findViewById<ImageView>(R.id.backArrowButtonAddRemove).setOnClickListener {
-            startActivity(Intent(this, ManagerControlsActivity::class.java))
-        }
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_current_shift_add_remove)
+
+        val context = this
+        val bundle: Bundle? = intent.extras
+        val tokenCode: String? = bundle?.getString("tokenCode")
+
+        findViewById<ImageView>(R.id.backArrowButtonAddRemove).setOnClickListener {
+            val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
+            intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
+            startActivity(intentToManagerControlsActivity)
+        }
+
 
         viewManager = LinearLayoutManager(this)
         val exampleData: Array<ScheduleData> = arrayOf(
