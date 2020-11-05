@@ -38,13 +38,14 @@ def GetAssignedShifts(request, *args, **kwargs):
 @permission_classes([IsAuthenticated])
 def GetRequestedTimeOff(request, *args, **kwargs):
     requested_time_off = RequestedTimeOff.objects.filter(employee=request.user)
-    serializer = RequestedTimeOffSerializer(requested_time_off)
+    serializer = RequestedTimeOffSerializer(requested_time_off, many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+#This one works now
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetAvailability(request, *args, **kwargs):
     availability = Availability.objects.filter(employee=request.user)
-    serializer = AvailabilitySerializer(availability)
+    serializer = AvailabilitySerializer(availability,many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
     

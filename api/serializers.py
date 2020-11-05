@@ -18,7 +18,7 @@ class ShiftSerializer(serializers.ModelSerializer):
 class RequestedTimeOffSerializer(serializers.ModelSerializer):
     class Meta:
         model = RequestedTimeOff
-        fields = ('company', 'employee', 'is_approved', 'start_date', 'end_date', 'start_time', 'end_time')
+        fields = ('company', 'employee', 'is_approved', 'start_date', 'end_date', 'time_start', 'time_end')
 
 class AvailabilitySerializer(serializers.ModelSerializer):
     class Meta:
