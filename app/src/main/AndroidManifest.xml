@@ -18,6 +18,7 @@
         <activity android:name=".Activities.ManagerControlsActivity"></activity>
         <activity android:name=".Activities.CurrentShiftAddRemoveActivity"></activity>
         <activity android:name=".Activities.SearchOpenShiftsActivity"></activity>
+        <activity android:name=".Activities.RequestTimeOffActivity"></activity>
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

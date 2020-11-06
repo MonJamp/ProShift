@@ -76,7 +76,9 @@ class HomeActivity : AppCompatActivity() {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
                 R.id.requestTimeOffButton -> {
-                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
+                    val intentToRequestTimeOffActivity = Intent(context, RequestTimeOffActivity::class.java)
+                    intentToRequestTimeOffActivity.putExtra("tokenCode", tokenCode)
+                    startActivity(intentToRequestTimeOffActivity)
                 }
                 R.id.searchOpenShiftsButton -> {
                     val intentToOpenShiftsActivity = Intent(context, SearchOpenShiftsActivity::class.java)
