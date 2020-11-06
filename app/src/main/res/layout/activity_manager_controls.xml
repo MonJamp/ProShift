@@ -49,15 +49,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="Add/remove shifts" />
+            android:text="Add/remove employee shifts" />
 
         <Button
-            android:id="@+id/createNewScheduleButton"
+            android:id="@+id/createNewShiftButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="Create new schedule" />
+            android:text="Create new shift" />
 
         <Button
             android:id="@+id/approveShiftRequestsButton"

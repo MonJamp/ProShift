@@ -33,8 +33,10 @@ class ManagerControlsActivity: AppCompatActivity() {
             intentToCurrentShiftAddRemoveActivity.putExtra("tokenCode", tokenCode)
             startActivity(intentToCurrentShiftAddRemoveActivity)
         }
-        createNewScheduleButton.setOnClickListener {
-
+        createNewShiftButton.setOnClickListener {
+            val intentToCreateNewShiftActivity = Intent(context, CreateNewShiftActivity::class.java)
+            intentToCreateNewShiftActivity.putExtra("tokenCode", tokenCode)
+            startActivity(intentToCreateNewShiftActivity)
         }
         approveShiftRequestsButton.setOnClickListener {
 
