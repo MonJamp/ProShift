@@ -12,6 +12,7 @@ employee_urls = [
 # Place manager related APIs here
 manager_urls = [
     path('test', views.TestManagerRole, name='api_test_manager'),
+    path('get_all_shifts', views.GetValidShifts, name='api_all_shifts')
 ]
 
 urlpatterns = [
