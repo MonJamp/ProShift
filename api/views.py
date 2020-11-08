@@ -66,3 +66,14 @@ def CreateNewShift(request, *args, **kwargs):
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsManager])
+def GetValidEmployees(request, *args, **kwargs):
+    """
+    Returns list of all employees from the company
+    """
+    company = EmployeeRole.objects.filter(user=request.user).first().company
+    employees = EmployeeRole.objects.filter(company=company)
+    serializer = EmployeeSerializer(employees, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

@@ -40,3 +40,17 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ('name',)
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    employee_name = serializers.SerializerMethodField(read_only=True)
+    position_name = serializers.SerializerMethodField(read_only=True)
+
+    def get_employee_name(self, obj):
+        return str(obj.user)
+
+    def get_position_name(self, obj):
+        return str(obj.position)
+    
+    class Meta:
+        model = EmployeeRole
+        fields = ('id', 'employee_name', 'position', 'position_name')

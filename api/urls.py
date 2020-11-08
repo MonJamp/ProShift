@@ -14,6 +14,7 @@ manager_urls = [
     path('test', views.TestManagerRole, name='api_test_manager'),
     path('get_all_shifts', views.GetValidShifts, name='api_all_shifts'),
     path('create_shift', views.CreateNewShift, name='api_create_shift'),
+    path('get_employees', views.GetValidEmployees, name='api_get_employees')
 ]
 
 urlpatterns = [
