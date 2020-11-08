@@ -50,7 +50,8 @@ def logout_view(request):
 
 @login_required(login_url='d-login')
 def home_view(request):
-    shifts = Shift.objects.filter(employee=request.user)
+    employee = EmployeeRole(user=request.user)
+    shifts = Shift.objects.filter(employee=employee)
 
     context = {'shifts': shifts}
     return render(request, 'home.html', context)
