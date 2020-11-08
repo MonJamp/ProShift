@@ -58,3 +58,11 @@ def GetValidShifts(request, *args, **kwargs):
     shifts = Shift.objects.filter(company=company, date__gte=datetime.date.today())
     ss = ShiftSerializer(shifts, many=True)
     return Response(ss.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def CreateNewShift(request, *args, **kwargs):
+    serializer = ShiftSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(status=status.HTTP_201_CREATED)
