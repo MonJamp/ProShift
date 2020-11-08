@@ -17,7 +17,7 @@ manager_urls = [
 urlpatterns = [
     path('employee/', include(employee_urls)),
     path('manager/', include(manager_urls)),
-    path('register', views.UserCreate.as_view(), name='api_register'),
+
     path('', include('djoser.urls')),
     path('', include('djoser.urls.authtoken')),
 ]
