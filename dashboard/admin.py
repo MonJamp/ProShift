@@ -29,6 +29,9 @@ class PositionAdmin(admin.ModelAdmin):
 class EmployeeRoleAdmin(admin.ModelAdmin):
     list_display = ('user', 'company', 'position')
 
+class ShiftRequestAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'company', 'shift', 'is_approved')
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Shift)
 admin.site.register(Company)
@@ -36,3 +39,4 @@ admin.site.register(Position, PositionAdmin)
 admin.site.register(EmployeeRole, EmployeeRoleAdmin)
 admin.site.register(RequestedTimeOff)
 admin.site.register(Availability, AvailabilityAdmin)
+admin.site.register(ShiftRequest, ShiftRequestAdmin)
