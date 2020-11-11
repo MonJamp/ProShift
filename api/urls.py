@@ -17,6 +17,7 @@ manager_urls = [
     path('create_shift', views.CreateNewShift, name='api_create_shift'),
     path('get_employees', views.GetValidEmployees, name='api_get_employees'),
     path('get_shift_requests', views.GetUnapprovedShiftRequests, name='api_get_shift_requests'),
+    path('approve_shift_request', views.ApproveShiftRequest, name='api_approve_shift_request'),
 ]
 
 urlpatterns = [
