@@ -69,7 +69,7 @@ def create_default_company_positions(sender, instance, created, **kwargs):
 
 class Shift(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    employee = ChainedForeignKey(EmployeeRole, chained_field='company', chained_model_field='company')
+    employee = ChainedForeignKey(EmployeeRole, chained_field='company', chained_model_field='company', null=True, blank=True)
     is_open = models.BooleanField(default=False)
     is_dropped = models.BooleanField(default=False)
     date = models.DateField()
@@ -120,3 +120,12 @@ class Availability(models.Model):
 
     def __str__(self):
         return (str(self.employee) + " | " + str(self.start_date))
+
+class ShiftRequest(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    employee = ChainedForeignKey(EmployeeRole, chained_field='company', chained_model_field='company')
+    shift = ChainedForeignKey(Shift, chained_field='company', chained_model_field='company')
+    is_approved = models.BooleanField(default = False)
+
+    def __str__(self):
+        return str(self.employee) + " | Shift ID: " + str(self.shift.id)
