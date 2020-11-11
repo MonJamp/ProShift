@@ -93,3 +93,14 @@ def GetValidEmployees(request, *args, **kwargs):
     employees = EmployeeRole.objects.filter(company=company)
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsManager])
+def GetUnapprovedShiftRequests(request, *args, **kwargs):
+    """
+    Returns list of unapproved shift requests
+    """
+    company = EmployeeRole.objects.filter(user=request.user).first().company
+    shift_requests = ShiftRequest.objects.filter(company=company, is_approved=False)
+    serializer = ShiftRequestSerializer(shift_requests, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
