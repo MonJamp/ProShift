@@ -54,3 +54,11 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmployeeRole
         fields = ('id', 'employee_name', 'position', 'position_name')
+
+class ShiftRequestSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        return ShiftRequest.objects.create(**validated_data)
+
+    class Meta:
+        model = ShiftRequest
+        fields = ('company', 'employee', 'shift', 'is_approved')

@@ -39,6 +39,22 @@ def GetAvailability(request, *args, **kwargs):
     serializer = AvailabilitySerializer(availability,many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def RequestShift(request, *args, **kwargs):
+    # Serialize the received data
+    shift_request = ShiftRequestSerializer(data=request.data)
+    # Check if the data matches the serializer's format
+    shift_request.is_valid(raise_exception=True)
+    # Check if there are other shift request for this shift by this user
+    employee = EmployeeRole.objects.get(user=request.user)
+    is_zero = ShiftRequest.objects.filter(shift=request.data['shift'], employee=employee).count()
+    if is_zero > 0:
+        message = "User already sent request" # For debugging
+        return Response(data=message, status=status.HTTP_208_ALREADY_REPORTED)
+    shift_request.save()
+    return Response(status=status.HTTP_201_CREATED)
+
 # Manager APIs
 # Make sure to use pass IsManager to permission classes to ensure the user
 # accessing the API has manager permissions
