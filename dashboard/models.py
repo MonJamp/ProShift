@@ -127,5 +127,7 @@ class ShiftRequest(models.Model):
     shift = ChainedForeignKey(Shift, chained_field='company', chained_model_field='company')
     is_approved = models.BooleanField(default = False)
 
+    REQUIRED_FIELDS = ['company', 'employee', 'shift']
+
     def __str__(self):
         return str(self.employee) + " | Shift ID: " + str(self.shift.id)
