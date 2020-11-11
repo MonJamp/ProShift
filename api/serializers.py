@@ -58,6 +58,14 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class ShiftRequestSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return ShiftRequest.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        instance.company = validated_data.get('company', instance.company)
+        instance.employee = validated_data.get('employee', instance.employee)
+        instance.shift = validated_data.get('shift', instance.shift)
+        instance.is_approved = validated_data.get('is_approved', instance.is_approved)
+        instance.save()
+        return instance
 
     class Meta:
         model = ShiftRequest

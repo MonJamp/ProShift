@@ -14,6 +14,9 @@ from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
 from .permissions import IsManager
 
+from django.core.exceptions import ObjectDoesNotExist
+
+import sys
 import datetime
 
 # Employee APIs
@@ -104,3 +107,33 @@ def GetUnapprovedShiftRequests(request, *args, **kwargs):
     shift_requests = ShiftRequest.objects.filter(company=company, is_approved=False)
     serializer = ShiftRequestSerializer(shift_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def ApproveShiftRequest(request, *args, **kwargs):
+    """
+    Updates shift request and removes all other requests to the same shift
+    Only to be used to approve shift requests
+    """
+    try:
+        shift_request = ShiftRequest.objects.get(id=request.data['id'])
+        shift_request.is_approved = True
+        shift_request.save()
+        shift = Shift.objects.get(id=shift_request.shift.id)
+        employee = EmployeeRole.objects.get(id=shift_request.employee.id)
+        shift.employee = employee
+        shift.save()
+        to_remove = ShiftRequest.objects.filter(is_approved=False, shift=shift)
+        to_remove.delete()
+    except KeyError as e:
+        data = {'id': 'field is missing'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except ObjectDoesNotExist as e:
+        data = {'error': str(e)}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        data = {'error': 'misc error, use Postman to debug'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Everything went alright :)
+    return Response(status=status.HTTP_200_OK)
