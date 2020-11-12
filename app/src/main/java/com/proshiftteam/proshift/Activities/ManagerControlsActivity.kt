@@ -44,7 +44,9 @@ class ManagerControlsActivity: AppCompatActivity() {
             startActivity(intentToApproveShiftRequestActivity)
         }
         approveTimeOffRequestButton.setOnClickListener {
-
+            val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
+            intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)
+            startActivity(intentToApproveTimeOffRequestActivity)
         }
 
     }
