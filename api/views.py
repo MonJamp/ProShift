@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 
 from django.contrib.auth.models import User
 from dashboard.models import Shift, RequestedTimeOff, Availability
+from django.db.models import Q
 
 from .serializers import *
 
@@ -57,6 +58,18 @@ def RequestShift(request, *args, **kwargs):
         return Response(data=message, status=status.HTTP_208_ALREADY_REPORTED)
     shift_request.save()
     return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def GetOpenShifts(request, *args, **kwargs):
+    """
+    Retrieves open and dropped shifts from the server
+    """
+    employee = EmployeeRole.objects.get(user=request.user)
+    company = employee.company
+    shifts = Shift.objects.filter(Q(company=company, is_open=True) | Q(company=company, is_dropped=True))
+    serializer = ShiftSerializer(shifts, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 # Manager APIs
 # Make sure to use pass IsManager to permission classes to ensure the user

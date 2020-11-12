@@ -8,6 +8,7 @@ employee_urls = [
     path('get_requested_time_off', views.GetRequestedTimeOff, name='api_requested_time_off'),
     path('get_availability', views.GetAvailability, name='api_get_availability'),
     path('shift_request', views.RequestShift, name='api_request_shift'),
+    path('get_open_shifts', views.GetOpenShifts, name='api_open_shifts')
 ]
 
 # Place manager related APIs here
