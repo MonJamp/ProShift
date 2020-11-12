@@ -38,41 +38,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="209dp"
-            android:layout_height="match_parent" />
-
-        <CalendarView
-            android:id="@+id/calendarView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/calenderLabelsText"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="             Start Date                               End Date"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:orientation="horizontal">
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp" />
 
-    <Button
-        android:id="@+id/requestTimeOffButtonInTimeOff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Request Time off"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="200dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text="START DATE"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CalendarView
+                android:id="@+id/calendarView2"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text="END DATE"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/requestTimeOffButtonInTimeOff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Request Time off"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
 </LinearLayout>
