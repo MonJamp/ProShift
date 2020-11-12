@@ -41,7 +41,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="400dp"/>
+            android:layout_height="440dp"/>
 
         <Button
             android:id="@+id/addRemoveShiftsButton"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="Add/remove employee shifts" />
+            android:text="Add/remove employee from shifts" />
 
         <Button
             android:id="@+id/createNewShiftButton"
@@ -68,20 +68,12 @@
             android:text="Approve shift requests" />
 
         <Button
-            android:id="@+id/setMaxHoursButton"
+            android:id="@+id/approveTimeOffRequestButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="Set max hours" />
-
-        <Button
-            android:id="@+id/estimateCostButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="estimate cost" />
+            android:text="Approve time off requests" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

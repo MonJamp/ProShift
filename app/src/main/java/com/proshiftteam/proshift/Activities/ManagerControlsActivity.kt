@@ -41,10 +41,7 @@ class ManagerControlsActivity: AppCompatActivity() {
         approveShiftRequestsButton.setOnClickListener {
 
         }
-        setMaxHoursButton.setOnClickListener {
-
-        }
-        estimateCostButton.setOnClickListener {
+        approveTimeOffRequestButton.setOnClickListener {
 
         }
 

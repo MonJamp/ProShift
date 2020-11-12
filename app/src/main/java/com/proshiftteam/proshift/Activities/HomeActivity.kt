@@ -72,9 +72,6 @@ class HomeActivity : AppCompatActivity() {
                 R.id.myScheduleButton -> {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
-                R.id.setAvailabilityButton -> {
-                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
-                }
                 R.id.requestTimeOffButton -> {
                     val intentToRequestTimeOffActivity = Intent(context, RequestTimeOffActivity::class.java)
                     intentToRequestTimeOffActivity.putExtra("tokenCode", tokenCode)
@@ -84,9 +81,6 @@ class HomeActivity : AppCompatActivity() {
                     val intentToOpenShiftsActivity = Intent(context, SearchOpenShiftsActivity::class.java)
                     intentToOpenShiftsActivity.putExtra("tokenCode", tokenCode)
                     startActivity(intentToOpenShiftsActivity)
-                }
-                R.id.viewWorkedHoursButton -> {
-                    drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
                 R.id.logOutButtonMenu -> {
                     val logoutObjectSend = LogoutObject(tokenCode)

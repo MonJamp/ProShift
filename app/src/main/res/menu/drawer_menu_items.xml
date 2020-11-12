@@ -8,17 +8,11 @@
     <item android:id="@+id/myScheduleButton"
         android:title="My Schedule"/>
 
-    <item android:id="@+id/setAvailabilityButton"
-        android:title="Set Availability"/>
-
     <item android:id="@+id/requestTimeOffButton"
         android:title="Request Time off"/>
 
     <item android:id="@+id/searchOpenShiftsButton"
         android:title="Search Open Shifts"/>
-
-    <item android:id="@+id/viewWorkedHoursButton"
-        android:title="View Worked Hours"/>
 
     <item android:id="@+id/logOutButtonMenu"
         android:title="Log Out"/>
