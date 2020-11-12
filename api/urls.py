@@ -20,7 +20,8 @@ manager_urls = [
     path('get_employees', views.GetValidEmployees, name='api_get_employees'),
     path('get_shift_requests', views.GetUnapprovedShiftRequests, name='api_get_shift_requests'),
     path('approve_shift_request', views.ApproveShiftRequest, name='api_approve_shift_request'),
-    path('get_time_off_requests', views.GetUnapprovedTimeOff, name='api_time_off_requests')
+    path('get_time_off_requests', views.GetUnapprovedTimeOff, name='api_time_off_requests'),
+    path('approve_time_off', views.ApproveTimeOff, name='api_approve_time_off')
 ]
 
 urlpatterns = [
