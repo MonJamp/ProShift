@@ -71,6 +71,17 @@ def GetOpenShifts(request, *args, **kwargs):
     serializer = ShiftSerializer(shifts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def SendTimeOffRequest(request, *args, **kwargs):
+    """
+    Creates time off request
+    """
+    serializer = RequestedTimeOffSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(status=status.HTTP_201_CREATED)
+
 # Manager APIs
 # Make sure to use pass IsManager to permission classes to ensure the user
 # accessing the API has manager permissions
