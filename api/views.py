@@ -171,3 +171,22 @@ def GetUnapprovedTimeOff(request, *args, **kwargs):
     time_off_requests = RequestedTimeOff.objects.filter(company=company, is_approved=False)
     serializer = RequestedTimeOffSerializer(time_off_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def ApproveTimeOff(request, *args, **kwargs):
+    try:
+        time_off = RequestedTimeOff.objects.get(id=request.data['id'])
+        time_off.is_approved = True
+        time_off.save()
+    except KeyError as e:
+        data = {'id': 'field is missing'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except ObjectDoesNotExist as e:
+        data = {'error': str(e)}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        data = {'error': 'misc error, use Postman to debug'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response(status=status.HTTP_200_OK)
