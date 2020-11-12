@@ -163,3 +163,11 @@ def ApproveShiftRequest(request, *args, **kwargs):
     
     # Everything went alright :)
     return Response(status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsManager])
+def GetUnapprovedTimeOff(request, *args, **kwargs):
+    company = EmployeeRole.objects.get(user=request.user).company
+    time_off_requests = RequestedTimeOff.objects.filter(company=company, is_approved=False)
+    serializer = RequestedTimeOffSerializer(time_off_requests, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
