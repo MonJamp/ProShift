@@ -190,3 +190,19 @@ def ApproveTimeOff(request, *args, **kwargs):
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
     
     return Response(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def UpdateShift(request, *args, **kwargs):
+    try:
+        shift = Shift.objects.get(id=request.data['id'])
+    except KeyError as e:
+        data = {'id': 'field is missing'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except Shift.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = ShiftSerializer(shift, data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(status=status.HTTP_202_ACCEPTED)
