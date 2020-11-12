@@ -82,6 +82,29 @@ def SendTimeOffRequest(request, *args, **kwargs):
     serializer.save()
     return Response(status=status.HTTP_201_CREATED)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def ToggleDropShift(request, *args, **kwargs):
+    """
+    Toggles marking shift as dropped
+    """
+    try:
+        employee = EmployeeRole.objects.get(user=request.user)
+        shift = Shift.objects.get(id=request.data['id'], employee=employee)
+        shift.is_dropped = not shift.is_dropped
+        shift.save()
+    except KeyError as e:
+        data = {'id': 'field is missing'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except ObjectDoesNotExist as e:
+        data = {'error': str(e)}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        data = {'error': 'misc error, use Postman to debug'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(status=status.HTTP_202_ACCEPTED)
+
 # Manager APIs
 # Make sure to use pass IsManager to permission classes to ensure the user
 # accessing the API has manager permissions
