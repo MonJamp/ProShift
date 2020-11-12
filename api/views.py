@@ -135,6 +135,8 @@ def ApproveShiftRequest(request, *args, **kwargs):
         shift = Shift.objects.get(id=shift_request.shift.id)
         employee = EmployeeRole.objects.get(id=shift_request.employee.id)
         shift.employee = employee
+        shift.is_open = False
+        shift.is_dropped = False
         shift.save()
         to_remove = ShiftRequest.objects.filter(is_approved=False, shift=shift)
         to_remove.delete()
