@@ -102,11 +102,31 @@ def GetValidShifts(request, *args, **kwargs):
     ss = ShiftSerializer(shifts, many=True)
     return Response(ss.data, status=status.HTTP_200_OK)
 
+def IsConflictWithTimeOff(employee, date):
+    time_off_requests = RequestedTimeOff.objects.filter(employee=employee, is_approved=True)
+    shift_date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+
+    for time_off in time_off_requests:
+        start_date = time_off.start_date
+        end_date = time_off.end_date
+
+        if start_date <= shift_date <= end_date:
+            return True
+    
+    return False
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsManager])
 def CreateNewShift(request, *args, **kwargs):
     serializer = ShiftSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
+
+    employee = EmployeeRole.objects.get(user=request.data['employee'])
+    date = request.data['date']
+    if IsConflictWithTimeOff(employee, date):
+        message = str(date)
+        return Response(data=message, status=status.HTTP_409_CONFLICT)
+
     serializer.save()
     return Response(status=status.HTTP_201_CREATED)
 
