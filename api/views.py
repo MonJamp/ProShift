@@ -24,7 +24,8 @@ import datetime
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetAssignedShifts(request, *args, **kwargs):
-    shifts = Shift.objects.filter(employee=request.user)
+    employee = EmployeeRole.objects.get(user=request.user)
+    shifts = Shift.objects.filter(employee=employee)
     serializer = ShiftSerializer(shifts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -32,14 +33,16 @@ def GetAssignedShifts(request, *args, **kwargs):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetRequestedTimeOff(request, *args, **kwargs):
-    requested_time_off = RequestedTimeOff.objects.filter(employee=request.user)
+    employee = EmployeeRole.objects.get(user=request.user)
+    requested_time_off = RequestedTimeOff.objects.filter(employee=employee)
     serializer = RequestedTimeOffSerializer(requested_time_off, many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetAvailability(request, *args, **kwargs):
-    availability = Availability.objects.filter(employee=request.user)
+    employee = EmployeeRole.objects.get(user=request.user)
+    availability = Availability.objects.filter(employee=employee)
     serializer = AvailabilitySerializer(availability,many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
