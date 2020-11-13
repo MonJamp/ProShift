@@ -55,6 +55,9 @@ class EmployeeRole(models.Model):
 
     def __str__(self):
         return str(self.user) + " | " + str(self.position)
+    
+    def get_id(self):
+        return self.id
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
