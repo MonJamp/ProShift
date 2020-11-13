@@ -10,6 +10,8 @@ class EmployeeStatusInline(admin.StackedInline):
     verbose_name_plural = 'Employement'
     fk_name = 'user'
     extra = 0
+    fields = ('get_id', 'company', 'position')
+    readonly_fields = ('get_id', )
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('email', 'username', 'first_name', 'last_name', 'company_code', 'phone', 'id')
@@ -45,7 +47,6 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Position, PositionAdmin)
-admin.site.register(EmployeeRole, EmployeeRoleAdmin)
 admin.site.register(RequestedTimeOff, RequestedTimeOffAdmin)
 admin.site.register(Availability, AvailabilityAdmin)
 admin.site.register(ShiftRequest, ShiftRequestAdmin)
