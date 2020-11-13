@@ -27,6 +27,9 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name_plural = 'companies'
 
 class Position(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -120,6 +123,9 @@ class Availability(models.Model):
 
     def __str__(self):
         return (str(self.employee) + " | " + str(self.start_date))
+    
+    class Meta:
+        verbose_name_plural = 'availabilities'
 
 class ShiftRequest(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
