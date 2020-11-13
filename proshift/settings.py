@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'smart_selects',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +81,7 @@ WSGI_APPLICATION = 'proshift.wsgi.application'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
     ),
     'DEFAULT_PERMISSIONS_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -89,6 +91,7 @@ REST_FRAMEWORK = {
 # Custom user model
 AUTH_USER_MODEL = "dashboard.User"
 
+# Djoser
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE': True,
@@ -96,6 +99,19 @@ DJOSER = {
         'user_create': 'api.serializers.UserCreateSerializer',
         'user': 'api.serializers.UserCreateSerializer',
     },
+}
+
+# Swagger
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+
+    'USE_SESSION_AUTH': False,
 }
 
 # Database
