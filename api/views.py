@@ -17,38 +17,65 @@ from .permissions import IsManager
 
 from django.core.exceptions import ObjectDoesNotExist
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
 import sys
 import datetime
 
+# JSON request body with only an entry for a key of 'id'
+id_body = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'id': openapi.Schema(type=openapi.TYPE_INTEGER, description='primary key of entry')
+    }
+)
+
 # Employee APIs
+@swagger_auto_schema(method='get', responses={200: ShiftSerializer(many=True)})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetAssignedShifts(request, *args, **kwargs):
+    """
+    Retrieve assigned shifts for the current user
+    """
     employee = EmployeeRole.objects.get(user=request.user)
     shifts = Shift.objects.filter(employee=employee)
     serializer = ShiftSerializer(shifts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-
+@swagger_auto_schema(method='get', responses={200: RequestedTimeOffSerializer(many=True)})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetRequestedTimeOff(request, *args, **kwargs):
+    """
+    Retrieve time off requests made by user
+    """
     employee = EmployeeRole.objects.get(user=request.user)
     requested_time_off = RequestedTimeOff.objects.filter(employee=employee)
     serializer = RequestedTimeOffSerializer(requested_time_off, many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='get', responses={200: AvailabilitySerializer(many=True)})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetAvailability(request, *args, **kwargs):
+    """
+    Retrieve availability requests (approved or not) for user
+    """
     employee = EmployeeRole.objects.get(user=request.user)
     availability = Availability.objects.filter(employee=employee)
     serializer = AvailabilitySerializer(availability,many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='post', request_body=ShiftRequestSerializer, responses={200: ShiftRequestSerializer, 208: 'Shift request already exists'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def RequestShift(request, *args, **kwargs):
+    """
+    Create a shift request for the user. Only a single shift request can be sent
+    per user per shift
+    """
     # Serialize the received data
     shift_request = ShiftRequestSerializer(data=request.data)
     # Check if the data matches the serializer's format
@@ -60,13 +87,14 @@ def RequestShift(request, *args, **kwargs):
         message = "User already sent request" # For debugging
         return Response(data=message, status=status.HTTP_208_ALREADY_REPORTED)
     shift_request.save()
-    return Response(status=status.HTTP_201_CREATED)
+    return Response(shift_request, status=status.HTTP_201_CREATED)
 
+@swagger_auto_schema(method='get', responses={200: ShiftSerializer(many=True)})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def GetOpenShifts(request, *args, **kwargs):
     """
-    Retrieves open and dropped shifts from the server
+    Retrieves open and dropped shifts from the user's company
     """
     employee = EmployeeRole.objects.get(user=request.user)
     company = employee.company
@@ -74,6 +102,7 @@ def GetOpenShifts(request, *args, **kwargs):
     serializer = ShiftSerializer(shifts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='post', request_body=RequestedTimeOffSerializer)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def SendTimeOffRequest(request, *args, **kwargs):
@@ -83,8 +112,9 @@ def SendTimeOffRequest(request, *args, **kwargs):
     serializer = RequestedTimeOffSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     serializer.save()
-    return Response(status=status.HTTP_201_CREATED)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@swagger_auto_schema(method='post', request_body=id_body, responses={202: ShiftSerializer, 404: 'Entry with id does not exist'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def ToggleDropShift(request, *args, **kwargs):
@@ -101,21 +131,24 @@ def ToggleDropShift(request, *args, **kwargs):
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
     except ObjectDoesNotExist as e:
         data = {'error': str(e)}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except:
-        data = {'error': 'misc error, use Postman to debug'}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=data, status=status.HTTP_404_BAD_REQUEST)
 
-    return Response(status=status.HTTP_202_ACCEPTED)
+    serializer = ShiftSerializer(shift)
+    return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 # Manager APIs
 # Make sure to use pass IsManager to permission classes to ensure the user
 # accessing the API has manager permissions
+@swagger_auto_schema(method='get', responses={200: 'User is a manager'})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsManager])
 def TestManagerRole(request, *args, **kwargs):
+    """
+    Tests if the current user is a manager
+    """
     return Response(status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='get', responses={200: ShiftSerializer(many=True)})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsManager])
 def GetValidShifts(request, *args, **kwargs):
@@ -141,9 +174,14 @@ def IsConflictWithTimeOff(employee, date):
     
     return False
 
+@swagger_auto_schema(method='post', request_body=ShiftSerializer, responses={201: ShiftSerializer, 409: 'Conflict with time off request'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsManager])
 def CreateNewShift(request, *args, **kwargs):
+    """
+    Creates a shift for the selected employee. Shifts scheduled during time
+    off are automatically declined by the server
+    """
     serializer = ShiftSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
@@ -154,8 +192,9 @@ def CreateNewShift(request, *args, **kwargs):
         return Response(data=message, status=status.HTTP_409_CONFLICT)
 
     serializer.save()
-    return Response(status=status.HTTP_201_CREATED)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@swagger_auto_schema(method='get', responses={200: EmployeeSerializer(many=True)})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsManager])
 def GetValidEmployees(request, *args, **kwargs):
@@ -167,6 +206,7 @@ def GetValidEmployees(request, *args, **kwargs):
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='get', responses={200: ShiftRequestSerializer})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsManager])
 def GetUnapprovedShiftRequests(request, *args, **kwargs):
@@ -178,6 +218,7 @@ def GetUnapprovedShiftRequests(request, *args, **kwargs):
     serializer = ShiftRequestSerializer(shift_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='post', request_body=id_body, responses={200: ShiftSerializer, 404: 'shift or shift request not found'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsManager])
 def ApproveShiftRequest(request, *args, **kwargs):
@@ -202,25 +243,31 @@ def ApproveShiftRequest(request, *args, **kwargs):
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
     except ObjectDoesNotExist as e:
         data = {'error': str(e)}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except:
-        data = {'error': 'misc error, use Postman to debug'}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=data, status=status.HTTP_404_NOT_FOUND)
     
+    updated_shift = ShiftSerializer(shift)
     # Everything went alright :)
-    return Response(status=status.HTTP_200_OK)
+    return Response(updated_shift.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='get', responses={200: RequestedTimeOffSerializer})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsManager])
 def GetUnapprovedTimeOff(request, *args, **kwargs):
+    """
+    Retrieves unapproved time off requests for the company
+    """
     company = EmployeeRole.objects.get(user=request.user).company
     time_off_requests = RequestedTimeOff.objects.filter(company=company, is_approved=False)
     serializer = RequestedTimeOffSerializer(time_off_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='post', request_body=id_body, responses={200: RequestedTimeOffSerializer, 404: 'Time off request not found'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsManager])
 def ApproveTimeOff(request, *args, **kwargs):
+    """
+    Approve a time off request by id
+    """
     try:
         time_off = RequestedTimeOff.objects.get(id=request.data['id'])
         time_off.is_approved = True
@@ -230,16 +277,18 @@ def ApproveTimeOff(request, *args, **kwargs):
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
     except ObjectDoesNotExist as e:
         data = {'error': str(e)}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except:
-        data = {'error': 'misc error, use Postman to debug'}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=data, status=status.HTTP_404_NOT_FOUND)
     
-    return Response(status=status.HTTP_200_OK)
+    updated_time_off = RequestedTimeOffSerializer(time_off)
+    return Response(updated_time_off.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='post', request_body=id_body, responses={202: ShiftSerializer, 404: 'Shift not found'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsManager])
 def UpdateShift(request, *args, **kwargs):
+    """
+    Update any field for an already created shift
+    """
     try:
         shift = Shift.objects.get(id=request.data['id'])
     except KeyError as e:
@@ -251,4 +300,4 @@ def UpdateShift(request, *args, **kwargs):
     serializer = ShiftSerializer(shift, data=request.data)
     serializer.is_valid(raise_exception=True)
     serializer.save()
-    return Response(status=status.HTTP_202_ACCEPTED)
+    return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
