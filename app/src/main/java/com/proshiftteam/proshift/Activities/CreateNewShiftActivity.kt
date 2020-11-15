@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.proshiftteam.proshift.DataFiles.ShiftObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
+import com.proshiftteam.proshift.Utilities.asTimePicker
 import kotlinx.android.synthetic.main.activity_create_new_shift.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,7 +41,9 @@ class CreateNewShiftActivity: AppCompatActivity() {
         var dateFormat = SimpleDateFormat("YYYY-MM-dd")
         val timeFormat = SimpleDateFormat("hh:mm")
         val shift_begin = findViewById<EditText>(R.id.shiftBeginTime)
+        shift_begin.asTimePicker(context, "HH:mm")
         val shift_end = findViewById<EditText>(R.id.shiftEndTime)
+        shift_end.asTimePicker(context, "HH:mm")
 
         employeeSpinner = this.selectEmployeeSpinnerInNewShift
 
@@ -74,6 +77,7 @@ class CreateNewShiftActivity: AppCompatActivity() {
                     if(response.code() == 201)
                     {
                         Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
+
                     }
                     else
                     {
