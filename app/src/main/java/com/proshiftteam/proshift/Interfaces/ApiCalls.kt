@@ -1,10 +1,7 @@
 package com.proshiftteam.proshift.Interfaces
 
 
-import com.proshiftteam.proshift.DataFiles.AssignedShiftsObject
-import com.proshiftteam.proshift.DataFiles.LoginObject
-import com.proshiftteam.proshift.DataFiles.LogoutObject
-import com.proshiftteam.proshift.DataFiles.Registration
+import com.proshiftteam.proshift.DataFiles.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -25,4 +22,8 @@ interface ApiCalls {
 
     @GET("employee/get_shifts")
     fun getAssignedShifts(@Header("Authorization") token: String?): Call<List<AssignedShiftsObject>>
+
+    @POST("employee/toggle_drop_shift")
+    fun dropSelectedShift(@Header("Authorization") token: String?, @Body dropShiftObject: DropShiftObject): Call<DropShiftObject>
+
 }
