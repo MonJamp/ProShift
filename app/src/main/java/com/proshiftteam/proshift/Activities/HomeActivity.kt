@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.proshiftteam.proshift.*
 import com.proshiftteam.proshift.Adapters.MyAdapter
+import com.proshiftteam.proshift.Adapters.showShiftsAdapter
 import com.proshiftteam.proshift.DataFiles.AssignedShiftsObject
 import com.proshiftteam.proshift.DataFiles.HMS
 import com.proshiftteam.proshift.DataFiles.LogoutObject
 import com.proshiftteam.proshift.DataFiles.ScheduleData
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
+import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,12 +55,11 @@ class HomeActivity : AppCompatActivity() {
             override fun onFailure(call: Call<List<AssignedShiftsObject>>, t: Throwable) {
                 Toast.makeText(context, "Cannot connect! Error displaying user shifts!", Toast.LENGTH_LONG).show()
             }
-            override fun onResponse(
-                call: Call<List<AssignedShiftsObject>>,
-                response: Response<List<AssignedShiftsObject>>
-            ) {
+            override fun onResponse(call: Call<List<AssignedShiftsObject>>, response: Response<List<AssignedShiftsObject>>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully loaded shifts" + response.code(), Toast.LENGTH_LONG).show()
+                    val listOfShiftsScheduled = response.body()!!
+                    showShiftsRecyclerView.adapter = showShiftsAdapter(listOfShiftsScheduled)
                 }
                 else {
                     Toast.makeText(context, "Failed loading shifts : Response code " + response.code(), Toast.LENGTH_SHORT).show()
@@ -127,6 +128,7 @@ class HomeActivity : AppCompatActivity() {
             true
         }
 
+        /*
         // Example data
         val dataset: Array<ScheduleData> = arrayOf(
             ScheduleData(
@@ -186,10 +188,9 @@ class HomeActivity : AppCompatActivity() {
                 HMS(5, 0)
             )
         )
-
         viewAdapter = MyAdapter(dataset)
 
-        recyclerView = findViewById<RecyclerView>(R.id.rvScheduleList).apply {
+        recyclerView = findViewById<RecyclerView>(R.id.showShiftsRecyclerView).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
@@ -199,6 +200,10 @@ class HomeActivity : AppCompatActivity() {
 
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
+
+
         }
+
+         */
     }
 }
