@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.proshiftteam.proshift.*
 import com.proshiftteam.proshift.Adapters.MyAdapter
+import com.proshiftteam.proshift.DataFiles.AssignedShiftsObject
 import com.proshiftteam.proshift.DataFiles.HMS
 import com.proshiftteam.proshift.DataFiles.LogoutObject
 import com.proshiftteam.proshift.DataFiles.ScheduleData
@@ -36,8 +37,7 @@ class HomeActivity : AppCompatActivity() {
         val accessCode = 1
         /*  TEMPORARILY REMOVED DUE TO ISSUES
         val bundle: Bundle? = intent.extras
-        accessCode= bundle!!.getInt("accessCode")
-
+        accessCode= bundle!!.getInt("accessCode"
          */
         viewManager = LinearLayoutManager(this)
 
@@ -47,6 +47,24 @@ class HomeActivity : AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
 
+        val callApiGetAssignedShiftsObject: Call<List<AssignedShiftsObject>> = connectJsonApiCalls.getAssignedShifts("Token $tokenCode")
+
+        callApiGetAssignedShiftsObject.enqueue(object : Callback<List<AssignedShiftsObject>> {
+            override fun onFailure(call: Call<List<AssignedShiftsObject>>, t: Throwable) {
+                Toast.makeText(context, "Cannot connect! Error displaying user shifts!", Toast.LENGTH_LONG).show()
+            }
+            override fun onResponse(
+                call: Call<List<AssignedShiftsObject>>,
+                response: Response<List<AssignedShiftsObject>>
+            ) {
+                if (response.isSuccessful) {
+                    Toast.makeText(context, "Successfully loaded shifts" + response.code(), Toast.LENGTH_LONG).show()
+                }
+                else {
+                    Toast.makeText(context, "Failed loading shifts : Response code " + response.code(), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
 
         findViewById<ImageView>(R.id.imageMenuButton).setOnClickListener {
             drawerLayoutManagerControls.openDrawer(GravityCompat.START)
