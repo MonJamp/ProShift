@@ -49,6 +49,8 @@ class HomeActivity : AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
 
+        Intent(context, showShiftsAdapter::class.java).putExtra("tokenCode", tokenCode)
+
         val callApiGetAssignedShiftsObject: Call<List<AssignedShiftsObject>> = connectJsonApiCalls.getAssignedShifts("Token $tokenCode")
 
         callApiGetAssignedShiftsObject.enqueue(object : Callback<List<AssignedShiftsObject>> {
@@ -59,7 +61,7 @@ class HomeActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully loaded shifts" + response.code(), Toast.LENGTH_LONG).show()
                     val listOfShiftsScheduled = response.body()!!
-                    showShiftsRecyclerView.adapter = showShiftsAdapter(listOfShiftsScheduled)
+                    showShiftsRecyclerView.adapter = showShiftsAdapter(tokenCode.toString(), listOfShiftsScheduled)
                 }
                 else {
                     Toast.makeText(context, "Failed loading shifts : Response code " + response.code(), Toast.LENGTH_SHORT).show()
