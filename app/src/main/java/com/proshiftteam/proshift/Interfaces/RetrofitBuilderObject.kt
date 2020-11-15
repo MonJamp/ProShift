@@ -20,7 +20,10 @@ class ApiLogger : HttpLoggingInterceptor.Logger {
             } catch (m: JsonSyntaxException) {
                 Log.d(logName, message)
             }
-        } else {
+        } else if(message.startsWith("<")) {
+            // Catch html responses to not flood logcat
+            Log.d(logName, "Detected HTML Response! Use Postman or Swagger to debug")
+        } else{
             Log.d(logName, message)
             return
         }
