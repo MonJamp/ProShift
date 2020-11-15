@@ -35,4 +35,7 @@ interface ApiCalls {
 
     @POST("manager/create_shift")
     fun createShift(@Header("Authorization") token: String?, @Body shiftObject: ShiftObject): Call<ShiftObject>
+
+    @GET("manager/get_employees")
+    fun getEmployees(@Header("Authorization") token: String?): Call<List<EmployeeObject>>
 }

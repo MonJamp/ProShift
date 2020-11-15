@@ -133,6 +133,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/enterEmployeeNameTitle" />
 
+    <TextView
+        android:id="@+id/createShiftSpinnerTextView"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/selectEmployeeSpinnerInNewShift"
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="16sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toBottomOf="@+id/enterEmployeeNameTitle"
+        app:layout_constraintEnd_toEndOf="@+id/selectEmployeeSpinnerInNewShift"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintStart_toStartOf="@+id/selectEmployeeSpinnerInNewShift"
+        app:layout_constraintTop_toTopOf="@+id/enterEmployeeNameTitle" />
+
     <Button
         android:id="@+id/createNewShiftButtonInCreateNewShift"
         android:layout_width="0dp"
