@@ -88,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@+id/shiftBeginTitle" />
 
     <EditText
-        android:id="@+id/shitBeginTime"
+        android:id="@+id/shiftBeginTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -106,7 +106,7 @@
         android:ems="10"
         android:inputType="time"
         app:layout_constraintBaseline_toBaselineOf="@+id/ShiftEndTitle"
-        app:layout_constraintStart_toStartOf="@+id/shitBeginTime" />
+        app:layout_constraintStart_toStartOf="@+id/shiftBeginTime" />
 
     <TextView
         android:id="@+id/enterEmployeeNameTitle"
