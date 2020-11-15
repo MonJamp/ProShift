@@ -1,5 +1,6 @@
 package com.proshiftteam.proshift.Activities
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
@@ -37,13 +38,23 @@ class CreateNewShiftActivity: AppCompatActivity() {
         }
 
         // Add date functions
-        val calender = findViewById<CalendarView>(R.id.calrenderViewSelectDate)
         var dateFormat = SimpleDateFormat("YYYY-MM-dd")
-        val timeFormat = SimpleDateFormat("hh:mm")
+        val timeFormat = "HH:mm"
+
+        var cal = Calendar.getInstance()
+        val calView = findViewById<CalendarView>(R.id.calrenderViewSelectDate)
+        calView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, month)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            calView.date = cal.timeInMillis
+        }
+
         val shift_begin = findViewById<EditText>(R.id.shiftBeginTime)
-        shift_begin.asTimePicker(context, "HH:mm")
+        shift_begin.asTimePicker(context, timeFormat)
         val shift_end = findViewById<EditText>(R.id.shiftEndTime)
-        shift_end.asTimePicker(context, "HH:mm")
+        shift_end.asTimePicker(context, timeFormat)
 
         employeeSpinner = this.selectEmployeeSpinnerInNewShift
 
@@ -57,7 +68,7 @@ class CreateNewShiftActivity: AppCompatActivity() {
             val employee: Int = 2
             val is_open: Boolean = false
             val is_dropped: Boolean = false
-            val date: String = dateFormat.format(Date(calender.date))
+            val date: String = dateFormat.format(Date(calView.date))
             val time_start: String = shift_begin.text.toString()
             val time_end: String = shift_end.text.toString()
 
