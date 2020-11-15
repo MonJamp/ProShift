@@ -12,17 +12,21 @@ class UserCreateSerializer(UserCreateSerializer):
 
 class ShiftSerializer(serializers.ModelSerializer):
     employee_name = serializers.SerializerMethodField(read_only=True)
+    company_name = serializers.SerializerMethodField(read_only=True)
     position = serializers.SerializerMethodField(read_only=True)
 
     def get_employee_name(self, obj):
         return str(obj.employee.user)
     
+    def get_company_name(self, obj):
+        return str(obj.company)
+
     def get_position(self, obj):
         return str(obj.employee.position)
 
     class Meta:
         model = Shift
-        fields = ('id', 'employee', 'employee_name', 'position', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end')
+        fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'position', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end')
 
 class RequestedTimeOffSerializer(serializers.ModelSerializer):
     class Meta:
