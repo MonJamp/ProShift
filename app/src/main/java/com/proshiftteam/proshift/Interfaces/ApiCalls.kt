@@ -2,6 +2,7 @@ package com.proshiftteam.proshift.Interfaces
 
 
 import com.proshiftteam.proshift.DataFiles.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -30,5 +31,5 @@ interface ApiCalls {
     fun getOpenShifts(@Header("Authorization") token: String?): Call<List<OpenShiftsObject>>
 
     @POST("employee/shift_request2")
-    fun requestShiftPickUp(@Header("Authorization") token: String?, @Body pickUpShiftObject: PickUpShiftObject): Call<PickUpShiftObject>
+    fun requestShiftPickUp(@Header("Authorization") token: String?, @Body pickUpShiftObject: PickUpShiftObject): Call<ResponseBody>
 }

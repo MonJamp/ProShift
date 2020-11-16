@@ -11,6 +11,7 @@ import com.proshiftteam.proshift.DataFiles.PickUpShiftObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.card_item_search_open_shifts.view.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,12 +37,12 @@ class SearchOpenShiftsAdapter(val tokenCode: String, private val openShiftsList:
 
             val callApiPickUpShiftObject = connectJsonApiCalls.requestShiftPickUp("Token $tokenCode", shiftInfoSendPickUp)
 
-            callApiPickUpShiftObject.enqueue(object : Callback<PickUpShiftObject> {
-                override fun onFailure(call: Call<PickUpShiftObject>, t: Throwable) {
+            callApiPickUpShiftObject.enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(context, "Cannot connect! Error picking up shift.", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onResponse(call: Call<PickUpShiftObject>, response: Response<PickUpShiftObject>) {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
                         if (response.code() == 208) {
                             Toast.makeText(context, "Shift ID " + shiftId + " has already been picked up!, Response Code " + response.code(), Toast.LENGTH_SHORT).show()
