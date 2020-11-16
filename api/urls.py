@@ -25,7 +25,8 @@ employee_urls = [
     path('get_open_shifts', views.GetOpenShifts, name='api_open_shifts'),
     path('request_time_off', views.SendTimeOffRequest, name='api_request_time_off'),
     path('shift_request2', views.RequestShift2, name='api_request_shift2'),
-    path('toggle_drop_shift', views.ToggleDropShift, name='api_toggle_drop_shift')
+    path('toggle_drop_shift', views.ToggleDropShift, name='api_toggle_drop_shift'),
+    path('reedem_code', views.RedeemCode, name='api_redeem_code'),
 ]
 
 # Place manager related APIs here
@@ -39,6 +40,8 @@ manager_urls = [
     path('get_time_off_requests', views.GetUnapprovedTimeOff, name='api_time_off_requests'),
     path('approve_time_off', views.ApproveTimeOff, name='api_approve_time_off'),
     path('update_shift', views.UpdateShift, name='api_update_shift'),
+    path('generate_code', views.GenerateCode, name='api_generate_code'),
+    path('get_codes',views.GetListOfCodes, name='api_get_codes'),
 ]
 
 urlpatterns = [

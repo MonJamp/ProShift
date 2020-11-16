@@ -1,4 +1,5 @@
 from rest_framework.authtoken.models import Token
+from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN
 
 from rest_framework.views import APIView
 
@@ -22,6 +23,7 @@ from drf_yasg import openapi
 
 import sys
 import datetime
+import hashlib
 
 # JSON request body with only an entry for a key of 'id'
 id_body = openapi.Schema(
@@ -157,6 +159,30 @@ def ToggleDropShift(request, *args, **kwargs):
 
     serializer = ShiftSerializer(shift)
     return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+@swagger_auto_schema(method='post', request_body=CompanyCodeEmployeeSerializer,
+    responses={202: "User code is good", 404: "Code not valid", 403: "Unauthorized"})
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def RedeemCode(request, *args, **kwargs):
+    """
+    Use code to join a company
+    """
+    serializer = CompanyCodeEmployeeSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    code = serializer.validated_data['code']
+    try:
+        company_code = CompanyCode.objects.get(code=code)
+    except ObjectDoesNotExist as e:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if company_code.email == request.user.email:
+        employee = EmployeeRole.objects.get(user=request.user)
+        employee.company = company_code.company
+        employee.save()
+        company_code.delete()
+        return Response(status=status.HTTP_202_ACCEPTED)
+    else:
+        return Response(status=HTTP_401_UNAUTHORIZED)
 
 # Manager APIs
 # Make sure to use pass IsManager to permission classes to ensure the user
@@ -323,3 +349,37 @@ def UpdateShift(request, *args, **kwargs):
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+@swagger_auto_schema(method='post', request_body=CompanyCodeSerializer, responses={201: CompanyCodeSerializer, 208: "Company code already generated for email"})
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def GenerateCode(request, *args, **kwargs):
+    """
+    Generates a company code which correlates to a given email
+    """
+    employee = EmployeeRole.objects.get(user=request.user)
+    company = employee.company
+    serializer = CompanyCodeSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    email = serializer.validated_data['email']
+
+    is_zero = CompanyCode.objects.filter(email=email).count()
+    if is_zero > 0:
+        return Response(status=status.HTTP_208_ALREADY_REPORTED)
+
+    code = int(hashlib.sha1(email.encode('utf-8')).hexdigest(), 16) % (10**8)
+    serializer.save(company=company, code=code)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@swagger_auto_schema(method='get', responses={200: CompanyCodeSerializer(many=True)})
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsManager])
+def GetListOfCodes(request, *args, **kwargs):
+    """
+    Returns list of codes which haven't been used
+    """
+    employee = EmployeeRole.objects.get(user=request.user)
+    company = employee.company
+    codes = CompanyCode.objects.filter(company=company)
+    serializer = CompanyCodeSerializer(codes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
