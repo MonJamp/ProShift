@@ -29,4 +29,6 @@ interface ApiCalls {
     @GET("employee/get_open_shifts")
     fun getOpenShifts(@Header("Authorization") token: String?): Call<List<OpenShiftsObject>>
 
+    @POST("employee/shift_request")
+    fun requestShiftPickUp(@Header("Authorization") token: String?, @Body pickUpShiftObject: PickUpShiftObject): Call<PickUpShiftObject>
 }

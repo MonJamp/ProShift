@@ -4,10 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.proshiftteam.proshift.DataFiles.OpenShiftsObject
+import com.proshiftteam.proshift.DataFiles.PickUpShiftObject
+import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.card_item_search_open_shifts.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SearchOpenShiftsAdapter(val tokenCode: String, private val openShiftsList: List<OpenShiftsObject>) : RecyclerView.Adapter<SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder {
@@ -24,7 +30,27 @@ class SearchOpenShiftsAdapter(val tokenCode: String, private val openShiftsList:
         holder.startTime.text = openShiftsList.get(position).time_start
         holder.endTime.text = openShiftsList.get(position).time_end
         holder.itemView.pickUpImageShowShifts_search_open.setOnClickListener {v ->
-            // Code for button functions
+            val context = v.context
+            val companyId = openShiftsList.get(position).company
+            val employeeId = openShiftsList.get(position).employee
+            val shiftId = openShiftsList.get(position).id
+            val shiftInfoSendPickUp = PickUpShiftObject(companyId, employeeId, shiftId)
+
+            val callApiPickUpShiftObject = connectJsonApiCalls.requestShiftPickUp("Token $tokenCode", shiftInfoSendPickUp)
+
+            callApiPickUpShiftObject.enqueue(object : Callback<PickUpShiftObject> {
+                override fun onFailure(call: Call<PickUpShiftObject>, t: Throwable) {
+                    Toast.makeText(context, "Cannot connect! Error picking up shift.", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onResponse(call: Call<PickUpShiftObject>, response: Response<PickUpShiftObject>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "Shift ID " + shiftId + " picked up successfully, Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Error picking up shift. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
         }
     }
     class ShowOpenShiftsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
