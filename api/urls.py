@@ -24,6 +24,7 @@ employee_urls = [
     path('shift_request', views.RequestShift, name='api_request_shift'),
     path('get_open_shifts', views.GetOpenShifts, name='api_open_shifts'),
     path('request_time_off', views.SendTimeOffRequest, name='api_request_time_off'),
+    path('shift_request2', views.RequestShift2, name='api_request_shift2'),
     path('toggle_drop_shift', views.ToggleDropShift, name='api_toggle_drop_shift')
 ]
 

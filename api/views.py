@@ -89,6 +89,22 @@ def RequestShift(request, *args, **kwargs):
     shift_request.save()
     return Response(shift_request, status=status.HTTP_201_CREATED)
 
+@swagger_auto_schema(method='post', request_body=id_body)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def RequestShift2(request, *args, **kwargs):
+    """
+    Create a shift request for the user. Only a single shift request can be sent
+    per user per shift. This API only needs shift id
+    """
+    employee = EmployeeRole.objects.get(user=request.user)
+    company = employee.company
+    shift = Shift.objects.get(id=request.data['id'])
+    shift_request = ShiftRequest.objects.create(company=company, employee=employee, shift=shift, is_approved=False)
+    serializer = ShiftRequestSerializer(shift_request)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 @swagger_auto_schema(method='get', responses={200: ShiftSerializer(many=True)})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
