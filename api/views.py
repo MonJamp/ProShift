@@ -73,6 +73,7 @@ def GetAvailability(request, *args, **kwargs):
 @permission_classes([IsAuthenticated])
 def RequestShift(request, *args, **kwargs):
     """
+    DEPRECATED!!
     Create a shift request for the user. Only a single shift request can be sent
     per user per shift
     """
@@ -128,9 +129,11 @@ def SendTimeOffRequest(request, *args, **kwargs):
     """
     Creates time off request
     """
+    employee = EmployeeRole.objects.get(user=request.user)
+    company = employee.company
     serializer = RequestedTimeOffSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    serializer.save()
+    serializer.save(employee=employee, company=company)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @swagger_auto_schema(method='post', request_body=id_body, responses={202: ShiftSerializer, 404: 'Entry with id does not exist'})
@@ -210,7 +213,7 @@ def CreateNewShift(request, *args, **kwargs):
         message = str(date)
         return Response(data=message, status=status.HTTP_409_CONFLICT)
 
-    serializer.save()
+    serializer.save(company=employee.company)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @swagger_auto_schema(method='get', responses={200: EmployeeSerializer(many=True)})

@@ -1,5 +1,6 @@
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
+from rest_framework.fields import ReadOnlyField
 from rest_framework.validators import UniqueValidator
 
 from dashboard.models import *
@@ -11,9 +12,12 @@ class UserCreateSerializer(UserCreateSerializer):
         fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'phone', 'company_code')
 
 class ShiftSerializer(serializers.ModelSerializer):
+    company = serializers.PrimaryKeyRelatedField(read_only=True)
     employee_name = serializers.SerializerMethodField(read_only=True)
     company_name = serializers.SerializerMethodField(read_only=True)
     position = serializers.SerializerMethodField(read_only=True)
+    is_open = serializers.BooleanField(default=False)
+    is_dropped = serializers.BooleanField(read_only=True)
 
     def get_employee_name(self, obj):
         return str(obj.employee.user)
@@ -29,10 +33,13 @@ class ShiftSerializer(serializers.ModelSerializer):
         fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'position', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end')
 
 class RequestedTimeOffSerializer(serializers.ModelSerializer):
+    company = serializers.PrimaryKeyRelatedField(read_only=True)
+    is_approved = serializers.BooleanField(read_only=True)
     employee_name = serializers.SerializerMethodField(read_only=True)
 
     def get_employee_name(self,obj):
-        return str(obj.user)
+        return str(obj.employee)
+
     class Meta:
         model = RequestedTimeOff
         fields = ('id', 'company', 'employee_name', 'is_approved', 'start_date', 'end_date', 'time_start', 'time_end')
