@@ -85,3 +85,17 @@ class ShiftRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShiftRequest
         fields = ('id', 'company', 'employee', 'shift', 'is_approved')
+
+class CompanyCodeSerializer(serializers.ModelSerializer):
+    company = serializers.PrimaryKeyRelatedField(read_only=True)
+    code = serializers.IntegerField(read_only=True)
+    class Meta:
+        model = CompanyCode
+        fields = ('company', 'code', 'email')
+
+class CompanyCodeEmployeeSerializer(serializers.ModelSerializer):
+    company = serializers.PrimaryKeyRelatedField(read_only=True)
+    email = serializers.EmailField(read_only=True)
+    class Meta:
+        model = CompanyCode
+        fields = ('company', 'code', 'email')

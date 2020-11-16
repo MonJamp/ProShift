@@ -140,3 +140,13 @@ class ShiftRequest(models.Model):
 
     def __str__(self):
         return str(self.employee) + " | Shift ID: " + str(self.shift.id)
+
+class CompanyCode(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    code = models.IntegerField()
+    email = models.EmailField()
+
+    REQUIRED_FIELDS = ['email', ]
+
+    def __str__(self):
+        return str(self.email)

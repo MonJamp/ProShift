@@ -43,6 +43,9 @@ class RequestedTimeOffAdmin(admin.ModelAdmin):
 class ShiftAdmin(admin.ModelAdmin):
     list_display = ('employee', 'company', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end', 'id')
 
+class CompanyCodeAdmin(admin.ModelAdmin):
+    list_display = ('code', 'company', 'email')
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Company, CompanyAdmin)
@@ -50,3 +53,4 @@ admin.site.register(Position, PositionAdmin)
 admin.site.register(RequestedTimeOff, RequestedTimeOffAdmin)
 admin.site.register(Availability, AvailabilityAdmin)
 admin.site.register(ShiftRequest, ShiftRequestAdmin)
+admin.site.register(CompanyCode, CompanyCodeAdmin)
