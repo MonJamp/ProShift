@@ -31,10 +31,8 @@ class SearchOpenShiftsAdapter(val tokenCode: String, private val openShiftsList:
         holder.endTime.text = openShiftsList.get(position).time_end
         holder.itemView.pickUpImageShowShifts_search_open.setOnClickListener {v ->
             val context = v.context
-            val companyId = openShiftsList.get(position).company
-            val employeeId = openShiftsList.get(position).employee
             val shiftId = openShiftsList.get(position).id
-            val shiftInfoSendPickUp = PickUpShiftObject(companyId, employeeId, shiftId)
+            val shiftInfoSendPickUp = PickUpShiftObject(shiftId)
 
             val callApiPickUpShiftObject = connectJsonApiCalls.requestShiftPickUp("Token $tokenCode", shiftInfoSendPickUp)
 
@@ -45,7 +43,10 @@ class SearchOpenShiftsAdapter(val tokenCode: String, private val openShiftsList:
 
                 override fun onResponse(call: Call<PickUpShiftObject>, response: Response<PickUpShiftObject>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(context, "Shift ID " + shiftId + " picked up successfully, Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                        if (response.code() == 208) {
+                            Toast.makeText(context, "Shift ID " + shiftId + " has already been picked up!, Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                        } else {
+                        Toast.makeText(context, "Shift ID " + shiftId + " picked up successfully, Response Code " + response.code(), Toast.LENGTH_SHORT).show() }
                     } else {
                         Toast.makeText(context, "Error picking up shift. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
                     }
