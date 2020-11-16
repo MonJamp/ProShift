@@ -29,9 +29,13 @@ class ShiftSerializer(serializers.ModelSerializer):
         fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'position', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end')
 
 class RequestedTimeOffSerializer(serializers.ModelSerializer):
+    employee_name = serializers.SerializerMethodField(read_only=True)
+
+    def get_employee_name(self,obj):
+        return str(obj.user)
     class Meta:
         model = RequestedTimeOff
-        fields = ('id', 'company', 'employee', 'is_approved', 'start_date', 'end_date', 'time_start', 'time_end')
+        fields = ('id', 'company', 'employee_name', 'is_approved', 'start_date', 'end_date', 'time_start', 'time_end')
 
 class AvailabilitySerializer(serializers.ModelSerializer):
     class Meta:
