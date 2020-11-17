@@ -120,7 +120,10 @@ def GetOpenShifts(request, *args, **kwargs):
     """
     employee = EmployeeRole.objects.get(user=request.user)
     company = employee.company
+    requested_shifts = ShiftRequest.objects.filter(employee=employee)
     shifts = Shift.objects.filter(Q(company=company, is_open=True) | Q(company=company, is_dropped=True))
+    for s in requested_shifts:
+        shifts = shifts.exclude(id=s.shift.id)
     serializer = ShiftSerializer(shifts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
