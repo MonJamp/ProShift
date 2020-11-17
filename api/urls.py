@@ -42,6 +42,7 @@ manager_urls = [
     path('update_shift', views.UpdateShift, name='api_update_shift'),
     path('generate_code', views.GenerateCode, name='api_generate_code'),
     path('get_codes',views.GetListOfCodes, name='api_get_codes'),
+    path('get_positions',views.GetPositionsFromCompany, name='api_get_positions'),
 ]
 
 urlpatterns = [
