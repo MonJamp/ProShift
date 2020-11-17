@@ -155,6 +155,13 @@ class ShiftRequest(models.Model):
 
 class CompanyCode(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    position = ChainedForeignKey(
+        Position,
+        chained_field="company",
+        chained_model_field="company",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True)
     code = models.IntegerField()
     email = models.EmailField()
 

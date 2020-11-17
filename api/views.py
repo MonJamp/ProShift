@@ -178,6 +178,7 @@ def RedeemCode(request, *args, **kwargs):
     if company_code.email == request.user.email:
         employee = EmployeeRole.objects.get(user=request.user)
         employee.company = company_code.company
+        employee.position = company_code.position
         employee.save()
         company_code.delete()
         return Response(status=status.HTTP_202_ACCEPTED)
