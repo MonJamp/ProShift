@@ -20,12 +20,16 @@ class ShiftSerializer(serializers.ModelSerializer):
     is_dropped = serializers.BooleanField(read_only=True)
 
     def get_employee_name(self, obj):
+        if obj.employee == None:
+            return str('None')
         return str(obj.employee.user)
     
     def get_company_name(self, obj):
         return str(obj.company)
 
     def get_position(self, obj):
+        if obj.employee == None:
+            return str('None')
         return str(obj.employee.position)
 
     class Meta:
