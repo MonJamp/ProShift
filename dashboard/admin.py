@@ -44,7 +44,7 @@ class ShiftAdmin(admin.ModelAdmin):
     list_display = ('employee', 'company', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end', 'id')
 
 class CompanyCodeAdmin(admin.ModelAdmin):
-    list_display = ('code', 'company', 'email')
+    list_display = ('code', 'company', 'position', 'email')
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Shift, ShiftAdmin)

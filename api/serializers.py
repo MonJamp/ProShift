@@ -91,11 +91,12 @@ class CompanyCodeSerializer(serializers.ModelSerializer):
     code = serializers.IntegerField(read_only=True)
     class Meta:
         model = CompanyCode
-        fields = ('company', 'code', 'email')
+        fields = ('company', 'position', 'code', 'email')
 
 class CompanyCodeEmployeeSerializer(serializers.ModelSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True)
+    position = serializers.PrimaryKeyRelatedField(read_only=True)
     email = serializers.EmailField(read_only=True)
     class Meta:
         model = CompanyCode
-        fields = ('company', 'code', 'email')
+        fields = ('company', 'position', 'code', 'email')
