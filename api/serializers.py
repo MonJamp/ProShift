@@ -100,3 +100,8 @@ class CompanyCodeEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompanyCode
         fields = ('company', 'position', 'code', 'email')
+
+class PositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Position
+        fields = ('id','name')

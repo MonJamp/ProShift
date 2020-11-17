@@ -384,3 +384,15 @@ def GetListOfCodes(request, *args, **kwargs):
     codes = CompanyCode.objects.filter(company=company)
     serializer = CompanyCodeSerializer(codes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(method='get', responses={200: PositionSerializer})
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsManager])
+def GetPositionsFromCompany(request, *args, **kwargs):
+    """
+    Returns list of positions name and id
+    """
+    company = EmployeeRole.objects.get(user=request.user).company
+    position = Position.objects.filter(company=company)
+    serializer = PositionSerializer(position, many=True) 
+    return Response(serializer.data, status=status.HTTP_200_OK)
