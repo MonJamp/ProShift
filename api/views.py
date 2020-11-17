@@ -234,13 +234,18 @@ def CreateNewShift(request, *args, **kwargs):
     serializer = ShiftSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
-    employee = EmployeeRole.objects.get(user=request.data['employee'])
+    try:
+        employee = EmployeeRole.objects.get(user=request.data['employee'])
+    except KeyError as e:
+        employee = None
+
     date = request.data['date']
     if IsConflictWithTimeOff(employee, date):
         message = str(date)
         return Response(data=message, status=status.HTTP_409_CONFLICT)
 
-    serializer.save(company=employee.company)
+    manager = EmployeeRole.objects.get(user=request.user)
+    serializer.save(company=manager.company)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @swagger_auto_schema(method='get', responses={200: EmployeeSerializer(many=True)})
