@@ -62,7 +62,9 @@ class EmployeeRole(models.Model):
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
-        EmployeeRole.objects.create(user=instance)
+        company = Company.objects.get(name='None')
+        EmployeeRole.objects.create(user=instance, company=company)
+
 
 @receiver(post_save, sender=Company)
 def create_default_company_positions(sender, instance, created, **kwargs):
@@ -72,6 +74,16 @@ def create_default_company_positions(sender, instance, created, **kwargs):
     if created:
         Position.objects.create(company=instance, name='Manager', is_manager=True)
         Position.objects.create(company=instance, name='Employee', is_manager=False)
+
+@receiver(post_save, sender=EmployeeRole)
+def create_default_employee_position(sender, instance, created, **kwargs):
+    """
+    Set the default position for an employee
+    """
+    if instance.position == None:
+        position = Position.objects.get(company=instance.company, name='Employee')
+        instance.position = position
+        instance.save()
 
 class Shift(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
