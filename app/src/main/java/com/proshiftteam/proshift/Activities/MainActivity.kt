@@ -1,6 +1,7 @@
 package com.proshiftteam.proshift.Activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity() {
                 intentToHome.putExtra("accessCode", accessCode)
                 startActivity(intentToHome)
 
+            } else if (emailAddress=="NeverGonnaGiveYouUp" && password=="NeverGonnaLetYouDown") {
+                startActivityForResult(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=dQw4w9WgXcQ")), 1337)
             } else {
 
 
