@@ -38,15 +38,19 @@ class ShiftSerializer(serializers.ModelSerializer):
 
 class RequestedTimeOffSerializer(serializers.ModelSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True)
+    company_name = serializers.SerializerMethodField(read_only=True)
     is_approved = serializers.BooleanField(read_only=True)
     employee_name = serializers.SerializerMethodField(read_only=True)
 
+    def get_company_name(self, obj):
+        return str(obj.company)
+
     def get_employee_name(self,obj):
-        return str(obj.employee)
+        return str(obj.employee.user)
 
     class Meta:
         model = RequestedTimeOff
-        fields = ('id', 'company', 'employee_name', 'is_approved', 'start_date', 'end_date', 'time_start', 'time_end')
+        fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'is_approved', 'start_date', 'end_date', 'time_start', 'time_end')
 
 class AvailabilitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,6 +79,15 @@ class EmployeeSerializer(serializers.ModelSerializer):
         fields = ('id', 'employee_name', 'position', 'position_name')
 
 class ShiftRequestSerializer(serializers.ModelSerializer):
+    company_name = serializers.SerializerMethodField(read_only=True)
+    employee_name = serializers.SerializerMethodField(read_only=True)
+
+    def get_company_name(self, obj):
+        return str(obj.company)
+    
+    def get_employee_name(self, obj):
+        return str(obj.employee.user)
+
     def create(self, validated_data):
         return ShiftRequest.objects.create(**validated_data)
     
@@ -88,7 +101,7 @@ class ShiftRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShiftRequest
-        fields = ('id', 'company', 'employee', 'shift', 'is_approved')
+        fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'shift', 'is_approved')
 
 class CompanyCodeSerializer(serializers.ModelSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True)
