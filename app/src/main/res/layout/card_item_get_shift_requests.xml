@@ -61,13 +61,13 @@
 
         </LinearLayout>
         <ImageView
-            android:id="@+id/card_get_shift_requests_approve_button"
+            android:id="@+id/card_get_shift_requests_deny_button"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:paddingLeft="40dp"
             android:src="@drawable/ic_deny_button"/>
         <ImageView
-            android:id="@+id/card_get_shift_requests_deny_button"
+            android:id="@+id/card_get_shift_requests_approve_button"
             android:layout_width="50dp"
             android:paddingLeft="10dp"
             android:layout_height="match_parent"
