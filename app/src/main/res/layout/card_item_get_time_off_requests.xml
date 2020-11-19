@@ -38,22 +38,22 @@
             tools:text="Employee Name" />
 
         <ImageView
-            android:id="@+id/card_get_shift_requests_approve_button"
+            android:id="@+id/card_get_time_off_requests_deny_button"
             android:layout_width="38dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_deny_button"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="330dp"
-            tools:layout_editor_absoluteY="107dp" />
+            tools:layout_editor_absoluteY="94dp" />
 
         <ImageView
-            android:id="@+id/card_get_shift_requests_deny_button"
+            android:id="@+id/card_get_time_off_requests_approve_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_approve_button"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="330dp"
-            tools:layout_editor_absoluteY="51dp" />
+            tools:layout_editor_absoluteY="40dp" />
 
         <TextView
             android:id="@+id/textView1"
@@ -64,7 +64,7 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="53dp" />
+            tools:layout_editor_absoluteY="40dp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -76,7 +76,7 @@
             android:textStyle="bold"
             card_view:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="77dp" />
+            tools:layout_editor_absoluteY="67dp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -87,7 +87,7 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="104dp" />
+            tools:layout_editor_absoluteY="94dp" />
 
         <TextView
             android:id="@+id/textView4"
@@ -98,7 +98,7 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="11dp"
-            tools:layout_editor_absoluteY="131dp" />
+            tools:layout_editor_absoluteY="121dp" />
 
         <TextView
             android:id="@+id/card_get_time_off_requests_start_date"
@@ -108,7 +108,7 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="125dp"
-            tools:layout_editor_absoluteY="53dp"
+            tools:layout_editor_absoluteY="40dp"
             tools:text="2019-01-01" />
 
         <TextView
@@ -119,7 +119,7 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="125dp"
-            tools:layout_editor_absoluteY="80dp"
+            tools:layout_editor_absoluteY="67dp"
             tools:text="2020-01-01" />
 
         <TextView
@@ -130,7 +130,7 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="125dp"
-            tools:layout_editor_absoluteY="104dp"
+            tools:layout_editor_absoluteY="94dp"
             tools:text="12:00:00" />
 
         <TextView
@@ -141,8 +141,9 @@
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="125dp"
-            tools:layout_editor_absoluteY="131dp"
+            tools:layout_editor_absoluteY="121dp"
             tools:text="05:00:00" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
