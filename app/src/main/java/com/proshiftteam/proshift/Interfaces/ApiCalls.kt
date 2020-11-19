@@ -38,4 +38,7 @@ interface ApiCalls {
 
     @GET("manager/get_employees")
     fun getEmployees(@Header("Authorization") token: String?): Call<List<EmployeeObject>>
+
+    @GET("/manager/get_time_off_requests")
+    fun getTimeOffRequests(@Header("Authorization") token: String?): Call<List<GetTimeOffRequestsObject>>
 }
