@@ -33,6 +33,9 @@ interface ApiCalls {
     @POST("employee/shift_request2")
     fun requestShiftPickUp(@Header("Authorization") token: String?, @Body pickUpShiftObject: PickUpShiftObject): Call<ResponseBody>
 
+    @POST("employee/request_time_off")
+    fun requestTimeOff(@Header("Authorization") token: String?, @Body requestTimeOffObject: RequestTimeOffObject): Call<RequestTimeOffObject>
+
     @POST("manager/create_shift")
     fun createShift(@Header("Authorization") token: String?, @Body shiftObject: ShiftObject): Call<ShiftObject>
 
