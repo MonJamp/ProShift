@@ -44,4 +44,7 @@ interface ApiCalls {
 
     @GET("manager/get_shift_requests")
     fun getShiftRequests(@Header("Authorization") token: String?): Call<List<GetShiftRequestsObject>>
+
+    @POST("manager/approve_shift_request")
+    fun approveShiftRequest(@Header("Authorization") token: String?, @Body approveDenyShiftRequestObject: ApproveDenyShiftRequestObject): Call<ResponseBody>
 }
