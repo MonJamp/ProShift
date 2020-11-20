@@ -34,58 +34,114 @@
             android:textStyle="bold"
             />
     </LinearLayout>
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp" />
+            android:layout_marginBottom="7dp"
+            android:text="START DATE"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/date_start_time_off"
+            app:layout_constraintEnd_toEndOf="@+id/date_start_time_off"
+            app:layout_constraintStart_toStartOf="@+id/date_start_time_off" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:text="START DATE"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <CalendarView
-                android:id="@+id/calendarView2"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp" />
+            android:layout_marginBottom="7dp"
+            android:text="END DATE"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/date_end_time_off"
+            app:layout_constraintEnd_toEndOf="@+id/date_end_time_off"
+            app:layout_constraintStart_toStartOf="@+id/date_end_time_off" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:text="END DATE"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="43dp"
+            android:layout_marginBottom="9dp"
+            android:text="START TIME"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/time_start_time_off"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="27dp"
+            android:layout_marginBottom="9dp"
+            android:text="END TIME"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/time_end_time_off"
+            app:layout_constraintEnd_toStartOf="@+id/time_end_time_off" />
+
+        <CalendarView
+            android:id="@+id/date_start_time_off"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/date_end_time_off"
+            app:layout_constraintEnd_toStartOf="@+id/date_end_time_off"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/date_end_time_off" />
 
         <Button
             android:id="@+id/requestTimeOffButtonInTimeOff"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="377dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="42dp"
             android:text="Request Time off"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="5dp"/>
-    </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <CalendarView
+            android:id="@+id/date_end_time_off"
+            android:layout_width="208dp"
+            android:layout_height="337dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="54dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/date_start_time_off"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/time_start_time_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="29dp"
+            android:layout_marginBottom="191dp"
+            android:ems="10"
+            android:hint="HH:MM:SS"
+            android:inputType="time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/time_end_time_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:ems="10"
+            android:hint="HH:MM:SS"
+            android:inputType="time"
+            app:layout_constraintStart_toStartOf="@+id/time_start_time_off"
+            app:layout_constraintTop_toBottomOf="@+id/time_start_time_off" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
