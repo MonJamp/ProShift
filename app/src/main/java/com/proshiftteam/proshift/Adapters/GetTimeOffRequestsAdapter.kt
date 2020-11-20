@@ -4,10 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.proshiftteam.proshift.DataFiles.ApproveDenyTimeOffRequestsObject
 import com.proshiftteam.proshift.DataFiles.GetTimeOffRequestsObject
+import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.card_item_get_time_off_requests.view.*
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class GetTimeOffRequestsAdapter(val tokenCode: String, private val timeOffRequestsList: List<GetTimeOffRequestsObject>) : RecyclerView.Adapter<GetTimeOffRequestsAdapter.ShowTimeOffRequestsViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GetTimeOffRequestsAdapter.ShowTimeOffRequestsViewHolder {
@@ -28,7 +35,27 @@ class GetTimeOffRequestsAdapter(val tokenCode: String, private val timeOffReques
         holder.time_end.text = timeOffRequestsList.get(position).time_end
 
         holder.itemView.card_get_time_off_requests_approve_button.setOnClickListener {v ->
-            // Code for approving shifts
+            val context = v.context
+            val requestID = timeOffRequestsList.get(position).id
+            val approveTimeOffRequestObject = ApproveDenyTimeOffRequestsObject(requestID)
+            val callApiApproveTimeOffRequestObject = connectJsonApiCalls.approveTimeOffRequest("Token $tokenCode", approveTimeOffRequestObject)
+
+            callApiApproveTimeOffRequestObject.enqueue(object: Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(context, "Cannot connect! Error approving time off request", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "Approved Time Off Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Error approving time off request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
         }
         holder.itemView.card_get_time_off_requests_deny_button.setOnClickListener {v ->
             // Code for denying shifts
