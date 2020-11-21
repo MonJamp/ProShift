@@ -103,6 +103,7 @@ class RequestedTimeOff(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     employee = ChainedForeignKey(EmployeeRole, chained_field='company', chained_model_field='company')
     is_approved = models.BooleanField(default=False)
+    is_denied = models.BooleanField(default=False)
     start_date = models.DateField()
     end_date =  models.DateField()
     time_start = models.TimeField()

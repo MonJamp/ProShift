@@ -314,7 +314,7 @@ def GetUnapprovedTimeOff(request, *args, **kwargs):
     Retrieves unapproved time off requests for the company
     """
     company = EmployeeRole.objects.get(user=request.user).company
-    time_off_requests = RequestedTimeOff.objects.filter(company=company, is_approved=False)
+    time_off_requests = RequestedTimeOff.objects.filter(company=company, is_approved=False, is_denied=False)
     serializer = RequestedTimeOffSerializer(time_off_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -328,6 +328,27 @@ def ApproveTimeOff(request, *args, **kwargs):
     try:
         time_off = RequestedTimeOff.objects.get(id=request.data['id'])
         time_off.is_approved = True
+        time_off.save()
+    except KeyError as e:
+        data = {'id': 'field is missing'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except ObjectDoesNotExist as e:
+        data = {'error': str(e)}
+        return Response(data=data, status=status.HTTP_404_NOT_FOUND)
+    
+    updated_time_off = RequestedTimeOffSerializer(time_off)
+    return Response(updated_time_off.data, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(method='post', request_body=id_body, responses={200: RequestedTimeOffSerializer, 404: 'Time off request not found'})
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def DenyTimeOff(request, *args, **kwargs):
+    """
+    Deny a time off request by id
+    """
+    try:
+        time_off = RequestedTimeOff.objects.get(id=request.data['id'])
+        time_off.is_denied = True
         time_off.save()
     except KeyError as e:
         data = {'id': 'field is missing'}
