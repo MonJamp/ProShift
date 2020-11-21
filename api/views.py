@@ -381,24 +381,17 @@ def DenyTimeOff(request, *args, **kwargs):
     updated_time_off = RequestedTimeOffSerializer(time_off)
     return Response(updated_time_off.data, status=status.HTTP_200_OK)
 
-@swagger_auto_schema(method='post', request_body=id_body, responses={202: ShiftSerializer, 404: 'Shift not found'})
+@swagger_auto_schema(method='post', request_body=ShiftSerializerWithID, responses={202: ShiftSerializerWithID, 404: 'Shift not found'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsManager])
 def UpdateShift(request, *args, **kwargs):
     """
     Update any field for an already created shift
     """
-    try:
-        shift = Shift.objects.get(id=request.data['id'])
-    except KeyError as e:
-        data = {'id': 'field is missing'}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except Shift.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = ShiftSerializer(shift, data=request.data)
+    serializer = ShiftSerializerWithID(data=request.data)
     serializer.is_valid(raise_exception=True)
-    serializer.save()
+    shift = Shift.objects.get(pk=serializer.validated_data['shift_id'])
+    serializer.update(instance=shift, validated_data=serializer.validated_data)
     return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 @swagger_auto_schema(method='post', request_body=CompanyCodeSerializer, responses={201: CompanyCodeSerializer, 208: "Company code already generated for email"})

@@ -36,6 +36,16 @@ class ShiftSerializer(serializers.ModelSerializer):
         model = Shift
         fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'position', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end')
 
+class ShiftSerializerWithID(serializers.ModelSerializer):
+    shift_id = serializers.IntegerField(write_only=True)
+    company = serializers.PrimaryKeyRelatedField(read_only=True)
+    is_open = serializers.BooleanField(default=False)
+    is_dropped = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = Shift
+        fields = ('id', 'shift_id', 'company', 'employee', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end')
+
 class RequestedTimeOffSerializer(serializers.ModelSerializer):
     employee = serializers.PrimaryKeyRelatedField(read_only=True)
     company = serializers.PrimaryKeyRelatedField(read_only=True)
