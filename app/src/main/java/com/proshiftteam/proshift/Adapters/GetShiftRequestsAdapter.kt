@@ -53,7 +53,26 @@ class GetShiftRequestsAdapter (val tokenCode: String, private val shiftRequestsL
             })
         }
         holder.itemView.card_get_shift_requests_deny_button.setOnClickListener {v ->
-            // Code if shift request denied
+            val context = v.context
+            val requestID = shiftRequestsList.get(position).id
+            val denyShiftRequestObject = ApproveDenyShiftRequestObject(requestID)
+            val callApiDenyShiftObject = connectJsonApiCalls.denyShiftRequest("Token $tokenCode", denyShiftRequestObject)
+            callApiDenyShiftObject.enqueue(object: Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(context, "Cannot connect! Error denying shift request.", Toast.LENGTH_SHORT).show()
+                }
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "Successfully denied Shift Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Error denying shift request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            })
         }
     }
     class GetShiftRequestsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

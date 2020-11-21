@@ -58,7 +58,27 @@ class GetTimeOffRequestsAdapter(val tokenCode: String, private val timeOffReques
             })
         }
         holder.itemView.card_get_time_off_requests_deny_button.setOnClickListener {v ->
-            // Code for denying shifts
+            val context = v.context
+            val requestID = timeOffRequestsList.get(position).id
+            val denyTimeOffRequestsObject = ApproveDenyTimeOffRequestsObject(requestID)
+            val callApiApproveDenyTimeOffRequestsObject = connectJsonApiCalls.denyTimeOffRequest("Token $tokenCode", denyTimeOffRequestsObject)
+            callApiApproveDenyTimeOffRequestsObject.enqueue(object: Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(context, "Cannot connect! Error denying time off request", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "Successfully denied Time Off Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Error denying time off request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            })
         }
     }
 

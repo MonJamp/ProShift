@@ -53,4 +53,10 @@ interface ApiCalls {
 
     @POST("manager/approve_time_off")
     fun approveTimeOffRequest(@Header("Authorization") token: String?, @Body approveDenyTimeOffRequestsObject: ApproveDenyTimeOffRequestsObject): Call<ResponseBody>
+
+    @POST("manager/deny_shift_request")
+    fun denyShiftRequest(@Header("Authorization") token: String?, @Body approveDenyShiftRequestObject: ApproveDenyShiftRequestObject): Call<ResponseBody>
+
+    @POST("manager/deny_time_off")
+    fun denyTimeOffRequest(@Header("Authorization") token: String?, @Body approveDenyTimeOffRequestsObject: ApproveDenyTimeOffRequestsObject): Call<ResponseBody>
 }
