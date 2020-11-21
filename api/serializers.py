@@ -37,6 +37,7 @@ class ShiftSerializer(serializers.ModelSerializer):
         fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'position', 'is_open', 'is_dropped', 'date', 'time_start', 'time_end')
 
 class RequestedTimeOffSerializer(serializers.ModelSerializer):
+    employee = serializers.PrimaryKeyRelatedField(read_only=True)
     company = serializers.PrimaryKeyRelatedField(read_only=True)
     company_name = serializers.SerializerMethodField(read_only=True)
     is_approved = serializers.BooleanField(read_only=True)
