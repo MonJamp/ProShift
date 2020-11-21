@@ -148,6 +148,7 @@ class ShiftRequest(models.Model):
     employee = ChainedForeignKey(EmployeeRole, chained_field='company', chained_model_field='company')
     shift = ChainedForeignKey(Shift, chained_field='company', chained_model_field='company')
     is_approved = models.BooleanField(default = False)
+    is_denied = models.BooleanField(default = False)
 
     REQUIRED_FIELDS = ['company', 'employee', 'shift']
 

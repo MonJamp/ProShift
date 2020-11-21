@@ -83,6 +83,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class ShiftRequestSerializer(serializers.ModelSerializer):
     company_name = serializers.SerializerMethodField(read_only=True)
     employee_name = serializers.SerializerMethodField(read_only=True)
+    is_approved = serializers.BooleanField(read_only=True)
+    is_denied = serializers.BooleanField(read_only=True)
 
     def get_company_name(self, obj):
         return str(obj.company)
@@ -103,7 +105,7 @@ class ShiftRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShiftRequest
-        fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'shift', 'is_approved')
+        fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'shift', 'is_approved', 'is_denied')
 
 class CompanyCodeSerializer(serializers.ModelSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True)
