@@ -48,7 +48,7 @@
             android:layout_marginTop="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:context=".Activities.HomeActivity"
-            tools:listitem="@layout/card_item_show_shifts"/>
+            tools:listitem="@layout/card_assigned_shift_item"/>
 
     </LinearLayout>
 

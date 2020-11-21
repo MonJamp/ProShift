@@ -25,7 +25,7 @@ interface ApiCalls {
     fun getAssignedShifts(@Header("Authorization") token: String?): Call<List<AssignedShiftsObject>>
 
     @POST("employee/toggle_drop_shift")
-    fun dropSelectedShift(@Header("Authorization") token: String?, @Body dropShiftObject: DropShiftObject): Call<DropShiftObject>
+    fun dropSelectedShift(@Header("Authorization") token: String?, @Body dropShiftObject: DropShiftObject): Call<ShiftObject>
 
     @GET("employee/get_open_shifts")
     fun getOpenShifts(@Header("Authorization") token: String?): Call<List<OpenShiftsObject>>
