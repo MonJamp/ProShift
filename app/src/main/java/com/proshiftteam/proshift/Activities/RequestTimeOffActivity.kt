@@ -66,7 +66,7 @@ class RequestTimeOffActivity: AppCompatActivity() {
             val time_start: String = shiftBegin.text.toString()
             val time_end: String = shiftEnd.text.toString()
 
-            val timeOffObject = RequestTimeOffObject(6, start_date, end_date, time_start, time_end)
+            val timeOffObject = RequestTimeOffObject(start_date, end_date, time_start, time_end)
 
             val callApiRequestTimeOff: Call<RequestTimeOffObject> = connectJsonApiCalls.requestTimeOff("Token $tokenCode", timeOffObject)
             callApiRequestTimeOff.enqueue(object: Callback<RequestTimeOffObject> {
@@ -81,6 +81,9 @@ class RequestTimeOffActivity: AppCompatActivity() {
                     if(response.code() == 201)
                     {
                         Toast.makeText(context, "Successfully requested time off " + response.code(), Toast.LENGTH_SHORT).show()
+                        val intentToHome = Intent(context, HomeActivity::class.java)
+                        intentToHome.putExtra("tokenCode", tokenCode)
+                        startActivity(intentToHome)
                     }
                     else
                     {
