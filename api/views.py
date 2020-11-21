@@ -306,7 +306,7 @@ def ApproveShiftRequest(request, *args, **kwargs):
     # Everything went alright :)
     return Response(updated_shift.data, status=status.HTTP_200_OK)
 
-@swagger_auto_schema(method='post', request_body=id_body, responses={200: ShiftSerializer, 404: 'shift or shift request not found'})
+@swagger_auto_schema(method='post', request_body=id_body, responses={200: "Denied shift request", 404: 'shift or shift request not found'})
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsManager])
 def DenyShiftRequest(request, *args, **kwargs):
@@ -324,9 +324,8 @@ def DenyShiftRequest(request, *args, **kwargs):
         data = {'error': str(e)}
         return Response(data=data, status=status.HTTP_404_NOT_FOUND)
     
-    updated_shift = ShiftSerializer(shift)
     # Everything went alright :)
-    return Response(updated_shift.data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_200_OK)
 
 @swagger_auto_schema(method='get', responses={200: RequestedTimeOffSerializer})
 @api_view(['GET'])
