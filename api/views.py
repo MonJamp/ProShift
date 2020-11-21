@@ -271,7 +271,7 @@ def GetUnapprovedShiftRequests(request, *args, **kwargs):
     Returns list of unapproved shift requests
     """
     company = EmployeeRole.objects.filter(user=request.user).first().company
-    shift_requests = ShiftRequest.objects.filter(company=company, is_approved=False)
+    shift_requests = ShiftRequest.objects.filter(company=company, is_approved=False, is_denied=False)
     serializer = ShiftRequestSerializer(shift_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -295,6 +295,28 @@ def ApproveShiftRequest(request, *args, **kwargs):
         shift.save()
         to_remove = ShiftRequest.objects.filter(is_approved=False, shift=shift)
         to_remove.delete()
+    except KeyError as e:
+        data = {'id': 'field is missing'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except ObjectDoesNotExist as e:
+        data = {'error': str(e)}
+        return Response(data=data, status=status.HTTP_404_NOT_FOUND)
+    
+    updated_shift = ShiftSerializer(shift)
+    # Everything went alright :)
+    return Response(updated_shift.data, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(method='post', request_body=id_body, responses={200: ShiftSerializer, 404: 'shift or shift request not found'})
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def DenyShiftRequest(request, *args, **kwargs):
+    """
+    Deny shift request by id
+    """
+    try:
+        shift_request = ShiftRequest.objects.get(id=request.data['id'])
+        shift_request.is_denied = True
+        shift_request.save()
     except KeyError as e:
         data = {'id': 'field is missing'}
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
