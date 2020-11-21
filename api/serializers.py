@@ -41,6 +41,7 @@ class RequestedTimeOffSerializer(serializers.ModelSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True)
     company_name = serializers.SerializerMethodField(read_only=True)
     is_approved = serializers.BooleanField(read_only=True)
+    is_denied = serializers.BooleanField(read_only=True)
     employee_name = serializers.SerializerMethodField(read_only=True)
 
     def get_company_name(self, obj):
@@ -51,7 +52,7 @@ class RequestedTimeOffSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RequestedTimeOff
-        fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'is_approved', 'start_date', 'end_date', 'time_start', 'time_end')
+        fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'is_approved', 'is_denied', 'start_date', 'end_date', 'time_start', 'time_end')
 
 class AvailabilitySerializer(serializers.ModelSerializer):
     class Meta:
