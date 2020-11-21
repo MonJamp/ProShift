@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.proshiftteam.proshift.Adapters.MyAdapter
 import com.proshiftteam.proshift.Adapters.SearchOpenShiftsAdapter
-import com.proshiftteam.proshift.Adapters.showShiftsAdapter
 import com.proshiftteam.proshift.DataFiles.AssignedShiftsObject
 import com.proshiftteam.proshift.DataFiles.HMS
 import com.proshiftteam.proshift.DataFiles.OpenShiftsObject

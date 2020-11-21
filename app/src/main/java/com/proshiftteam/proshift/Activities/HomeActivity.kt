@@ -15,18 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.proshiftteam.proshift.*
-import com.proshiftteam.proshift.Adapters.MyAdapter
-import com.proshiftteam.proshift.Adapters.showShiftsAdapter
+import com.proshiftteam.proshift.Adapters.AssignedShiftsAdapter
 import com.proshiftteam.proshift.DataFiles.AssignedShiftsObject
-import com.proshiftteam.proshift.DataFiles.HMS
 import com.proshiftteam.proshift.DataFiles.LogoutObject
-import com.proshiftteam.proshift.DataFiles.ScheduleData
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -49,7 +45,7 @@ class HomeActivity : AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
 
-        Intent(context, showShiftsAdapter::class.java).putExtra("tokenCode", tokenCode)
+        //Intent(context, AssignedShiftsAdapter::class.java).putExtra("tokenCode", tokenCode)
 
         val callApiGetAssignedShiftsObject: Call<List<AssignedShiftsObject>> = connectJsonApiCalls.getAssignedShifts("Token $tokenCode")
 
@@ -61,7 +57,7 @@ class HomeActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully loaded shifts" + response.code(), Toast.LENGTH_LONG).show()
                     val listOfShiftsScheduled = response.body()!!
-                    showShiftsRecyclerView.adapter = showShiftsAdapter(tokenCode.toString(), listOfShiftsScheduled)
+                    showShiftsRecyclerView.adapter = AssignedShiftsAdapter(tokenCode.toString(), listOfShiftsScheduled)
                 }
                 else {
                     Toast.makeText(context, "Failed loading shifts : Response code " + response.code(), Toast.LENGTH_SHORT).show()
