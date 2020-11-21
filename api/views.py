@@ -183,8 +183,11 @@ def RedeemCode(request, *args, **kwargs):
         employee.company = company_code.company
         employee.position = company_code.position
         employee.save()
+
+        cc_serializer = CompanyCodeSerializer(instance=company_code)
+
         company_code.delete()
-        return Response(status=status.HTTP_202_ACCEPTED)
+        return Response(data=cc_serializer.data, status=status.HTTP_202_ACCEPTED)
     else:
         return Response(status=HTTP_401_UNAUTHORIZED)
 

@@ -119,10 +119,19 @@ class ShiftRequestSerializer(serializers.ModelSerializer):
 
 class CompanyCodeSerializer(serializers.ModelSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True)
+    company_name = serializers.SerializerMethodField(read_only=True)
+    position_name = serializers.SerializerMethodField(read_only=True)
     code = serializers.IntegerField(read_only=True)
+
+    def get_company_name(self, obj):
+        return str(obj.company)
+
+    def get_position_name(self, obj):
+        return str(obj.position)
+
     class Meta:
         model = CompanyCode
-        fields = ('company', 'position', 'code', 'email')
+        fields = ('company', 'company_name', 'position', 'position_name', 'code', 'email')
 
 class CompanyCodeEmployeeSerializer(serializers.ModelSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True)
