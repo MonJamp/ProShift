@@ -446,3 +446,22 @@ def GetPositionsFromCompany(request, *args, **kwargs):
     position = Position.objects.filter(company=company)
     serializer = PositionSerializer(position, many=True) 
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(method='post', request_body=id_body, responses={200: ShiftSerializer})
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsManager])
+def GetShift(request, *args, **kwargs):
+    """
+    Return details for specific shift by id
+    """
+    try:
+        shift = Shift.objects.get(id=request.data['id'])
+    except KeyError as e:
+        data = {'id': 'field is missing'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    except Shift.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = ShiftSerializer(shift, data=request.data)
+    serializer.is_valid(raise_exception=True)
+    return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
