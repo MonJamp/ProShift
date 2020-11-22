@@ -29,7 +29,7 @@
                 android:tint="@color/whiteColor"/>
             <TextView
                 android:id="@+id/menuTitle"
-                android:text="Add Remove Shifts"
+                android:text="All Shifts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
