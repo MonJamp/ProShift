@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/layoutToolBar"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backArrowButtonModifyShifts"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/back_arrow"
+            android:tint="@color/whiteColor"/>
+        <TextView
+            android:id="@+id/menuTitle"
+            android:text="Modify Shift"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/whiteColor"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/selectADateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="97dp"
+            android:text="Select a date:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CalendarView
+            android:id="@+id/calrenderViewSelectDateInModifyShift"
+            android:layout_width="379dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="9dp"
+            app:layout_constraintBottom_toTopOf="@+id/shiftBeginTimeInModifyShift"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectADateTitle" />
+
+        <TextView
+            android:id="@+id/shiftBeginTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:text="Select Start Time:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/shiftBeginTimeInModifyShift"
+            app:layout_constraintEnd_toStartOf="@+id/shiftBeginTimeInModifyShift" />
+
+        <TextView
+            android:id="@+id/ShiftEndTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="Select End Time"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/shiftBeginTitle"
+            app:layout_constraintTop_toBottomOf="@+id/shiftBeginTitle" />
+
+        <EditText
+            android:id="@+id/shiftBeginTimeInModifyShift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="174dp"
+            android:ems="10"
+            android:hint="HH:MM:SS"
+            android:inputType="time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/shiftEndTimeInModifyShift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="HH:MM:SS"
+            android:inputType="time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shiftBeginTimeInModifyShift" />
+
+        <TextView
+            android:id="@+id/enterEmployeeNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:text="Select Employee:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/selectEmployeeSpinnerInUpdateShift"
+            android:layout_width="379dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="27dp"
+            app:layout_constraintBottom_toTopOf="@+id/selectADateTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/enterEmployeeNameTitle" />
+
+        <Button
+            android:id="@+id/updateShiftButtonInModifyShift"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="60dp"
+            android:text="Update Shift"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

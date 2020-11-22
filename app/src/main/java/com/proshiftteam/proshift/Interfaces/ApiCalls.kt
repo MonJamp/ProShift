@@ -62,4 +62,7 @@ interface ApiCalls {
 
     @GET("manager/get_all_shifts")
     fun viewAllShifts(@Header("Authorization") token: String?): Call<List<ViewAllShiftsObject>>
+
+    @POST("manager/update_shift")
+    fun updateShift(@Header("Authorization") token: String?, @Body updateShiftObject: UpdateShiftObject): Call<UpdateShiftObject>
 }

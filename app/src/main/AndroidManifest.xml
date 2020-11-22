@@ -22,6 +22,7 @@
         <activity android:name=".Activities.CreateNewShiftActivity"></activity>
         <activity android:name=".Activities.ApproveShiftRequestActivity"></activity>
         <activity android:name=".Activities.ApproveTimeOffRequestActivity"></activity>
+        <activity android:name=".Activities.ModifyShiftActivity"></activity>
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

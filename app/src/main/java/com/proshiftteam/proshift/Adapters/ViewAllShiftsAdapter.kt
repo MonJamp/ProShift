@@ -1,12 +1,16 @@
 package com.proshiftteam.proshift.Adapters
 
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.proshiftteam.proshift.Activities.CurrentShiftAddRemoveActivity
+import com.proshiftteam.proshift.Activities.ModifyShiftActivity
 import com.proshiftteam.proshift.DataFiles.ViewAllShiftsObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
@@ -27,14 +31,32 @@ class ViewAllShiftsAdapter(val tokenCode: String, private val viewAllShiftsList:
     }
 
     override fun onBindViewHolder(holder: ViewAllShiftsAdapter.ViewAllShiftsViewHolder, position: Int) {
+        val context = this
         holder.date.text = viewAllShiftsList.get(position).date
         holder.startTime.text = viewAllShiftsList.get(position).time_start
         holder.endTime.text = viewAllShiftsList.get(position).time_end
         holder.jobTitle.text = viewAllShiftsList.get(position).position
         holder.employeeName.text = viewAllShiftsList.get(position).employee_name
+        val dateToPass: String = viewAllShiftsList.get(position).date
+        val startTimeToPass: String = viewAllShiftsList.get(position).time_start
+        val endTimeToPass: String = viewAllShiftsList.get(position).time_end
+        val positionToPass: String = viewAllShiftsList.get(position).position
+        val employeeIdToPass: Int = viewAllShiftsList.get(position).employee
+        val isOpenToPass: Boolean = viewAllShiftsList.get(position).is_open
+        val shiftIdToPass: Int = viewAllShiftsList.get(position).id
 
-        holder.itemView.view_all_shifts_edit_button.setOnClickListener { v ->
-            // Code for editing shifts
+        holder.itemView.view_all_shifts_edit_button.setOnClickListener { v->
+            val context = v.context
+            val intentToModifyShiftActivity = Intent(context, ModifyShiftActivity::class.java)
+            intentToModifyShiftActivity.putExtra("tokenCode", tokenCode)
+            intentToModifyShiftActivity.putExtra("date", dateToPass)
+            intentToModifyShiftActivity.putExtra("id", shiftIdToPass)
+            intentToModifyShiftActivity.putExtra("start_time", startTimeToPass)
+            intentToModifyShiftActivity.putExtra("end_time", endTimeToPass)
+            intentToModifyShiftActivity.putExtra("position", positionToPass)
+            intentToModifyShiftActivity.putExtra("employeeId", employeeIdToPass)
+            intentToModifyShiftActivity.putExtra("is_open", isOpenToPass)
+            context.startActivity(intentToModifyShiftActivity)
         }
     }
     class ViewAllShiftsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
