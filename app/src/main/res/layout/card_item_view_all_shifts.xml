@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:elevation="10dp"
+    card_view:cardCornerRadius="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/view_all_shifts_date"
+            android:layout_width="101dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="86dp"
+            android:layout_marginBottom="6dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/view_all_shifts_time_start"
+            app:layout_constraintEnd_toStartOf="@+id/view_all_shifts_job_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2020-20-20" />
+
+        <TextView
+            android:id="@+id/view_all_shifts_time_start"
+            android:layout_width="119dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="56dp"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/view_all_shifts_time_end"
+            app:layout_constraintEnd_toStartOf="@+id/view_all_shifts_edit_button"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_all_shifts_date"
+            tools:text="00:00:00" />
+
+        <TextView
+            android:id="@+id/view_all_shifts_time_end"
+            android:layout_width="130dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="47dp"
+            android:layout_marginBottom="24dp"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view_all_shifts_edit_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_all_shifts_time_start"
+            tools:text="00:00:00" />
+
+        <TextView
+            android:id="@+id/view_all_shifts_job_title"
+            android:layout_width="107dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="95dp"
+            android:layout_marginBottom="1dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/view_all_shifts_employee_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_all_shifts_date"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/view_all_shifts_employee_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="2dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/view_all_shifts_edit_button"
+            app:layout_constraintEnd_toEndOf="@+id/view_all_shifts_edit_button"
+            app:layout_constraintStart_toStartOf="@+id/view_all_shifts_job_title"
+            app:layout_constraintTop_toBottomOf="@+id/view_all_shifts_job_title"
+            tools:text="Employee Name" />
+
+        <ImageView
+            android:id="@+id/view_all_shifts_edit_button"
+            android:layout_width="187dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="29dp"
+            android:layout_marginBottom="15dp"
+            android:paddingLeft="80dp"
+            android:src="@drawable/ic_edit_shift"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_all_shifts_time_end"
+            app:layout_constraintTop_toBottomOf="@+id/view_all_shifts_employee_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
