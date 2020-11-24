@@ -14,7 +14,7 @@ class EmployeeStatusInline(admin.StackedInline):
     readonly_fields = ('get_id', )
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'username', 'first_name', 'last_name', 'company_code', 'phone', 'id')
+    list_display = ('email', 'username', 'first_name', 'last_name', 'phone', 'id')
     inlines = (EmployeeStatusInline, )
 
     def get_inline_instances(self, request, obj=None):

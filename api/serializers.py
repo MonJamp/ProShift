@@ -9,7 +9,7 @@ from dashboard.models import *
 class UserCreateSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'phone', 'company_code')
+        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'phone')
 
 class ShiftSerializer(serializers.ModelSerializer):
     company = serializers.PrimaryKeyRelatedField(read_only=True)

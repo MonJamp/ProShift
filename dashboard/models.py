@@ -10,8 +10,7 @@ from smart_selects.db_fields import ChainedForeignKey
 class User(AbstractUser):
     email = models.EmailField(verbose_name='email', max_length=48, unique=True)
     phone = models.CharField(null=True, blank=True, max_length=14)
-    company_code = models.CharField(null=True, blank=True, max_length=8)
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'phone', 'company_code']
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'phone']
     USERNAME_FIELD = 'email'
 
     def get_username(self):
