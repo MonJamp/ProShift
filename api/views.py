@@ -4,7 +4,7 @@ from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN
 from rest_framework.views import APIView
 
 from django.contrib.auth.models import User
-from dashboard.models import Shift, RequestedTimeOff, Availability
+from dashboard.models import Shift, RequestedTimeOff
 from django.db.models import Q
 
 from .serializers import *
@@ -68,18 +68,6 @@ def GetRequestedTimeOff(request, *args, **kwargs):
     employee = EmployeeRole.objects.get(user=request.user)
     requested_time_off = RequestedTimeOff.objects.filter(employee=employee).order_by('date')
     serializer = RequestedTimeOffSerializer(requested_time_off, many = True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@swagger_auto_schema(method='get', responses={200: AvailabilitySerializer(many=True)})
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def GetAvailability(request, *args, **kwargs):
-    """
-    Retrieve availability requests (approved or not) for user
-    """
-    employee = EmployeeRole.objects.get(user=request.user)
-    availability = Availability.objects.filter(employee=employee)
-    serializer = AvailabilitySerializer(availability,many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @swagger_auto_schema(method='post', request_body=ShiftRequestSerializer, responses={200: ShiftRequestSerializer, 208: 'Shift request already exists'})

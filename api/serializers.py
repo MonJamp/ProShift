@@ -64,13 +64,6 @@ class RequestedTimeOffSerializer(serializers.ModelSerializer):
         model = RequestedTimeOff
         fields = ('id', 'company', 'company_name', 'employee', 'employee_name', 'is_approved', 'is_denied', 'start_date', 'end_date', 'time_start', 'time_end')
 
-class AvailabilitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Availability
-        fields = ('id', 'company', 'employee', 'is_approved', 'start_date',
-            'is_current', 'mon_earliest', 'mon_latest','tues_earliest', 'tues_latest', 'wed_earliest', 'wed_latest',
-            'thur_earliest', 'thur_latest', 'fri_earliest', 'fri_latest', 'sat_earliest', 'sat_latest', 'sun_earliest', 'sun_latest')
-
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
