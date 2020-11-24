@@ -27,6 +27,7 @@ employee_urls = [
     path('shift_request2', views.RequestShift2, name='api_request_shift2'),
     path('toggle_drop_shift', views.ToggleDropShift, name='api_toggle_drop_shift'),
     path('reedem_code', views.RedeemCode, name='api_redeem_code'),
+    path('get_shift_requests', views.GetShiftRequests, name='api_get_shift_requests'),
 ]
 
 # Place manager related APIs here
