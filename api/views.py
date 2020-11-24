@@ -1,21 +1,22 @@
-from dashboard.models import Shift, RequestedTimeOff
+import datetime
+import hashlib
+
+# Decorators
+from rest_framework.decorators import api_view, permission_classes
+from drf_yasg.utils import swagger_auto_schema
+
+from drf_yasg import openapi
+
+# Permissions
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsManager
+
+from rest_framework.response import Response
+from rest_framework import status
+
 from django.db.models import Q
 
 from .serializers import *
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
-from rest_framework.response import Response
-from .permissions import IsManager
-
-from django.core.exceptions import ObjectDoesNotExist
-
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
-
-import datetime
-import hashlib
 
 # JSON request body with only an entry for a key of 'id'
 id_body = openapi.Schema(
@@ -148,7 +149,7 @@ def ToggleDropShift(request, *args, **kwargs):
     except KeyError as e:
         data = {'id': 'field is missing'}
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except ObjectDoesNotExist as e:
+    except Shift.DoesNotExist as e:
         data = {'error': str(e)}
         return Response(data=data, status=status.HTTP_404_BAD_REQUEST)
 
@@ -168,7 +169,7 @@ def RedeemCode(request, *args, **kwargs):
     code = serializer.validated_data['code']
     try:
         company_code = CompanyCode.objects.get(code=code)
-    except ObjectDoesNotExist as e:
+    except CompanyCode.DoesNotExist as e:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if company_code.email == request.user.email:
         employee = EmployeeRole.objects.get(user=request.user)
@@ -319,7 +320,7 @@ def ApproveShiftRequest(request, *args, **kwargs):
     except KeyError as e:
         data = {'id': 'field is missing'}
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except ObjectDoesNotExist as e:
+    except Shift.DoesNotExist as e:
         data = {'error': str(e)}
         return Response(data=data, status=status.HTTP_404_NOT_FOUND)
     
@@ -341,7 +342,7 @@ def DenyShiftRequest(request, *args, **kwargs):
     except KeyError as e:
         data = {'id': 'field is missing'}
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except ObjectDoesNotExist as e:
+    except ShiftRequest.DoesNotExist as e:
         data = {'error': str(e)}
         return Response(data=data, status=status.HTTP_404_NOT_FOUND)
     
@@ -374,7 +375,7 @@ def ApproveTimeOff(request, *args, **kwargs):
     except KeyError as e:
         data = {'id': 'field is missing'}
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except ObjectDoesNotExist as e:
+    except RequestedTimeOff.DoesNotExist as e:
         data = {'error': str(e)}
         return Response(data=data, status=status.HTTP_404_NOT_FOUND)
     
@@ -395,7 +396,7 @@ def DenyTimeOff(request, *args, **kwargs):
     except KeyError as e:
         data = {'id': 'field is missing'}
         return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    except ObjectDoesNotExist as e:
+    except RequestedTimeOff.DoesNotExist as e:
         data = {'error': str(e)}
         return Response(data=data, status=status.HTTP_404_NOT_FOUND)
     
