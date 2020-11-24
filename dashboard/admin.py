@@ -22,9 +22,6 @@ class UserAdmin(admin.ModelAdmin):
             return list()
         return super(UserAdmin, self).get_inline_instances(request, obj)
 
-class AvailabilityAdmin(admin.ModelAdmin):
-    list_display = ('employee' , 'company' , 'start_date', 'is_approved', 'is_current', 'id')
-
 class PositionAdmin(admin.ModelAdmin):
     list_display = ('name', 'company', 'is_manager', 'id')
 
@@ -51,6 +48,5 @@ admin.site.register(Shift, ShiftAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Position, PositionAdmin)
 admin.site.register(RequestedTimeOff, RequestedTimeOffAdmin)
-admin.site.register(Availability, AvailabilityAdmin)
 admin.site.register(ShiftRequest, ShiftRequestAdmin)
 admin.site.register(CompanyCode, CompanyCodeAdmin)

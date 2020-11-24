@@ -114,35 +114,6 @@ class RequestedTimeOff(models.Model):
     def __str__(self):
         return(str(self.start_date) + " - " + str(self.end_date) + " | " + str(self.time_start) + " - " + str(self.time_end) + " | " + self.employee.__str__())
 
-
-class Availability(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    employee = ChainedForeignKey(EmployeeRole, chained_field='company', chained_model_field='company')
-    #employee = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True)
-    start_date = models.DateField()
-    is_approved = models.BooleanField(default=False)
-    is_current = models.BooleanField(default=False)
-    mon_earliest = models.TimeField()
-    mon_latest = models.TimeField()
-    tues_earliest = models.TimeField()
-    tues_latest = models.TimeField()
-    wed_earliest = models.TimeField()
-    wed_latest = models.TimeField()
-    thur_earliest = models.TimeField()
-    thur_latest = models.TimeField()
-    fri_earliest = models.TimeField()
-    fri_latest = models.TimeField()
-    sat_earliest = models.TimeField()
-    sat_latest = models.TimeField()
-    sun_earliest = models.TimeField()
-    sun_latest = models.TimeField()
-
-    def __str__(self):
-        return (str(self.employee) + " | " + str(self.start_date))
-    
-    class Meta:
-        verbose_name_plural = 'availabilities'
-
 class ShiftRequest(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     employee = ChainedForeignKey(EmployeeRole, chained_field='company', chained_model_field='company')

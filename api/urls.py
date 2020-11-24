@@ -21,7 +21,6 @@ employee_urls = [
     path('get_shifts', views.GetAssignedShifts, name='api_shifts'),
     path('get_shifts_debug', views.GetAssignedShiftsDebug, name='api_shifts_debug'),
     path('get_requested_time_off', views.GetRequestedTimeOff, name='api_requested_time_off'),
-    path('get_availability', views.GetAvailability, name='api_get_availability'),
     path('shift_request', views.RequestShift, name='api_request_shift'),
     path('get_open_shifts', views.GetOpenShifts, name='api_open_shifts'),
     path('request_time_off', views.SendTimeOffRequest, name='api_request_time_off'),
