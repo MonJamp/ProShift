@@ -1,11 +1,14 @@
 package com.proshiftteam.proshift.Adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.proshiftteam.proshift.Activities.ApproveShiftRequestActivity
+import com.proshiftteam.proshift.Activities.ApproveTimeOffRequestActivity
 import com.proshiftteam.proshift.DataFiles.ApproveDenyShiftRequestObject
 import com.proshiftteam.proshift.DataFiles.GetShiftRequestsObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
@@ -30,6 +33,7 @@ class GetShiftRequestsAdapter (val tokenCode: String, private val shiftRequestsL
         holder.company_name.text = shiftRequestsList.get(position).company_name
         holder.employee_name.text = shiftRequestsList.get(position).employee_name
         holder.shift.text = shiftRequestsList.get(position).shift.toString()
+
         holder.itemView.card_get_shift_requests_approve_button.setOnClickListener {v ->
             val context = v.context
             val requestID = shiftRequestsList.get(position).id
@@ -45,6 +49,11 @@ class GetShiftRequestsAdapter (val tokenCode: String, private val shiftRequestsL
                 ) {
                     if (response.isSuccessful) {
                         Toast.makeText(context, "Approved Shift Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+
+                        val intentToApproveShiftRequestActivity = Intent(context, ApproveShiftRequestActivity::class.java)
+                        intentToApproveShiftRequestActivity.putExtra("tokenCode", tokenCode)
+                        context.startActivity(intentToApproveShiftRequestActivity)
+
                     } else {
                         Toast.makeText(context, "Error approving shift request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
                     }
@@ -67,6 +76,9 @@ class GetShiftRequestsAdapter (val tokenCode: String, private val shiftRequestsL
                 ) {
                     if (response.isSuccessful) {
                         Toast.makeText(context, "Successfully denied Shift Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                        val intentToApproveShiftRequestActivity = Intent(context, ApproveShiftRequestActivity::class.java)
+                        intentToApproveShiftRequestActivity.putExtra("tokenCode", tokenCode)
+                        context.startActivity(intentToApproveShiftRequestActivity)
                     } else {
                         Toast.makeText(context, "Error denying shift request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
                     }
