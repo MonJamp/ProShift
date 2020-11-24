@@ -30,10 +30,12 @@ class RequestTimeOffActivity: AppCompatActivity() {
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
         findViewById<ImageView>(R.id.backArrowButtonRequestTimeOff).setOnClickListener {
             val intentToHomeActivity = Intent(context, HomeActivity::class.java)
             intentToHomeActivity.putExtra("tokenCode", tokenCode)
+            intentToHomeActivity.putExtra("accessCode", accessCode)
             startActivity(intentToHomeActivity)
         }
 
@@ -83,6 +85,7 @@ class RequestTimeOffActivity: AppCompatActivity() {
                         Toast.makeText(context, "Successfully requested time off " + response.code(), Toast.LENGTH_SHORT).show()
                         val intentToHome = Intent(context, HomeActivity::class.java)
                         intentToHome.putExtra("tokenCode", tokenCode)
+                        intentToHome.putExtra("accessCode", accessCode)
                         startActivity(intentToHome)
                     }
                     else

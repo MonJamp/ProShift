@@ -31,6 +31,7 @@ class CurrentShiftAddRemoveActivity: AppCompatActivity() {
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
         val callApiViewAllShifts: Call<List<ViewAllShiftsObject>> = RetrofitBuilderObject.connectJsonApiCalls.viewAllShifts("Token $tokenCode")
         callApiViewAllShifts.enqueue(object: Callback<List<ViewAllShiftsObject>> {
@@ -45,7 +46,7 @@ class CurrentShiftAddRemoveActivity: AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully displaying all the shifts " + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfEveryShift = response.body()!!
-                    recycler_view_View_all_shifts.adapter = ViewAllShiftsAdapter(tokenCode.toString(), listOfEveryShift)
+                    recycler_view_View_all_shifts.adapter = ViewAllShiftsAdapter(accessCode!!,tokenCode.toString(), listOfEveryShift)
                 } else {
                     Toast.makeText(context, "Failed loading open shifts : Response code " + response.code(), Toast.LENGTH_SHORT).show()
                 }
@@ -56,6 +57,7 @@ class CurrentShiftAddRemoveActivity: AppCompatActivity() {
         findViewById<ImageView>(R.id.backArrowButtonAddRemove).setOnClickListener {
             val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
+            intentToManagerControlsActivity.putExtra("accessCode", accessCode)
             startActivity(intentToManagerControlsActivity)
         }
 

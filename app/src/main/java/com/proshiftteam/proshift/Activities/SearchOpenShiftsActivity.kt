@@ -32,6 +32,7 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
         val callApiGetOpenShifts: Call<List<OpenShiftsObject>> = RetrofitBuilderObject.connectJsonApiCalls.getOpenShifts("Token $tokenCode")
         callApiGetOpenShifts.enqueue(object: Callback<List<OpenShiftsObject>> {
@@ -54,6 +55,7 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
         findViewById<ImageView>(R.id.backArrowButtonSearchOpen).setOnClickListener {
             val intentToHomeActivity = Intent(context, HomeActivity::class.java)
             intentToHomeActivity.putExtra("tokenCode", tokenCode)
+            intentToHomeActivity.putExtra("accessCode", accessCode)
             startActivity(intentToHomeActivity)
         }
     }

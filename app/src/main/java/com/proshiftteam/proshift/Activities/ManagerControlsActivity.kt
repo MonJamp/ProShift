@@ -20,32 +20,38 @@ class ManagerControlsActivity: AppCompatActivity() {
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
 
         findViewById<ImageView>(R.id.backArrowButton).setOnClickListener {
             val intentToHomeActivity = Intent(context, HomeActivity::class.java)
             intentToHomeActivity.putExtra("tokenCode", tokenCode)
+            intentToHomeActivity.putExtra("accessCode", accessCode)
             startActivity(intentToHomeActivity)
         }
 
         addRemoveShiftsButton.setOnClickListener {
             val intentToCurrentShiftAddRemoveActivity = Intent(context, CurrentShiftAddRemoveActivity::class.java)
             intentToCurrentShiftAddRemoveActivity.putExtra("tokenCode", tokenCode)
+            intentToCurrentShiftAddRemoveActivity.putExtra("accessCode", accessCode)
             startActivity(intentToCurrentShiftAddRemoveActivity)
         }
         createNewShiftButton.setOnClickListener {
             val intentToCreateNewShiftActivity = Intent(context, CreateNewShiftActivity::class.java)
             intentToCreateNewShiftActivity.putExtra("tokenCode", tokenCode)
+            intentToCreateNewShiftActivity.putExtra("accessCode", accessCode)
             startActivity(intentToCreateNewShiftActivity)
         }
         approveShiftRequestsButton.setOnClickListener {
             val intentToApproveShiftRequestActivity = Intent(context, ApproveShiftRequestActivity::class.java)
             intentToApproveShiftRequestActivity.putExtra("tokenCode", tokenCode)
+            intentToApproveShiftRequestActivity.putExtra("accessCode", accessCode)
             startActivity(intentToApproveShiftRequestActivity)
         }
         approveTimeOffRequestButton.setOnClickListener {
             val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
             intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)
+            intentToApproveTimeOffRequestActivity.putExtra("accessCode", accessCode)
             startActivity(intentToApproveTimeOffRequestActivity)
         }
 

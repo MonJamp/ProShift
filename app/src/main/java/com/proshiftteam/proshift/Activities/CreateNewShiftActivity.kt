@@ -33,10 +33,12 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
         findViewById<ImageView>(R.id.backArrowButtonCreateNewShift).setOnClickListener {
             val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
+            intentToManagerControlsActivity.putExtra("accessCode", accessCode)
             startActivity(intentToManagerControlsActivity)
         }
 
@@ -108,6 +110,11 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
                     if(response.code() == 201)
                     {
                         Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
+
+                        val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
+                        intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
+                        intentToManagerControlsActivity.putExtra("accessCode", accessCode)
+                        startActivity(intentToManagerControlsActivity)
                     }
                     else
                     {

@@ -27,6 +27,7 @@ class ApproveTimeOffRequestActivity: AppCompatActivity() {
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
         val callApiGetTimeOffRequests: Call<List<GetTimeOffRequestsObject>> = RetrofitBuilderObject.connectJsonApiCalls.getTimeOffRequests("Token $tokenCode")
         callApiGetTimeOffRequests.enqueue(object: Callback<List<GetTimeOffRequestsObject>> {
@@ -38,7 +39,7 @@ class ApproveTimeOffRequestActivity: AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully loaded time off requests" + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfTimeOffRequests = response.body()!!
-                    approve_time_off_requests_recycler_view.adapter = GetTimeOffRequestsAdapter(tokenCode.toString(), listOfTimeOffRequests)
+                    approve_time_off_requests_recycler_view.adapter = GetTimeOffRequestsAdapter(accessCode!!,tokenCode.toString(), listOfTimeOffRequests)
                 } else {
                     Toast.makeText(context, "Failed loading time off requests : Response code " + response.code(), Toast.LENGTH_SHORT).show()
                 }
@@ -47,6 +48,7 @@ class ApproveTimeOffRequestActivity: AppCompatActivity() {
         findViewById<ImageView>(R.id.backArrowButtonApproveTimeOffRequests).setOnClickListener {
             val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
+            intentToManagerControlsActivity.putExtra("accessCode", accessCode)
             startActivity(intentToManagerControlsActivity)
         }
     }

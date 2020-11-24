@@ -19,7 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class GetShiftRequestsAdapter (val tokenCode: String, private val shiftRequestsList: List<GetShiftRequestsObject>) : RecyclerView.Adapter<GetShiftRequestsAdapter.GetShiftRequestsViewHolder>(){
+class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, private val shiftRequestsList: List<GetShiftRequestsObject>) : RecyclerView.Adapter<GetShiftRequestsAdapter.GetShiftRequestsViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GetShiftRequestsAdapter.GetShiftRequestsViewHolder {
         val getShiftRequestsView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_get_shift_requests, parent, false)
         return GetShiftRequestsViewHolder(getShiftRequestsView)
@@ -52,6 +52,7 @@ class GetShiftRequestsAdapter (val tokenCode: String, private val shiftRequestsL
 
                         val intentToApproveShiftRequestActivity = Intent(context, ApproveShiftRequestActivity::class.java)
                         intentToApproveShiftRequestActivity.putExtra("tokenCode", tokenCode)
+                        intentToApproveShiftRequestActivity.putExtra("accessCode", accessCode)
                         context.startActivity(intentToApproveShiftRequestActivity)
 
                     } else {
@@ -78,6 +79,7 @@ class GetShiftRequestsAdapter (val tokenCode: String, private val shiftRequestsL
                         Toast.makeText(context, "Successfully denied Shift Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
                         val intentToApproveShiftRequestActivity = Intent(context, ApproveShiftRequestActivity::class.java)
                         intentToApproveShiftRequestActivity.putExtra("tokenCode", tokenCode)
+                        intentToApproveShiftRequestActivity.putExtra("accessCode", accessCode)
                         context.startActivity(intentToApproveShiftRequestActivity)
                     } else {
                         Toast.makeText(context, "Error denying shift request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()

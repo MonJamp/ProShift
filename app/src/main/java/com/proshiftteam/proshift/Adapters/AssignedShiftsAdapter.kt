@@ -23,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AssignedShiftsAdapter(
+    private val accessCode: Int,
     private val tokenCode: String,
     private val assignedShiftList: List<AssignedShiftsObject>)
     : RecyclerView.Adapter<AssignedShiftsAdapter.ViewHolder>()

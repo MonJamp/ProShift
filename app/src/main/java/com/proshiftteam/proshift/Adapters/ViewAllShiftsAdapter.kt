@@ -20,7 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ViewAllShiftsAdapter(val tokenCode: String, private val viewAllShiftsList: List<ViewAllShiftsObject>) : RecyclerView.Adapter<ViewAllShiftsAdapter.ViewAllShiftsViewHolder>() {
+class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private val viewAllShiftsList: List<ViewAllShiftsObject>) : RecyclerView.Adapter<ViewAllShiftsAdapter.ViewAllShiftsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewAllShiftsAdapter.ViewAllShiftsViewHolder {
         val shiftView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_view_all_shifts, parent, false)
         return ViewAllShiftsViewHolder(shiftView)
@@ -56,6 +56,7 @@ class ViewAllShiftsAdapter(val tokenCode: String, private val viewAllShiftsList:
             intentToModifyShiftActivity.putExtra("position", positionToPass)
             intentToModifyShiftActivity.putExtra("employeeId", employeeIdToPass)
             intentToModifyShiftActivity.putExtra("is_open", isOpenToPass)
+            intentToModifyShiftActivity.putExtra("accessCode", accessCode)
             context.startActivity(intentToModifyShiftActivity)
         }
     }

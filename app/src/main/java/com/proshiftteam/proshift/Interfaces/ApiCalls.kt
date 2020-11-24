@@ -65,4 +65,7 @@ interface ApiCalls {
 
     @POST("manager/update_shift")
     fun updateShift(@Header("Authorization") token: String?, @Body updateShiftObject: UpdateShiftObject): Call<UpdateShiftObject>
+
+    @GET("manager/test")
+    fun testIfManager(@Header("Authorization") token: String?): Call<ResponseBody>
 }

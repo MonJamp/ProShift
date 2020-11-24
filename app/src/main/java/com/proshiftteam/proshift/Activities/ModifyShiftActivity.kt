@@ -36,6 +36,7 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
         val date: String? = bundle?.getString("date")
         val startTime: String? = bundle?.getString("start_time")
@@ -113,6 +114,7 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
                         Toast.makeText(context, "Success updating shift. Response code: " + response.code(), Toast.LENGTH_SHORT).show()
                         val intentToCurrentShiftAddRemoveActivity = Intent(context, CurrentShiftAddRemoveActivity::class.java)
                         intentToCurrentShiftAddRemoveActivity.putExtra("tokenCode", tokenCode)
+                        intentToCurrentShiftAddRemoveActivity.putExtra("accessCode", accessCode)
                         startActivity(intentToCurrentShiftAddRemoveActivity)
                     }
                     else
@@ -126,6 +128,7 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
         findViewById<ImageView>(R.id.backArrowButtonModifyShifts).setOnClickListener {
             val intentToCurrentShiftAddRemoveActivity = Intent(context, CurrentShiftAddRemoveActivity::class.java)
             intentToCurrentShiftAddRemoveActivity.putExtra("tokenCode", tokenCode)
+            intentToCurrentShiftAddRemoveActivity.putExtra("accessCode", accessCode)
             startActivity(intentToCurrentShiftAddRemoveActivity)
         }
 
