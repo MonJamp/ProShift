@@ -39,6 +39,18 @@ id_body = openapi.Schema(
 @permission_classes([IsAuthenticated])
 def GetAssignedShifts(request, *args, **kwargs):
     """
+    Retrieve assigned shifts for the current user. This API filters out outdated shifts
+    """
+    employee = EmployeeRole.objects.get(user=request.user)
+    shifts = Shift.objects.filter(employee=employee, date__gte=datetime.date.today())
+    serializer = ShiftSerializer(shifts, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(method='get', responses={200: ShiftSerializer(many=True)})
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def GetAssignedShiftsDebug(request, *args, **kwargs):
+    """
     Retrieve assigned shifts for the current user
     """
     employee = EmployeeRole.objects.get(user=request.user)
