@@ -1,7 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
+
+from django.contrib.auth.models import AbstractUser
 from django.dispatch import receiver
+
 from smart_selects.db_fields import ChainedForeignKey
 
 # Create your models here.
