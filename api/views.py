@@ -78,12 +78,13 @@ def RequestShift(request, *args, **kwargs):
     shift_request.is_valid(raise_exception=True)
     # Check if there are other shift request for this shift by this user
     employee = EmployeeRole.objects.get(user=request.user)
-    is_zero = ShiftRequest.objects.filter(shift=request.data['shift'], employee=employee).count()
-    if is_zero > 0:
+    requests = ShiftRequest.objects.filter(shift=request.data['shift'], employee=employee)
+    if not requests:
+        shift_request.save()
+        return Response(shift_request, status=status.HTTP_201_CREATED)
+    else:
         message = "User already sent request" # For debugging
         return Response(data=message, status=status.HTTP_208_ALREADY_REPORTED)
-    shift_request.save()
-    return Response(shift_request, status=status.HTTP_201_CREATED)
 
 @swagger_auto_schema(method='post', request_body=id_body, responses={201: ShiftRequestSerializer, 208: 'Shift request already exists'})
 @api_view(['POST'])
@@ -96,12 +97,13 @@ def RequestShift2(request, *args, **kwargs):
     employee = EmployeeRole.objects.get(user=request.user)
     company = employee.company
     shift = Shift.objects.get(id=request.data['id'])
-    is_zero = ShiftRequest.objects.filter(shift=shift, employee=employee).count()
-    if is_zero > 0:
+    requests = ShiftRequest.objects.filter(shift=shift, employee=employee)
+    if not requests:
+        shift_request = ShiftRequest.objects.create(company=company, employee=employee, shift=shift, is_approved=False)
+        serializer = ShiftRequestSerializer(shift_request)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
         return Response(status=status.HTTP_208_ALREADY_REPORTED)
-    shift_request = ShiftRequest.objects.create(company=company, employee=employee, shift=shift, is_approved=False)
-    serializer = ShiftRequestSerializer(shift_request)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @swagger_auto_schema(method='get', responses={200: ShiftSerializer(many=True)})
@@ -429,13 +431,15 @@ def GenerateCode(request, *args, **kwargs):
     serializer.is_valid(raise_exception=True)
     email = serializer.validated_data['email']
 
-    is_zero = CompanyCode.objects.filter(email=email).count()
-    if is_zero > 0:
+    codes = CompanyCode.objects.filter(email=email)
+    if not codes:
+        code = int(hashlib.sha1(email.encode('utf-8')).hexdigest(), 16) % (10**8)
+        serializer.save(company=company, code=code)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
         return Response(status=status.HTTP_208_ALREADY_REPORTED)
 
-    code = int(hashlib.sha1(email.encode('utf-8')).hexdigest(), 16) % (10**8)
-    serializer.save(company=company, code=code)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
 
 @swagger_auto_schema(method='get', responses={200: CompanyCodeSerializer(many=True)})
 @api_view(['GET'])
