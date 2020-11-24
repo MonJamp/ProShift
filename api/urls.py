@@ -34,6 +34,7 @@ employee_urls = [
 manager_urls = [
     path('test', views.TestManagerRole, name='api_test_manager'),
     path('get_all_shifts', views.GetValidShifts, name='api_all_shifts'),
+    path('get_all_shifts_debug', views.GetValidShiftsDebug, name='api_all_shifts_debug'),
     path('create_shift', views.CreateNewShift, name='api_create_shift'),
     path('get_employees', views.GetValidEmployees, name='api_get_employees'),
     path('get_shift_requests', views.GetUnapprovedShiftRequests, name='api_get_shift_requests'),
