@@ -191,6 +191,19 @@ def RedeemCode(request, *args, **kwargs):
     else:
         return Response(status=HTTP_401_UNAUTHORIZED)
 
+@swagger_auto_schema(method='get', responses={200: ShiftRequestSerializer})
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def GetShiftRequests(request, *args, **kwargs):
+    """
+    Get shift requests made by user
+    """
+    employee = EmployeeRole.objects.get(user=request.user)
+    requested_time_off = ShiftRequest.objects.filter(employee=employee)
+    serializer = ShiftRequestSerializer(requested_time_off, many = True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 # Manager APIs
 # Make sure to use pass IsManager to permission classes to ensure the user
 # accessing the API has manager permissions
