@@ -112,11 +112,13 @@ def RequestShift2(request, *args, **kwargs):
 def GetOpenShifts(request, *args, **kwargs):
     """
     Retrieves open and dropped shifts from the user's company
+    Shifts requested by the user are filtered out
     """
     employee = EmployeeRole.objects.get(user=request.user)
     company = employee.company
     requested_shifts = ShiftRequest.objects.filter(employee=employee)
     shifts = Shift.objects.filter(Q(company=company, is_open=True) | Q(company=company, is_dropped=True)).order_by('date')
+    # Exclude requested shifts from being returned
     for s in requested_shifts:
         shifts = shifts.exclude(id=s.shift.id)
     serializer = ShiftSerializer(shifts, many=True)
