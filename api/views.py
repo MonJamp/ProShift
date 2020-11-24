@@ -66,7 +66,7 @@ def GetRequestedTimeOff(request, *args, **kwargs):
     Retrieve time off requests made by user
     """
     employee = EmployeeRole.objects.get(user=request.user)
-    requested_time_off = RequestedTimeOff.objects.filter(employee=employee).order_by('date')
+    requested_time_off = RequestedTimeOff.objects.filter(employee=employee).order_by('start_date')
     serializer = RequestedTimeOffSerializer(requested_time_off, many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -120,8 +120,8 @@ def GetOpenShifts(request, *args, **kwargs):
     """
     employee = EmployeeRole.objects.get(user=request.user)
     company = employee.company
-    requested_shifts = ShiftRequest.objects.filter(employee=employee).order_by('date')
-    shifts = Shift.objects.filter(Q(company=company, is_open=True) | Q(company=company, is_dropped=True))
+    requested_shifts = ShiftRequest.objects.filter(employee=employee)
+    shifts = Shift.objects.filter(Q(company=company, is_open=True) | Q(company=company, is_dropped=True)).order_by('date')
     for s in requested_shifts:
         shifts = shifts.exclude(id=s.shift.id)
     serializer = ShiftSerializer(shifts, many=True)
@@ -199,7 +199,7 @@ def GetShiftRequests(request, *args, **kwargs):
     Get shift requests made by user
     """
     employee = EmployeeRole.objects.get(user=request.user)
-    requested_time_off = ShiftRequest.objects.filter(employee=employee).order_by('date')
+    requested_time_off = ShiftRequest.objects.filter(employee=employee).order_by('shift__date')
     serializer = ShiftRequestSerializer(requested_time_off, many = True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -300,7 +300,7 @@ def GetUnapprovedShiftRequests(request, *args, **kwargs):
     Returns list of unapproved shift requests
     """
     company = EmployeeRole.objects.filter(user=request.user).first().company
-    shift_requests = ShiftRequest.objects.filter(company=company, is_approved=False, is_denied=False).order_by('date')
+    shift_requests = ShiftRequest.objects.filter(company=company, is_approved=False, is_denied=False).order_by('shift__date')
     serializer = ShiftRequestSerializer(shift_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -364,7 +364,7 @@ def GetUnapprovedTimeOff(request, *args, **kwargs):
     Retrieves unapproved time off requests for the company
     """
     company = EmployeeRole.objects.get(user=request.user).company
-    time_off_requests = RequestedTimeOff.objects.filter(company=company, is_approved=False, is_denied=False).order_by('date')
+    time_off_requests = RequestedTimeOff.objects.filter(company=company, is_approved=False, is_denied=False).order_by('start_date')
     serializer = RequestedTimeOffSerializer(time_off_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
