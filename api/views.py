@@ -229,6 +229,19 @@ def GetValidShifts(request, *args, **kwargs):
     ss = ShiftSerializer(shifts, many=True)
     return Response(ss.data, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(method='get', responses={200: ShiftSerializer(many=True)})
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsManager])
+def GetValidShiftsDebug(request, *args, **kwargs):
+    """
+    Gets shifts from the requested manager's company and filters the shifts
+    from today onward. Shifts before the current day is not returned.
+    """
+    company = EmployeeRole.objects.filter(user=request.user).first().company
+    shifts = Shift.objects.filter(company=company)
+    ss = ShiftSerializer(shifts, many=True)
+    return Response(ss.data, status=status.HTTP_200_OK)
+
 def IsConflictWithTimeOff(employee, date):
     time_off_requests = RequestedTimeOff.objects.filter(employee=employee, is_approved=True)
     shift_date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
