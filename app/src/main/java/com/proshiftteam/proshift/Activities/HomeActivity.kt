@@ -31,8 +31,6 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
-        val accessCode = 1
         /*  TEMPORARILY REMOVED DUE TO ISSUES
         val bundle: Bundle? = intent.extras
         accessCode= bundle!!.getInt("accessCode"
@@ -44,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
         //Intent(context, AssignedShiftsAdapter::class.java).putExtra("tokenCode", tokenCode)
 
@@ -57,7 +56,7 @@ class HomeActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully loaded shifts" + response.code(), Toast.LENGTH_LONG).show()
                     val listOfShiftsScheduled = response.body()!!
-                    showShiftsRecyclerView.adapter = AssignedShiftsAdapter(tokenCode.toString(), listOfShiftsScheduled)
+                    showShiftsRecyclerView.adapter = AssignedShiftsAdapter(accessCode!!,tokenCode.toString(), listOfShiftsScheduled)
                 }
                 else {
                     Toast.makeText(context, "Failed loading shifts : Response code " + response.code(), Toast.LENGTH_SHORT).show()
@@ -80,6 +79,7 @@ class HomeActivity : AppCompatActivity() {
                     if (accessCode == 1) {
                         val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
                         intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
+                        intentToManagerControlsActivity.putExtra("accessCode", accessCode)
                         startActivity(intentToManagerControlsActivity)
                     }
                     else {
@@ -92,11 +92,13 @@ class HomeActivity : AppCompatActivity() {
                 R.id.requestTimeOffButton -> {
                     val intentToRequestTimeOffActivity = Intent(context, RequestTimeOffActivity::class.java)
                     intentToRequestTimeOffActivity.putExtra("tokenCode", tokenCode)
+                    intentToRequestTimeOffActivity.putExtra("accessCode", accessCode)
                     startActivity(intentToRequestTimeOffActivity)
                 }
                 R.id.searchOpenShiftsButton -> {
                     val intentToOpenShiftsActivity = Intent(context, SearchOpenShiftsActivity::class.java)
                     intentToOpenShiftsActivity.putExtra("tokenCode", tokenCode)
+                    intentToOpenShiftsActivity.putExtra("accessCode", accessCode)
                     startActivity(intentToOpenShiftsActivity)
                 }
                 R.id.logOutButtonMenu -> {

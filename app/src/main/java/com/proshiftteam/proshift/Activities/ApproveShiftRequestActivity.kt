@@ -23,6 +23,7 @@ class ApproveShiftRequestActivity: AppCompatActivity() {
         val context = this
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
+        val accessCode: Int? = bundle?.getInt("accessCode")
 
         val callApiGetShiftRequests: Call<List<GetShiftRequestsObject>> = RetrofitBuilderObject.connectJsonApiCalls.getShiftRequests("Token $tokenCode")
         callApiGetShiftRequests.enqueue(object: Callback<List<GetShiftRequestsObject>> {
@@ -37,7 +38,7 @@ class ApproveShiftRequestActivity: AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully loaded shift requests" + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfShiftRequests = response.body()!!
-                    approve_shift_requests_recycler_view.adapter = GetShiftRequestsAdapter(tokenCode.toString(), listOfShiftRequests)
+                    approve_shift_requests_recycler_view.adapter = GetShiftRequestsAdapter(accessCode!!,tokenCode.toString(), listOfShiftRequests)
                 } else {
                     Toast.makeText(context, "Failed loading shift requests : Response code " + response.code(), Toast.LENGTH_SHORT).show()
                 }
@@ -47,6 +48,7 @@ class ApproveShiftRequestActivity: AppCompatActivity() {
         findViewById<ImageView>(R.id.backArrowButtonApproveShiftRequests).setOnClickListener {
             val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
+            intentToManagerControlsActivity.putExtra("accessCode", accessCode)
             startActivity(intentToManagerControlsActivity)
         }
 

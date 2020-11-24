@@ -20,7 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class GetTimeOffRequestsAdapter(val tokenCode: String, private val timeOffRequestsList: List<GetTimeOffRequestsObject>) : RecyclerView.Adapter<GetTimeOffRequestsAdapter.ShowTimeOffRequestsViewHolder>(){
+class GetTimeOffRequestsAdapter(val accessCode: Int,val tokenCode: String, private val timeOffRequestsList: List<GetTimeOffRequestsObject>) : RecyclerView.Adapter<GetTimeOffRequestsAdapter.ShowTimeOffRequestsViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GetTimeOffRequestsAdapter.ShowTimeOffRequestsViewHolder {
         val timeOffRequestView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_get_time_off_requests, parent, false)
         return ShowTimeOffRequestsViewHolder(timeOffRequestView)
@@ -58,6 +58,7 @@ class GetTimeOffRequestsAdapter(val tokenCode: String, private val timeOffReques
 
                         val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
                         intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)
+                        intentToApproveTimeOffRequestActivity.putExtra("accessCode", accessCode)
                         context.startActivity(intentToApproveTimeOffRequestActivity)
 
                     } else {
@@ -85,6 +86,7 @@ class GetTimeOffRequestsAdapter(val tokenCode: String, private val timeOffReques
 
                         val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
                         intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)
+                        intentToApproveTimeOffRequestActivity.putExtra("accessCode", accessCode)
                         context.startActivity(intentToApproveTimeOffRequestActivity)
 
                     } else {
