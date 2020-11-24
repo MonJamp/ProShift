@@ -1,9 +1,3 @@
-from rest_framework.authtoken.models import Token
-from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN
-
-from rest_framework.views import APIView
-
-from django.contrib.auth.models import User
 from dashboard.models import Shift, RequestedTimeOff
 from django.db.models import Q
 
@@ -13,7 +7,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
-from django.http import HttpResponse, JsonResponse
 from .permissions import IsManager
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -21,7 +14,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-import sys
 import datetime
 import hashlib
 
@@ -189,7 +181,7 @@ def RedeemCode(request, *args, **kwargs):
         company_code.delete()
         return Response(data=cc_serializer.data, status=status.HTTP_202_ACCEPTED)
     else:
-        return Response(status=HTTP_401_UNAUTHORIZED)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 @swagger_auto_schema(method='get', responses={200: ShiftRequestSerializer})
 @api_view(['GET'])
