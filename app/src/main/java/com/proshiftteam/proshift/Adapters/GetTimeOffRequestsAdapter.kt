@@ -1,11 +1,15 @@
 package com.proshiftteam.proshift.Adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.proshiftteam.proshift.Activities.ApproveTimeOffRequestActivity
 import com.proshiftteam.proshift.DataFiles.ApproveDenyTimeOffRequestsObject
 import com.proshiftteam.proshift.DataFiles.GetTimeOffRequestsObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
@@ -51,6 +55,11 @@ class GetTimeOffRequestsAdapter(val tokenCode: String, private val timeOffReques
                 ) {
                     if (response.isSuccessful) {
                         Toast.makeText(context, "Approved Time Off Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+
+                        val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
+                        intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)
+                        context.startActivity(intentToApproveTimeOffRequestActivity)
+
                     } else {
                         Toast.makeText(context, "Error approving time off request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
                     }
@@ -73,6 +82,11 @@ class GetTimeOffRequestsAdapter(val tokenCode: String, private val timeOffReques
                 ) {
                     if (response.isSuccessful) {
                         Toast.makeText(context, "Successfully denied Time Off Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+
+                        val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
+                        intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)
+                        context.startActivity(intentToApproveTimeOffRequestActivity)
+
                     } else {
                         Toast.makeText(context, "Error denying time off request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
                     }
