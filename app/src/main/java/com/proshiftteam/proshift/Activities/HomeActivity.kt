@@ -70,6 +70,10 @@ class HomeActivity : AppCompatActivity() {
 
         val navigationViewItems : NavigationView = findViewById(R.id.menuNavigationView)
 
+        if (accessCode == 0) {
+            navigationViewItems.menu.removeItem(R.id.managerControlsButton)
+        }
+
 
         navigationViewItems.setNavigationItemSelectedListener { MenuItem ->
             MenuItem.isChecked = true
