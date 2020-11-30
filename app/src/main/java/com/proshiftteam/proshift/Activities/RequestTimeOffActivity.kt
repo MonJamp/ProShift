@@ -33,10 +33,10 @@ class RequestTimeOffActivity: AppCompatActivity() {
         val accessCode: Int? = bundle?.getInt("accessCode")
 
         findViewById<ImageView>(R.id.backArrowButtonRequestTimeOff).setOnClickListener {
-            val intentToHomeActivity = Intent(context, HomeActivity::class.java)
-            intentToHomeActivity.putExtra("tokenCode", tokenCode)
-            intentToHomeActivity.putExtra("accessCode", accessCode)
-            startActivity(intentToHomeActivity)
+            val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
+            intentToListOfTimeOffRequestsActivity.putExtra("tokenCode", tokenCode)
+            intentToListOfTimeOffRequestsActivity.putExtra("accessCode", accessCode)
+            startActivity(intentToListOfTimeOffRequestsActivity)
         }
 
         val calenderViewStart: CalendarView = findViewById<CalendarView>(R.id.date_start_time_off)
@@ -83,10 +83,10 @@ class RequestTimeOffActivity: AppCompatActivity() {
                     if(response.code() == 201)
                     {
                         Toast.makeText(context, "Successfully requested time off " + response.code(), Toast.LENGTH_SHORT).show()
-                        val intentToHome = Intent(context, HomeActivity::class.java)
-                        intentToHome.putExtra("tokenCode", tokenCode)
-                        intentToHome.putExtra("accessCode", accessCode)
-                        startActivity(intentToHome)
+                        val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
+                        intentToListOfTimeOffRequestsActivity.putExtra("tokenCode", tokenCode)
+                        intentToListOfTimeOffRequestsActivity.putExtra("accessCode", accessCode)
+                        startActivity(intentToListOfTimeOffRequestsActivity)
                     }
                     else
                     {

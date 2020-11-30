@@ -94,10 +94,10 @@ class HomeActivity : AppCompatActivity() {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
                 R.id.requestTimeOffButton -> {
-                    val intentToRequestTimeOffActivity = Intent(context, RequestTimeOffActivity::class.java)
-                    intentToRequestTimeOffActivity.putExtra("tokenCode", tokenCode)
-                    intentToRequestTimeOffActivity.putExtra("accessCode", accessCode)
-                    startActivity(intentToRequestTimeOffActivity)
+                    val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
+                    intentToListOfTimeOffRequestsActivity.putExtra("tokenCode", tokenCode)
+                    intentToListOfTimeOffRequestsActivity.putExtra("accessCode", accessCode)
+                    startActivity(intentToListOfTimeOffRequestsActivity)
                 }
                 R.id.searchOpenShiftsButton -> {
                     val intentToOpenShiftsActivity = Intent(context, SearchOpenShiftsActivity::class.java)
