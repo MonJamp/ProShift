@@ -71,4 +71,7 @@ interface ApiCalls {
 
     @GET("employee/get_shift_requests_employee")
     fun showPendingShiftRequests(@Header("Authorization") token: String?): Call<List<PendingShiftRequestsObject>>
+
+    @GET("employee/get_requested_time_off")
+    fun showListOffTimeOffRequests(@Header("Authorization") token: String?): Call<List<ListOfTimeOffRequestsObject>>
 }
