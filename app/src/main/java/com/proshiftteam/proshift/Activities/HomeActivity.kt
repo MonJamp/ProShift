@@ -105,6 +105,12 @@ class HomeActivity : AppCompatActivity() {
                     intentToOpenShiftsActivity.putExtra("accessCode", accessCode)
                     startActivity(intentToOpenShiftsActivity)
                 }
+                R.id.pendingShiftsButton -> {
+                    val intentToPendingShiftRequestActivity = Intent(context, PendingShiftRequestActivity::class.java)
+                    intentToPendingShiftRequestActivity.putExtra("tokenCode", tokenCode)
+                    intentToPendingShiftRequestActivity.putExtra("accessCode", accessCode)
+                    startActivity(intentToPendingShiftRequestActivity)
+                }
                 R.id.logOutButtonMenu -> {
                     val logoutObjectSend = LogoutObject(tokenCode)
                     val callApiPost = connectJsonApiCalls.logoutUser("Token $tokenCode", logoutObjectSend)
