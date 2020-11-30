@@ -68,4 +68,7 @@ interface ApiCalls {
 
     @GET("manager/test")
     fun testIfManager(@Header("Authorization") token: String?): Call<ResponseBody>
+
+    @GET("employee/get_shift_requests_employee")
+    fun showPendingShiftRequests(@Header("Authorization") token: String?): Call<List<PendingShiftRequestsObject>>
 }
