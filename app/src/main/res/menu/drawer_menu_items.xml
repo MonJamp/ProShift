@@ -14,6 +14,9 @@
     <item android:id="@+id/searchOpenShiftsButton"
         android:title="Search Open Shifts"/>
 
+    <item android:id="@+id/pendingShiftsButton"
+        android:title="Pending Shift Requests"/>
+
     <item android:id="@+id/logOutButtonMenu"
         android:title="Log Out"/>
 
