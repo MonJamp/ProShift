@@ -5,12 +5,14 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.proshiftteam.proshift.DataFiles.LoginObject
 import com.proshiftteam.proshift.Interfaces.ApiCalls
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
+import com.proshiftteam.proshift.Utilities.onSubmit
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -112,6 +114,9 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
+        val etPassword = findViewById<EditText>(R.id.editTextLoginPassword)
+        etPassword.onSubmit { btnLoginLogin.performClick() }
     }
 
     override fun onBackPressed() {
