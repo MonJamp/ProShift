@@ -2,6 +2,8 @@ package com.proshiftteam.proshift.Utilities
 
 import android.app.TimePickerDialog
 import android.content.Context
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,5 +31,19 @@ fun EditText.asTimePicker(context: Context, format: String) {
         ).run {
             show()
         }
+    }
+}
+
+// Allows setting an action when hitting enter
+fun EditText.onSubmit(func: () -> Unit) {
+    setOnEditorActionListener { _, actionId, event ->
+        if(actionId == EditorInfo.IME_ACTION_DONE) {
+            func()
+        }
+        else if(event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+            func()
+        }
+
+        true
     }
 }
