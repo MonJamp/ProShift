@@ -25,6 +25,7 @@
         <activity android:name=".Activities.ModifyShiftActivity"></activity>
         <activity android:name=".Activities.PendingShiftRequestActivity"></activity>
         <activity android:name=".Activities.ListOfTimeOffRequestsActivity"></activity>
+        <activity android:name=".Activities.GenerateCodeActivity"></activity>
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
