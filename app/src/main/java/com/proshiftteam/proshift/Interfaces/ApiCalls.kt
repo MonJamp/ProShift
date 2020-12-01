@@ -74,4 +74,7 @@ interface ApiCalls {
 
     @GET("employee/get_requested_time_off")
     fun showListOffTimeOffRequests(@Header("Authorization") token: String?): Call<List<ListOfTimeOffRequestsObject>>
+
+    @POST("manager/generate_code")
+    fun generateUserCode(@Header("Authorization") token: String?, @Body generateUserCodeObject: GenerateUserCodeObject): Call<GenerateUserCodeObject>
 }

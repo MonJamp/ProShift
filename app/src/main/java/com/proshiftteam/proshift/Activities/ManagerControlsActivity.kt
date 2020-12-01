@@ -30,6 +30,13 @@ class ManagerControlsActivity: AppCompatActivity() {
             startActivity(intentToHomeActivity)
         }
 
+        generateCodeButton.setOnClickListener {
+            val intentToGenerateCodeActivity = Intent(context, GenerateCodeActivity::class.java)
+            intentToGenerateCodeActivity.putExtra("tokenCode", tokenCode)
+            intentToGenerateCodeActivity.putExtra("accessCode", accessCode)
+            startActivity(intentToGenerateCodeActivity)
+        }
+
         addRemoveShiftsButton.setOnClickListener {
             val intentToCurrentShiftAddRemoveActivity = Intent(context, CurrentShiftAddRemoveActivity::class.java)
             intentToCurrentShiftAddRemoveActivity.putExtra("tokenCode", tokenCode)
