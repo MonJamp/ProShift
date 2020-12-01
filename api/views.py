@@ -21,6 +21,7 @@ from rest_framework.decorators import api_view, permission_classes
 from drf_yasg.utils import swagger_auto_schema
 
 from drf_yasg import openapi
+from rest_framework.fields import empty
 
 # Permissions
 from rest_framework.permissions import IsAuthenticated
@@ -42,6 +43,18 @@ id_body = openapi.Schema(
 )
 
 # Employee APIs
+@swagger_auto_schema(method='get', responses={200: UserInfoSerializer})
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def GetUserInfo(request, *args, **kwargs):
+    """
+    Returns id, company name, position name, and manager status of user
+    """
+    employee = EmployeeRole.objects.get(user=request.user)
+    serializer = UserInfoSerializer(employee)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @swagger_auto_schema(method='get', responses={200: ShiftSerializer(many=True)})
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

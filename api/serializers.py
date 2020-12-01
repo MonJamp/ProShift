@@ -151,3 +151,21 @@ class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
         fields = ('id','name')
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    company_name = serializers.SerializerMethodField(read_only=True)
+    position_name = serializers.SerializerMethodField(read_only=True)
+    is_manager = serializers.SerializerMethodField(read_only=True)
+
+    def get_company_name(self, obj):
+        return obj.company.name
+    
+    def get_position_name(self, obj):
+        return obj.position.name
+
+    def get_is_manager(self, obj):
+        return obj.position.is_manager
+
+    class Meta:
+        model = EmployeeRole
+        fields = ('id', 'company_name', 'position_name', 'is_manager')
