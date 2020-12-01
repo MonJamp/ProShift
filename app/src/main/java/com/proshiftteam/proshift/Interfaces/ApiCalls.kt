@@ -77,4 +77,10 @@ interface ApiCalls {
 
     @POST("manager/generate_code")
     fun generateUserCode(@Header("Authorization") token: String?, @Body generateUserCodeObject: GenerateUserCodeObject): Call<GenerateUserCodeObject>
+
+    @GET("employee/get_user_info")
+    fun getUserInformation(@Header("Authorization") token: String?): Call<UserInfoObject>
+
+    @POST("employee/reedem_code")
+    fun redeemUserCode(@Header("Authorization") token: String?, @Body redeemCodeObject: RedeemCodeObject): Call<RedeemCodeObject>
 }

@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.proshiftteam.proshift.DataFiles.LoginObject
+import com.proshiftteam.proshift.DataFiles.UserInfoObject
 import com.proshiftteam.proshift.Interfaces.ApiCalls
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
@@ -76,42 +77,61 @@ class MainActivity : AppCompatActivity() {
                             val responseLoginObject = response.body()
                             val tokenCode = responseLoginObject?.auth_token
 
-                            val callApiCheckIfManager: Call<ResponseBody> = RetrofitBuilderObject.connectJsonApiCalls.testIfManager("Token $tokenCode")
-                            callApiCheckIfManager.enqueue(object: Callback<ResponseBody> {
-                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                    Toast.makeText(context, "Cannot connect! Error logging in, please try again!", Toast.LENGTH_SHORT).show()
+                            val callApiUserInformation: Call<UserInfoObject> = RetrofitBuilderObject.connectJsonApiCalls.getUserInformation("Token $tokenCode")
+                            callApiUserInformation.enqueue(object: Callback<UserInfoObject> {
+                                override fun onFailure(call: Call<UserInfoObject>, t: Throwable) {
+                                    Toast.makeText(context, "Cannot connect! Error getting user information!", Toast.LENGTH_SHORT).show()
                                 }
 
-                                override fun onResponse(
-                                    call: Call<ResponseBody>,
-                                    response: Response<ResponseBody>
-                                ) {
+                                override fun onResponse(call: Call<UserInfoObject>, response: Response<UserInfoObject>) {
                                     if (response.isSuccessful) {
-                                        val accessCode = 1
-                                        val intentToHome = Intent(context, HomeActivity::class.java)
-                                        intentToHome.putExtra("accessCode", accessCode)
-                                        intentToHome.putExtra("tokenCode", tokenCode)
-                                        startActivity(intentToHome)
-                                        Toast.makeText(context, "Welcome " + emailAddress + "! \nToken: " + tokenCode + " \nAccess level: " + accessCode, Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Successfully retrieved user info!", Toast.LENGTH_SHORT).show()
+                                        val userInformationObject = response.body()
+                                        if (userInformationObject!!.company_name == "None") {
+                                            val intentToEnterCodeActivity = Intent(context, EnterCodeActivity::class.java)
+                                            intentToEnterCodeActivity.putExtra("tokenCode", tokenCode)
+                                            startActivity(intentToEnterCodeActivity)
+                                        } else {
+                                            val callApiCheckIfManager: Call<ResponseBody> = RetrofitBuilderObject.connectJsonApiCalls.testIfManager("Token $tokenCode")
+                                            callApiCheckIfManager.enqueue(object: Callback<ResponseBody> {
+                                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                                    Toast.makeText(context, "Cannot connect! Error logging in, please try again!", Toast.LENGTH_SHORT).show()
+                                                }
+
+                                                override fun onResponse(
+                                                    call: Call<ResponseBody>,
+                                                    response: Response<ResponseBody>
+                                                ) {
+                                                    if (response.isSuccessful) {
+                                                        val accessCode = 1
+                                                        val intentToHome = Intent(context, HomeActivity::class.java)
+                                                        intentToHome.putExtra("accessCode", accessCode)
+                                                        intentToHome.putExtra("tokenCode", tokenCode)
+                                                        startActivity(intentToHome)
+                                                        Toast.makeText(context, "Welcome " + emailAddress + "! \nToken: " + tokenCode + " \nAccess level: " + accessCode, Toast.LENGTH_SHORT).show()
+                                                    } else {
+                                                        val accessCode = 0
+                                                        val intentToHome = Intent(context, HomeActivity::class.java)
+                                                        intentToHome.putExtra("accessCode", accessCode)
+                                                        intentToHome.putExtra("tokenCode", tokenCode)
+                                                        startActivity(intentToHome)
+                                                        Toast.makeText(context, "Welcome " + emailAddress + "! \nToken: " + tokenCode + " \nAccess level: " + accessCode, Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }
+                                            })
+                                        }
                                     } else {
-                                        val accessCode = 0
-                                        val intentToHome = Intent(context, HomeActivity::class.java)
-                                        intentToHome.putExtra("accessCode", accessCode)
-                                        intentToHome.putExtra("tokenCode", tokenCode)
-                                        startActivity(intentToHome)
-                                        Toast.makeText(context, "Welcome " + emailAddress + "! \nToken: " + tokenCode + " \nAccess level: " + accessCode, Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Error getting user information! Code: " + response.code(), Toast.LENGTH_SHORT).show()
                                     }
                                 }
-                            }) }
+
+                            })
+                        }
                         else {
                             Toast.makeText(context, "Error Logging in! Response Code: " + response.code(), Toast.LENGTH_SHORT).show()
                         }
                     }
                 })
-
-                // Code for retrieving user information and connecting with appropriate homescreen
-
-
             }
         }
 
