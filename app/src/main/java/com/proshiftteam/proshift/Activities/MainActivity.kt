@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import com.proshiftteam.proshift.DataFiles.UserInfoObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
@@ -17,6 +18,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     val CHOOSE_ACCOUNT = 8888
     lateinit var mContext: Context
+    lateinit var btnChooseAccount: Button
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -85,16 +87,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         mContext = this
 
-        val intent = AccountManager.newChooseAccountIntent(
-            null,
-            null,
-            Array<String>(1) { "com.proshiftteam.proshift" },
-            null,
-            null,
-            null,
-            null
-        )
-        startActivityForResult(intent, CHOOSE_ACCOUNT)
+        btnChooseAccount = findViewById(R.id.mainChooseAccount)
+        btnChooseAccount.setOnClickListener {
+            val intent = AccountManager.newChooseAccountIntent(
+                null,
+                null,
+                Array<String>(1) { "com.proshiftteam.proshift" },
+                null,
+                null,
+                null,
+                null
+            )
+            startActivityForResult(intent, CHOOSE_ACCOUNT)
+        }
+    }
 
+    override fun onBackPressed() {
+        finish()
     }
 }

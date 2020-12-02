@@ -1,5 +1,7 @@
 package com.proshiftteam.proshift.Activities
 
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.proshiftteam.proshift.DataFiles.LoginObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
-import com.proshiftteam.proshift.Utilities.createAccount
 import com.proshiftteam.proshift.Utilities.onSubmit
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +43,16 @@ class AccountActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<LoginObject>, response: Response<LoginObject>) {
                 if(response.isSuccessful) {
-                    createAccount(mContext, email, password, response.body()!!.auth_token)
+                    // Add account to account manager
+                    var account = Account(email, "com.proshiftteam.proshift")
+                    var am = AccountManager.get(mContext)
+                    am.addAccountExplicitly(account, password, null)
+                    am.setAuthToken(account, "auth_token", response.body()!!.auth_token)
+                    // Let account manager know an account was added
+                    val intent = Intent()
+                    intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, email)
+                    intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, "com.proshiftteam.proshift")
+                    setResult(RESULT_OK, intent)
                     finish()
                 } else {
                     Toast.makeText(mContext, response.errorBody().toString(), Toast.LENGTH_SHORT).show()
