@@ -14,6 +14,7 @@ import com.proshiftteam.proshift.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     val CHOOSE_ACCOUNT = 8888
@@ -103,6 +104,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        finish()
+        finishAffinity()
+        finishAndRemoveTask()
+        exitProcess(0)
     }
 }
