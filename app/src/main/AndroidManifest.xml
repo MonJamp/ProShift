@@ -23,7 +23,6 @@
             android:noHistory="true" />
         <activity android:name=".Activities.AccountActivity" />
         <activity android:name=".Activities.SignupActivity" />
-        <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.ManagerControlsActivity" />
         <activity android:name=".Activities.CurrentShiftAddRemoveActivity" />
         <activity android:name=".Activities.SearchOpenShiftsActivity" />
