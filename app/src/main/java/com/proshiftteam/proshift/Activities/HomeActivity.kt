@@ -112,27 +112,8 @@ class HomeActivity : AppCompatActivity() {
                     startActivity(intentToPendingShiftRequestActivity)
                 }
                 R.id.logOutButtonMenu -> {
-                    val logoutObjectSend = LogoutObject(tokenCode)
-                    val callApiPost = connectJsonApiCalls.logoutUser("Token $tokenCode", logoutObjectSend)
-
-                    callApiPost.enqueue(object : Callback<LogoutObject> {
-                        override fun onFailure(call: Call<LogoutObject>, t: Throwable) {
-                            Toast.makeText(context, "Cannot connect! Error Logging out.", Toast.LENGTH_SHORT).show()
-                        }
-                        override fun onResponse(
-                            call: Call<LogoutObject>,
-                            response: Response<LogoutObject>
-                        ) {
-                            if (response.isSuccessful) {
-                                Toast.makeText(context, "Successfully logged out user! Response code " + response.code(), Toast.LENGTH_SHORT).show()
-                                val intentToHome = Intent(context, MainActivity::class.java)
-                                startActivity(intentToHome)
-                            }
-                            else {
-                                Toast.makeText(context, "Failed Logout : Response code " + response.code(), Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    })
+                    val intentToHome = Intent(context, MainActivity::class.java)
+                    startActivity(intentToHome)
                 }
             }
             true

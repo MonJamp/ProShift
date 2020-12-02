@@ -19,7 +19,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Activities.HomeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:noHistory="true" />
         <activity android:name=".Activities.AccountActivity" />
         <activity android:name=".Activities.SignupActivity" />
         <activity android:name=".Activities.RegisterActivity" />
