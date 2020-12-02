@@ -6,24 +6,14 @@ import android.accounts.AccountAuthenticatorResponse
 import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
-import android.net.Network
 import android.os.Bundle
 import android.text.TextUtils
 import com.proshiftteam.proshift.Activities.AccountActivity
-import com.proshiftteam.proshift.Activities.MainActivity
 import com.proshiftteam.proshift.DataFiles.LoginObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject
-import java.lang.UnsupportedOperationException
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-fun createAccount(context: Context, email: String, password: String, authToken: String) {
-    var account = Account(email, "com.proshiftteam.proshift")
-    var am = AccountManager.get(context)
-    am.addAccountExplicitly(account, password, null)
-    am.setAuthToken(account, "auth_token", authToken)
-}
 
 class ProShiftAuthenticator : AbstractAccountAuthenticator {
     companion object {
