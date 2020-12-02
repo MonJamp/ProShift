@@ -38,7 +38,7 @@ class RegisterActivity : AppCompatActivity() {
             val passwordEntered = editTextRegisterPassword.text.toString()
             val rePasswordEntered = editTextConfirmPassword.text.toString()
 
-            val newRegistration = Registration(userNameEntered,firstNameEntered,lastNameEntered,phoneNumberEntered,companyCodeEntered,emailAddressEntered,passwordEntered,rePasswordEntered)
+            val newRegistration = Registration(userNameEntered,firstNameEntered,lastNameEntered,phoneNumberEntered,emailAddressEntered,passwordEntered,rePasswordEntered)
 
             val callApiPost = connectJsonApiCalls.registerUser(newRegistration)
 
