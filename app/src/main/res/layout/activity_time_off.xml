@@ -42,10 +42,10 @@
             android:layout_width="match_parent"
             android:layout_height="610dp"
             android:id="@+id/listOfTimeOffRequestsRecyclerView"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:context=".Activities.HomeActivity"
-            tools:listitem="@layout/card_item_list_of_time_off_requests"/>
+            tools:listitem="@layout/card_time_off_item"/>
 
         <Button
             android:id="@+id/submitAnotherRequestButton"
