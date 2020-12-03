@@ -1,6 +1,8 @@
 package com.proshiftteam.proshift.Activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -28,9 +30,13 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    lateinit var prefs: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        prefs = this.getSharedPreferences(getString(R.string.PREFERENCES_FILE), Context.MODE_PRIVATE)
+
         /*  TEMPORARILY REMOVED DUE TO ISSUES
         val bundle: Bundle? = intent.extras
         accessCode= bundle!!.getInt("accessCode"
@@ -112,11 +118,22 @@ class HomeActivity : AppCompatActivity() {
                     startActivity(intentToPendingShiftRequestActivity)
                 }
                 R.id.logOutButtonMenu -> {
+                    with(prefs.edit()) {
+                        putBoolean(getString(R.string.IS_LOGGED_OUT), true)
+                        apply()
+                    }
+
                     val intentToHome = Intent(context, MainActivity::class.java)
                     startActivity(intentToHome)
                 }
             }
             true
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        finishAffinity()
     }
 }

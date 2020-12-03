@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="PREFERENCES_FILE">com.proshiftteam.proshift.settings</string>
+    <string name="DEFAULT_ACCOUNT">default_account</string>
+    <string name="IS_LOGGED_OUT">is_logged_out</string>
+</resources>
