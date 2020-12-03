@@ -19,7 +19,7 @@ fun EditText.asTimePicker(context: Context, format: String) {
     val minute = calendar.get(Calendar.MINUTE)
     val timePickerOnTimeSetListener =
         TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-            calendar.set(Calendar.HOUR, hour)
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
             calendar.set(Calendar.MINUTE, minute)
             val sdf = SimpleDateFormat(format)
             setText(sdf.format(calendar.time))
@@ -27,7 +27,7 @@ fun EditText.asTimePicker(context: Context, format: String) {
 
     setOnClickListener {
         TimePickerDialog(
-            context, timePickerOnTimeSetListener, calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), true
+            context, timePickerOnTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true
         ).run {
             show()
         }
