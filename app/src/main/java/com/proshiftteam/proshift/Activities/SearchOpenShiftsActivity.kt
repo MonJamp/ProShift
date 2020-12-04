@@ -44,7 +44,7 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully loaded open shifts" + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfOpenShifts = response.body()!!
-                    showSearchOpenShiftsRecyclerView.adapter = SearchOpenShiftsAdapter(tokenCode.toString(), listOfOpenShifts)
+                    showSearchOpenShiftsRecyclerView.adapter = SearchOpenShiftsAdapter(accessCode!!, tokenCode.toString(), listOfOpenShifts)
                 } else {
                     Toast.makeText(context, "Failed loading open shifts : Response code " + response.code(), Toast.LENGTH_SHORT).show()
                 }

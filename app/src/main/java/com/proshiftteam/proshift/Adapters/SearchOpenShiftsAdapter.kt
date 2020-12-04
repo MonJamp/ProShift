@@ -1,11 +1,14 @@
 package com.proshiftteam.proshift.Adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.proshiftteam.proshift.Activities.ApproveShiftRequestActivity
+import com.proshiftteam.proshift.Activities.SearchOpenShiftsActivity
 import com.proshiftteam.proshift.DataFiles.OpenShiftsObject
 import com.proshiftteam.proshift.DataFiles.PickUpShiftObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
@@ -16,7 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchOpenShiftsAdapter(val tokenCode: String, private val openShiftsList: List<OpenShiftsObject>) : RecyclerView.Adapter<SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder>() {
+class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, private val openShiftsList: List<OpenShiftsObject>) : RecyclerView.Adapter<SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder {
         val shiftView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_search_open_shifts, parent, false)
         return ShowOpenShiftsViewHolder(shiftView)
@@ -47,7 +50,12 @@ class SearchOpenShiftsAdapter(val tokenCode: String, private val openShiftsList:
                         if (response.code() == 208) {
                             Toast.makeText(context, "Shift ID " + shiftId + " has already been picked up!, Response Code " + response.code(), Toast.LENGTH_SHORT).show()
                         } else {
-                        Toast.makeText(context, "Shift ID " + shiftId + " picked up successfully, Response Code " + response.code(), Toast.LENGTH_SHORT).show() }
+                        Toast.makeText(context, "Shift ID " + shiftId + " picked up successfully, Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                            val intentToSearchOpenShiftsActivity = Intent(context, SearchOpenShiftsActivity::class.java)
+                            intentToSearchOpenShiftsActivity.putExtra("tokenCode", tokenCode)
+                            intentToSearchOpenShiftsActivity.putExtra("accessCode", accessCode)
+                            context.startActivity(intentToSearchOpenShiftsActivity)
+                        }
                     } else {
                         Toast.makeText(context, "Error picking up shift. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
                     }
