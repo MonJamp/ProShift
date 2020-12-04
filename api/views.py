@@ -295,6 +295,11 @@ def CreateNewShift(request, *args, **kwargs):
         employee = EmployeeRole.objects.get(user=request.data['employee'])
     except KeyError as e:
         employee = None
+    except EmployeeRole.DoesNotExist as e:
+        employee = None
+        manager = EmployeeRole.objects.get(user=request.user)
+        serializer.save(company=manager.company, employee=None, is_open=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     date = request.data['date']
     if IsConflictWithTimeOff(employee, date):
