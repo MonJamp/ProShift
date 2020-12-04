@@ -42,6 +42,6 @@
         android:layout_marginTop="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:context=".Activities.HomeActivity"
-        tools:listitem="@layout/card_item_get_time_off_requests"/>
+        tools:listitem="@layout/card_time_off_manager_item"/>
 
 </LinearLayout>

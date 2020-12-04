@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.proshiftteam.proshift.Adapters.GetTimeOffRequestsAdapter
+import com.proshiftteam.proshift.Adapters.TimeOffRequestsManagerAdapter
 import com.proshiftteam.proshift.DataFiles.GetTimeOffRequestsObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject
 import com.proshiftteam.proshift.R
@@ -39,7 +39,7 @@ class ApproveTimeOffRequestActivity: AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Successfully loaded time off requests" + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfTimeOffRequests = response.body()!!
-                    approve_time_off_requests_recycler_view.adapter = GetTimeOffRequestsAdapter(accessCode!!,tokenCode.toString(), listOfTimeOffRequests)
+                    approve_time_off_requests_recycler_view.adapter = TimeOffRequestsManagerAdapter(accessCode!!,tokenCode.toString(), listOfTimeOffRequests)
                 } else {
                     Toast.makeText(context, "Failed loading time off requests : Response code " + response.code(), Toast.LENGTH_SHORT).show()
                 }
