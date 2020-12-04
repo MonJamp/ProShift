@@ -4,41 +4,94 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.recreate
-import androidx.core.content.ContextCompat.startActivity
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.proshiftteam.proshift.Activities.ApproveTimeOffRequestActivity
 import com.proshiftteam.proshift.DataFiles.ApproveDenyTimeOffRequestsObject
 import com.proshiftteam.proshift.DataFiles.GetTimeOffRequestsObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
-import kotlinx.android.synthetic.main.card_item_get_time_off_requests.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 
-class GetTimeOffRequestsAdapter(val accessCode: Int,val tokenCode: String, private val timeOffRequestsList: List<GetTimeOffRequestsObject>) : RecyclerView.Adapter<GetTimeOffRequestsAdapter.ShowTimeOffRequestsViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GetTimeOffRequestsAdapter.ShowTimeOffRequestsViewHolder {
-        val timeOffRequestView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_get_time_off_requests, parent, false)
-        return ShowTimeOffRequestsViewHolder(timeOffRequestView)
+class TimeOffRequestsManagerAdapter(
+    val accessCode: Int,
+    val tokenCode: String,
+    private val timeOffRequestsList: List<GetTimeOffRequestsObject>)
+    : RecyclerView.Adapter<TimeOffRequestsManagerAdapter.ViewHolder>()
+{
+    class ViewHolder(cardView: CardView) : RecyclerView.ViewHolder(cardView) {
+        val tvEmployee: TextView = cardView.findViewById(R.id.cardTimeOffManagerEmployee)
+        val tvDate: TextView = cardView.findViewById(R.id.cardTimeOffManagerDate)
+        val tvTime: TextView = cardView.findViewById(R.id.cardTimeOffManagerTime)
+        val llControls: LinearLayout = cardView.findViewById(R.id.cardTimeOffManagerControls)
+        val ibApprove: ImageButton = cardView.findViewById(R.id.cardTimeOffManagerApprove)
+        val ibDeny: ImageButton = cardView.findViewById(R.id.cardTimeOffManagerDeny)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeOffRequestsManagerAdapter.ViewHolder {
+        val cardView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.card_time_off_manager_item, parent, false)
+            as CardView
+
+        return ViewHolder(cardView)
     }
 
     override fun getItemCount(): Int {
         return timeOffRequestsList.size
     }
 
-    override fun onBindViewHolder(holder: GetTimeOffRequestsAdapter.ShowTimeOffRequestsViewHolder, position: Int) {
-        holder.company.text = timeOffRequestsList.get(position).company.toString()
-        holder.employee_name.text = timeOffRequestsList.get(position).employee_name
-        holder.start_date.text = timeOffRequestsList.get(position).start_date
-        holder.end_date.text = timeOffRequestsList.get(position).end_date
-        holder.time_start.text = timeOffRequestsList.get(position).time_start
-        holder.time_end.text = timeOffRequestsList.get(position).time_end
+    private fun onItemClickHandler(holder: ViewHolder, position: Int) {
+        holder.llControls.visibility = if(holder.llControls.visibility == View.VISIBLE) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
 
-        holder.itemView.card_get_time_off_requests_approve_button.setOnClickListener {v ->
+    override fun onBindViewHolder(holder: TimeOffRequestsManagerAdapter.ViewHolder, position: Int) {
+        val timeOff = timeOffRequestsList.get(position)
+
+        val employeeText = timeOff.employee_name
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val newDateFormat = SimpleDateFormat("MM/dd/yy")
+        val startDate = dateFormat.parse(timeOff.start_date)
+        val endDate = dateFormat.parse(timeOff.end_date)
+        val strStartDate = newDateFormat.format(startDate).toString()
+        val strEndDate = newDateFormat.format(endDate).toString()
+
+        val dateText = if(startDate == endDate) {
+            strStartDate
+        } else {
+            "$strStartDate - $strEndDate"
+        }
+
+        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val newTimeFormat = SimpleDateFormat("hh:mm a")
+        val startTime = timeFormat.parse(timeOff.time_start)
+        val endTime = timeFormat.parse(timeOff.time_end)
+        val strStartTime = newTimeFormat.format(startTime).toString()
+        val strEndTime = newTimeFormat.format(endTime).toString()
+
+        val timeText = "$strStartTime - $strEndTime"
+
+        holder.tvEmployee.text = employeeText
+        holder.tvDate.text = dateText
+        holder.tvTime.text = timeText
+
+        holder.itemView.setOnClickListener {
+            onItemClickHandler(holder, position)
+        }
+
+        holder.ibApprove.setOnClickListener {v ->
             val context = v.context
             val requestID = timeOffRequestsList.get(position).id
             val approveTimeOffRequestObject = ApproveDenyTimeOffRequestsObject(requestID)
@@ -67,7 +120,7 @@ class GetTimeOffRequestsAdapter(val accessCode: Int,val tokenCode: String, priva
                 }
             })
         }
-        holder.itemView.card_get_time_off_requests_deny_button.setOnClickListener {v ->
+        holder.ibDeny.setOnClickListener {v ->
             val context = v.context
             val requestID = timeOffRequestsList.get(position).id
             val denyTimeOffRequestsObject = ApproveDenyTimeOffRequestsObject(requestID)
@@ -96,14 +149,5 @@ class GetTimeOffRequestsAdapter(val accessCode: Int,val tokenCode: String, priva
 
             })
         }
-    }
-
-    class ShowTimeOffRequestsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val company: TextView = itemView.findViewById(R.id.card_get_time_off_requests_company_id)
-        val employee_name: TextView = itemView.findViewById(R.id.card_get_time_off_requests_employee_name)
-        val start_date: TextView = itemView.findViewById(R.id.card_get_time_off_requests_start_date)
-        val end_date: TextView = itemView.findViewById(R.id.card_get_time_off_requests_end_date)
-        val time_start: TextView = itemView.findViewById(R.id.card_get_time_off_requests_start_time)
-        val time_end: TextView = itemView.findViewById(R.id.card_get_time_off_requests_end_time)
     }
 }
