@@ -100,6 +100,15 @@ def create_default_employee_position(sender, instance, created, **kwargs):
         instance.position = position
         instance.save()
 
+@receiver(post_save, sender=Company)
+def assign_none_to_company(sender, instance, created, **kwargs):
+    """
+    Assign none to company
+    """
+    if created:
+        user = User.objects.get(first_name='None')
+        EmployeeRole.objects.create(user=user, company=instance)
+
 class Shift(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     employee = ChainedForeignKey(EmployeeRole, chained_field='company', chained_model_field='company', null=True, blank=True)
