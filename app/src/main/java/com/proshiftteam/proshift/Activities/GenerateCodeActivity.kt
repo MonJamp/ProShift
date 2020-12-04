@@ -23,6 +23,8 @@ class GenerateCodeActivity: AppCompatActivity() {
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
+        var isManager: Int = 16
+
 
 
         findViewById<ImageView>(R.id.backArrowButtonGenerateCodeActivity).setOnClickListener {
@@ -33,9 +35,17 @@ class GenerateCodeActivity: AppCompatActivity() {
         }
 
         generateUserCodeButton.setOnClickListener {
+            if (checkBoxForManager.isChecked) {
+                isManager = 15
+            } else {
+                isManager = 16
+            }
+
+            Toast.makeText(context, "User is a " + isManager, Toast.LENGTH_SHORT).show()
+
             val emailAddressToSend = emailAddressEnteredForCode.text.toString()
 
-            val generateCodeObjectToSend = GenerateUserCodeObject(emailAddressToSend)
+            val generateCodeObjectToSend = GenerateUserCodeObject(isManager, emailAddressToSend)
             val callApiGenerateCode = connectJsonApiCalls.generateUserCode("Token $tokenCode", generateCodeObjectToSend)
             callApiGenerateCode.enqueue(object: Callback<GenerateUserCodeObject> {
                 override fun onFailure(call: Call<GenerateUserCodeObject>, t: Throwable) {
