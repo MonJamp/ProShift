@@ -289,10 +289,10 @@ def CreateNewShift(request, *args, **kwargs):
     off are automatically declined by the server
     """
     serializer = ShiftSerializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
+    serializer.is_valid(raise_exception=False)
 
     try:
-        employee = EmployeeRole.objects.get(user=request.data['employee'])
+        employee = EmployeeRole.objects.get(id=request.data['employee'])
     except KeyError as e:
         employee = None
     except EmployeeRole.DoesNotExist as e:

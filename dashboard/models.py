@@ -57,7 +57,7 @@ class Position(models.Model):
         return self.name
 
 class EmployeeRole(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     # ChainedForeignKey allows to filter positions based on the company chosen in the form, only relevant for the admin panel
     position = ChainedForeignKey(
@@ -99,15 +99,6 @@ def create_default_employee_position(sender, instance, created, **kwargs):
         position = Position.objects.get(company=instance.company, name='Employee')
         instance.position = position
         instance.save()
-
-@receiver(post_save, sender=Company)
-def assign_none_to_company(sender, instance, created, **kwargs):
-    """
-    Assign none to company
-    """
-    if created:
-        user = User.objects.get(first_name='None')
-        EmployeeRole.objects.create(user=user, company=instance)
 
 class Shift(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
