@@ -38,22 +38,24 @@
                 />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="610dp"
-            android:id="@+id/listOfTimeOffRequestsRecyclerView"
-            android:layout_marginTop="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:context=".Activities.HomeActivity"
-            tools:listitem="@layout/card_time_off_item"/>
-
         <Button
             android:id="@+id/submitAnotherRequestButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:text="Create New Request" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listOfTimeOffRequestsRecyclerView"
+            android:layout_marginTop="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:context=".Activities.HomeActivity"
+            tools:listitem="@layout/card_time_off_item"/>
 
     </LinearLayout>
 
