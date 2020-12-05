@@ -64,6 +64,7 @@ class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private va
         val newTimeFormat = SimpleDateFormat("hh:mm a")
         val strStartTime: String = newTimeFormat.format(startTime)
         val strEndTime: String = newTimeFormat.format(endTime)
+        val employeeName: String = viewAllShiftsList.get(position).employee_name
         holder.startTime.text = strStartTime
         holder.endTime.text = strEndTime
 
@@ -93,6 +94,7 @@ class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private va
             intentToModifyShiftActivity.putExtra("employeeId", employeeIdToPass)
             intentToModifyShiftActivity.putExtra("is_open", isOpenToPass)
             intentToModifyShiftActivity.putExtra("accessCode", accessCode)
+            intentToModifyShiftActivity.putExtra("employee_name", employeeName)
             context.startActivity(intentToModifyShiftActivity)
         }
     }
