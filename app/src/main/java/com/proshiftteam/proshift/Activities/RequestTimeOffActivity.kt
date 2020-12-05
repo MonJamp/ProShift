@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package com.proshiftteam.proshift.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.CalendarView
@@ -40,14 +41,18 @@ class RequestTimeOffActivity: AppCompatActivity() {
     val dateFormat: SimpleDateFormat = SimpleDateFormat("YYYY-MM-dd")
     val timeFormat: String = "HH:mm"
 
+    lateinit var context: Context
+    lateinit var tokenCode: String
+    var accessCode: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_time_off)
 
-        val context = this
+        context = this
         val bundle: Bundle? = intent.extras
-        val tokenCode: String? = bundle?.getString("tokenCode")
-        val accessCode: Int? = bundle?.getInt("accessCode")
+        tokenCode = bundle!!.getString("tokenCode")!!
+        accessCode = bundle!!.getInt("accessCode")
 
         findViewById<ImageView>(R.id.backArrowButtonRequestTimeOff).setOnClickListener {
             val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
@@ -113,5 +118,13 @@ class RequestTimeOffActivity: AppCompatActivity() {
 
             })
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
+        intentToListOfTimeOffRequestsActivity.putExtra("tokenCode", tokenCode)
+        intentToListOfTimeOffRequestsActivity.putExtra("accessCode", accessCode)
+        startActivity(intentToListOfTimeOffRequestsActivity)
     }
 }
