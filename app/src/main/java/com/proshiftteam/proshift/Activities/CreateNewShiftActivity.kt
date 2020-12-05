@@ -27,6 +27,7 @@ import com.proshiftteam.proshift.DataFiles.ShiftObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
 import com.proshiftteam.proshift.Utilities.asTimePicker
+import kotlinx.android.synthetic.main.activity_create_new_shift.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +38,7 @@ import kotlin.collections.HashMap
 
 class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListener {
     val dateFormat: SimpleDateFormat = SimpleDateFormat("YYYY-MM-dd")
-    val timeFormat: String = "HH:mm"
+    val timeFormat: String = "hh:mm a"
 
     var employeeMap: HashMap<String, Int?> = HashMap<String, Int?>()
     var employeeNames: ArrayList<String> = ArrayList<String>()
@@ -83,7 +84,6 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
         shift_begin.asTimePicker(context, timeFormat)
         shift_end.asTimePicker(context, timeFormat)
 
-
         // API call to get a list of employees for the spinner
         val callApiGetEmployees: Call<List<EmployeeObject>> = connectJsonApiCalls.getEmployees("Token $tokenCode")
         callApiGetEmployees.enqueue(object: Callback<List<EmployeeObject>> {
@@ -122,8 +122,15 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
             val is_open: Boolean = employee == null // If none is selected make it an open shift
             val is_dropped: Boolean = false
             val date: String = dateFormat.format(Date(calView.date))
-            val time_start: String = shift_begin.text.toString()
-            val time_end: String = shift_end.text.toString()
+
+            val time_start_ampm: String = shift_begin.text.toString()
+            val time_end_ampm: String = shift_end.text.toString()
+            val timeFormat = SimpleDateFormat("hh:mm a")
+            val startTimeAgain = timeFormat.parse(time_start_ampm)
+            val endTimeAgain = timeFormat.parse(time_end_ampm)
+            val newTimeFormat = SimpleDateFormat("HH:mm:ss")
+            val time_start: String = newTimeFormat.format(startTimeAgain)
+            val time_end: String = newTimeFormat.format(endTimeAgain)
 
             val shiftObject = ShiftObject(employee, is_open, is_dropped, date, time_start, time_end)
 

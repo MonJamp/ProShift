@@ -44,7 +44,7 @@ fun EditText.asTimePicker(context: Context, format: String) {
 
     setOnClickListener {
         TimePickerDialog(
-            context, timePickerOnTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true
+            context, timePickerOnTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false
         ).run {
             show()
         }
