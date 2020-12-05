@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardTimeOffItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@color/colorAccent"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_marginStart="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email: "
+                    android:textSize="18sp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/secondary_text_light" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Position: "
+                    android:textSize="18sp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/secondary_text_light" />
+                <TextView
+                    android:id="@+id/cardTimeOffStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Code: "
+                    android:textSize="18sp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/secondary_text_light" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_marginEnd="80sp">
+                <TextView
+                    android:id="@+id/cardCodeEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="filjo@gmail.com"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/primary_text_light" />
+                <TextView
+                    android:id="@+id/cardCodePosition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Manager"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/primary_text_light" />
+                <TextView
+                    android:id="@+id/cardCodeCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00000000"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="5dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/primary_text_light" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="50dp"
+            android:background="@android:color/holo_purple">
+
+        </View>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

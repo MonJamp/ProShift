@@ -83,4 +83,10 @@ interface ApiCalls {
 
     @POST("employee/reedem_code")
     fun redeemUserCode(@Header("Authorization") token: String?, @Body redeemCodeObject: RedeemCodeObject): Call<RedeemCodeObject>
+
+    @GET("manager/get_positions")
+    fun getPositions(@Header("Authorization") token: String?): Call<List<PositionObject>>
+
+    @GET("manager/get_codes")
+    fun getCodes(@Header("Authorization") token: String?): Call<List<CompanyCodeObject>>
 }
