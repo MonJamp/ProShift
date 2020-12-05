@@ -57,7 +57,7 @@ class GenerateCodeActivity: AppCompatActivity() {
                         val responseGenerateCodeObject = response.body()
                         val codeForUser = responseGenerateCodeObject?.code
                         userCodeRetreived.text = codeForUser.toString()
-                        Toast.makeText(context, "Code retrieved. Response Code: ${response.code()}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Code retrieved.", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Error getting the code. Response Code: ${response.code()}", Toast.LENGTH_SHORT).show()
                     }

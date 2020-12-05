@@ -82,7 +82,7 @@ class RequestTimeOffActivity: AppCompatActivity() {
                 ) {
                     if(response.code() == 201)
                     {
-                        Toast.makeText(context, "Successfully requested time off " + response.code(), Toast.LENGTH_SHORT).show()
+                        // Toast.makeText(context, "Successfully requested time off " + response.code(), Toast.LENGTH_SHORT).show()
                         val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
                         intentToListOfTimeOffRequestsActivity.putExtra("tokenCode", tokenCode)
                         intentToListOfTimeOffRequestsActivity.putExtra("accessCode", accessCode)

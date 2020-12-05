@@ -19,6 +19,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 
 class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private val viewAllShiftsList: List<ViewAllShiftsObject>) : RecyclerView.Adapter<ViewAllShiftsAdapter.ViewAllShiftsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewAllShiftsAdapter.ViewAllShiftsViewHolder {
@@ -32,9 +33,20 @@ class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private va
 
     override fun onBindViewHolder(holder: ViewAllShiftsAdapter.ViewAllShiftsViewHolder, position: Int) {
         val context = this
+
+        val shift = viewAllShiftsList.get(position)
+        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val startTime = timeFormat.parse(shift.time_start)
+        val endTime = timeFormat.parse(shift.time_end)
+        val newTimeFormat = SimpleDateFormat("hh:mm a")
+        val strStartTime: String = newTimeFormat.format(startTime)
+        val strEndTime: String = newTimeFormat.format(endTime)
+        holder.startTime.text = strStartTime
+        holder.endTime.text = strEndTime
+
         holder.date.text = viewAllShiftsList.get(position).date
-        holder.startTime.text = viewAllShiftsList.get(position).time_start
-        holder.endTime.text = viewAllShiftsList.get(position).time_end
+        // holder.startTime.text = viewAllShiftsList.get(position).time_start
+        // holder.endTime.text = viewAllShiftsList.get(position).time_end
         holder.jobTitle.text = viewAllShiftsList.get(position).position
         holder.employeeName.text = viewAllShiftsList.get(position).employee_name
         val dateToPass: String = viewAllShiftsList.get(position).date

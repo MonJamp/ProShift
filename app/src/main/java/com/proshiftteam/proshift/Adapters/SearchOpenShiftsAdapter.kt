@@ -18,6 +18,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 
 class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, private val openShiftsList: List<OpenShiftsObject>) : RecyclerView.Adapter<SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder {
@@ -31,8 +32,17 @@ class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, privat
 
     override fun onBindViewHolder(holder: SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder, position: Int) {
         holder.date.text = openShiftsList.get(position).date
-        holder.startTime.text = openShiftsList.get(position).time_start
-        holder.endTime.text = openShiftsList.get(position).time_end
+
+        val shift = openShiftsList.get(position)
+        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val startTime = timeFormat.parse(shift.time_start)
+        val endTime = timeFormat.parse(shift.time_end)
+        val newTimeFormat = SimpleDateFormat("hh:mm a")
+        val strStartTime: String = newTimeFormat.format(startTime)
+        val strEndTime: String = newTimeFormat.format(endTime)
+        holder.startTime.text = strStartTime
+        holder.endTime.text = strEndTime
+
         holder.itemView.pickUpImageShowShifts_search_open.setOnClickListener {v ->
             val context = v.context
             val shiftId = openShiftsList.get(position).id
@@ -48,9 +58,9 @@ class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, privat
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
                         if (response.code() == 208) {
-                            Toast.makeText(context, "Shift ID " + shiftId + " has already been picked up!, Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Shift ID " + shiftId + " has already been picked up!", Toast.LENGTH_SHORT).show()
                         } else {
-                        Toast.makeText(context, "Shift ID " + shiftId + " picked up successfully, Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Shift ID " + shiftId + " picked up successfully", Toast.LENGTH_SHORT).show()
                             val intentToSearchOpenShiftsActivity = Intent(context, SearchOpenShiftsActivity::class.java)
                             intentToSearchOpenShiftsActivity.putExtra("tokenCode", tokenCode)
                             intentToSearchOpenShiftsActivity.putExtra("accessCode", accessCode)

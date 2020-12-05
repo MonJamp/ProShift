@@ -48,7 +48,7 @@ class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, priva
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful) {
-                        Toast.makeText(context, "Approved Shift Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Approved Shift Request.", Toast.LENGTH_SHORT).show()
 
                         val intentToApproveShiftRequestActivity = Intent(context, ApproveShiftRequestActivity::class.java)
                         intentToApproveShiftRequestActivity.putExtra("tokenCode", tokenCode)
@@ -76,7 +76,7 @@ class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, priva
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful) {
-                        Toast.makeText(context, "Successfully denied Shift Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Denied Shift Request.", Toast.LENGTH_SHORT).show()
                         val intentToApproveShiftRequestActivity = Intent(context, ApproveShiftRequestActivity::class.java)
                         intentToApproveShiftRequestActivity.putExtra("tokenCode", tokenCode)
                         intentToApproveShiftRequestActivity.putExtra("accessCode", accessCode)
