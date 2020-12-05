@@ -43,10 +43,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/showSearchOpenShiftsRecyclerView"
-            android:layout_marginTop="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:context=".Activities.HomeActivity"
-            tools:listitem="@layout/card_item_search_open_shifts"/>
+            tools:listitem="@layout/card_open_shift_item"/>
 
     </LinearLayout>
 
