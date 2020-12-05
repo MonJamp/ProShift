@@ -39,7 +39,7 @@ import java.util.*
 class RequestTimeOffActivity: AppCompatActivity() {
 
     val dateFormat: SimpleDateFormat = SimpleDateFormat("YYYY-MM-dd")
-    val timeFormat: String = "HH:mm"
+    val timeFormat: String = "hh:mm a"
 
     // On create function that assigns a layout, performs click actions for buttons.
     // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
@@ -91,8 +91,15 @@ class RequestTimeOffActivity: AppCompatActivity() {
         requestTimeOffButtonInTimeOff.setOnClickListener {
             val start_date: String = dateFormat.format(Date(calenderViewStart.date))
             val end_date: String = dateFormat.format(Date(calenderViewEnd.date))
-            val time_start: String = shiftBegin.text.toString()
-            val time_end: String = shiftEnd.text.toString()
+
+            val time_start_ampm: String = shiftBegin.text.toString()
+            val time_end_ampm: String = shiftEnd.text.toString()
+            val timeFormat = SimpleDateFormat("hh:mm a")
+            val startTimeAgain = timeFormat.parse(time_start_ampm)
+            val endTimeAgain = timeFormat.parse(time_end_ampm)
+            val newTimeFormat = SimpleDateFormat("HH:mm:ss")
+            val time_start: String = newTimeFormat.format(startTimeAgain)
+            val time_end: String = newTimeFormat.format(endTimeAgain)
 
             val timeOffObject = RequestTimeOffObject(start_date, end_date, time_start, time_end)
 
