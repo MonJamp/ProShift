@@ -33,6 +33,7 @@
         <activity android:name=".Activities.ModifyShiftActivity" />
         <activity android:name=".Activities.PendingShiftRequestActivity" />
         <activity android:name=".Activities.ListOfTimeOffRequestsActivity" />
+        <activity android:name=".Activities.CompanyCodeActivity" />
         <activity android:name=".Activities.GenerateCodeActivity" />
         <activity android:name=".Activities.EnterCodeActivity" />
         <activity android:name=".Activities.MainActivity">
