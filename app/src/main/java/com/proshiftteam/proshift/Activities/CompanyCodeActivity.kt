@@ -32,6 +32,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CompanyCodeActivity : AppCompatActivity() {
+
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_company_code)
@@ -42,12 +45,14 @@ class CompanyCodeActivity : AppCompatActivity() {
 
         val companyCodeRecyclerView: RecyclerView = findViewById(R.id.listOfCompanyCodes)
 
+        // API call to display a list of previously assigned company code
         val callAPiGetCompanyCodes: Call<List<CompanyCodeObject>> = connectJsonApiCalls.getCodes("Token $tokenCode")
         callAPiGetCompanyCodes.enqueue(object: Callback<List<CompanyCodeObject>> {
             override fun onFailure(call: Call<List<CompanyCodeObject>>, t: Throwable) {
 
             }
 
+            // Lists all the assigned company codes
             override fun onResponse(
                 call: Call<List<CompanyCodeObject>>,
                 response: Response<List<CompanyCodeObject>>
@@ -57,6 +62,7 @@ class CompanyCodeActivity : AppCompatActivity() {
             }
         })
 
+        // Back button to go back to the manager controls activity
         findViewById<ImageView>(R.id.backArrowButtonListOfCompanyCodes).setOnClickListener {
             val intentToManagerActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerActivity.putExtra("tokenCode", tokenCode)
@@ -64,6 +70,7 @@ class CompanyCodeActivity : AppCompatActivity() {
             startActivity(intentToManagerActivity)
         }
 
+        // Button to go to generate company code activity
         findViewById<Button>(R.id.companyCodeGenerate).setOnClickListener {
             val intentToGenerateCodeActivity = Intent(context, GenerateCodeActivity::class.java)
             intentToGenerateCodeActivity.putExtra("tokenCode", tokenCode)

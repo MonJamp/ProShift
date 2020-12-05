@@ -38,18 +38,21 @@ import retrofit2.Response
 class AccountActivity : AppCompatActivity() {
     val REQUEST_SIGNUP = 7777
 
+    // Initializing variables to assign late values
     lateinit var etEmail: EditText
     lateinit var etPassword: EditText
     lateinit var btnLogin: Button
     lateinit var tvSignup: TextView
     lateinit var mContext: Context
 
+    // function that retrieves login information
     fun loginClick() {
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
         login(email, password)
     }
 
+    // Function that processes the login API call
     fun login(email: String, password: String) {
         val loginObject = LoginObject(password, email)
         val loginApi = connectJsonApiCalls.loginUser(loginObject)
@@ -58,6 +61,7 @@ class AccountActivity : AppCompatActivity() {
                 Toast.makeText(mContext, t.message, Toast.LENGTH_SHORT).show()
             }
 
+            // If a response is received, processes logs the user in
             override fun onResponse(call: Call<LoginObject>, response: Response<LoginObject>) {
                 if(response.isSuccessful) {
                     // Add account to account manager
@@ -78,11 +82,13 @@ class AccountActivity : AppCompatActivity() {
         })
     }
 
+    // Function for getting to the sign up activity
     fun signup() {
         val intent = Intent(mContext, SignupActivity::class.java)
         startActivityForResult(intent, REQUEST_SIGNUP)
     }
 
+    // processes the login after signing up user
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -93,11 +99,11 @@ class AccountActivity : AppCompatActivity() {
                 login(email!!, password!!)
             }
             else if(resultCode == RESULT_CANCELED) {
-
             }
         }
     }
 
+    // On create function that assigns a layout, performs click actions for buttons
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)

@@ -33,9 +33,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ApproveTimeOffRequestActivity: AppCompatActivity() {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,12 +50,14 @@ class ApproveTimeOffRequestActivity: AppCompatActivity() {
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
+        // API call to get a list of time off requests
         val callApiGetTimeOffRequests: Call<List<GetTimeOffRequestsObject>> = RetrofitBuilderObject.connectJsonApiCalls.getTimeOffRequests("Token $tokenCode")
         callApiGetTimeOffRequests.enqueue(object: Callback<List<GetTimeOffRequestsObject>> {
             override fun onFailure(call: Call<List<GetTimeOffRequestsObject>>, t: Throwable) {
                 Toast.makeText(context, "Cannot connect! Error displaying time off requests!", Toast.LENGTH_SHORT).show()
             }
 
+            // Displays a list of time off requests using an adapter
             override fun onResponse(call: Call<List<GetTimeOffRequestsObject>>, response: Response<List<GetTimeOffRequestsObject>>) {
                 if (response.isSuccessful) {
                     // Toast.makeText(context, "Successfully loaded time off requests" + response.code(), Toast.LENGTH_SHORT).show()
@@ -62,6 +68,8 @@ class ApproveTimeOffRequestActivity: AppCompatActivity() {
                 }
             }
         })
+
+        // Back button to go back to the manager controls activity
         findViewById<ImageView>(R.id.backArrowButtonApproveTimeOffRequests).setOnClickListener {
             val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)

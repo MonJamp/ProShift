@@ -32,6 +32,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PendingShiftRequestActivity: AppCompatActivity() {
+
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,12 +45,14 @@ class PendingShiftRequestActivity: AppCompatActivity() {
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
+        // API request to show a list of pending shift requests
         val callApiShowPendingShifts: Call<List<PendingShiftRequestsObject>> = RetrofitBuilderObject.connectJsonApiCalls.showPendingShiftRequests("Token $tokenCode")
         callApiShowPendingShifts.enqueue(object: Callback<List<PendingShiftRequestsObject>> {
             override fun onFailure(call: Call<List<PendingShiftRequestsObject>>, t: Throwable) {
                 Toast.makeText(context, "Cannot connect! Error displaying pending shifts!", Toast.LENGTH_SHORT).show()
             }
 
+            // Displays the list using an adapter
             override fun onResponse(call: Call<List<PendingShiftRequestsObject>>, response: Response<List<PendingShiftRequestsObject>>) {
                 if (response.isSuccessful) {
                     // Toast.makeText(context, "Successfully loaded pending shifts " + response.code(), Toast.LENGTH_SHORT).show()
@@ -59,6 +64,8 @@ class PendingShiftRequestActivity: AppCompatActivity() {
             }
 
         })
+
+        // Back button to go back to the home activity
         findViewById<ImageView>(R.id.backArrowButtonPendingShiftRequests).setOnClickListener {
             val intentToHomeActivity = Intent(context, HomeActivity::class.java)
             intentToHomeActivity.putExtra("tokenCode", tokenCode)

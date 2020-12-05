@@ -40,6 +40,8 @@ class RequestTimeOffActivity: AppCompatActivity() {
     val dateFormat: SimpleDateFormat = SimpleDateFormat("YYYY-MM-dd")
     val timeFormat: String = "HH:mm"
 
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_time_off)
@@ -49,6 +51,7 @@ class RequestTimeOffActivity: AppCompatActivity() {
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
+        // Back button to go to the activity that displays a list of time off requests
         findViewById<ImageView>(R.id.backArrowButtonRequestTimeOff).setOnClickListener {
             val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
             intentToListOfTimeOffRequestsActivity.putExtra("tokenCode", tokenCode)
@@ -79,6 +82,7 @@ class RequestTimeOffActivity: AppCompatActivity() {
         shiftBegin.asTimePicker(context, timeFormat)
         shiftEnd.asTimePicker(context, timeFormat)
 
+        // Button to request time off
         requestTimeOffButtonInTimeOff.setOnClickListener {
             val start_date: String = dateFormat.format(Date(calenderViewStart.date))
             val end_date: String = dateFormat.format(Date(calenderViewEnd.date))
@@ -87,12 +91,14 @@ class RequestTimeOffActivity: AppCompatActivity() {
 
             val timeOffObject = RequestTimeOffObject(start_date, end_date, time_start, time_end)
 
+            // API request to help the user send a time off request
             val callApiRequestTimeOff: Call<RequestTimeOffObject> = connectJsonApiCalls.requestTimeOff("Token $tokenCode", timeOffObject)
             callApiRequestTimeOff.enqueue(object: Callback<RequestTimeOffObject> {
                 override fun onFailure(call: Call<RequestTimeOffObject>, t: Throwable) {
                     Toast.makeText(context, "Cannot connect! Error requesting time off!", Toast.LENGTH_SHORT).show()
                 }
 
+                // Submits a time off request
                 override fun onResponse(
                     call: Call<RequestTimeOffObject>,
                     response: Response<RequestTimeOffObject>
