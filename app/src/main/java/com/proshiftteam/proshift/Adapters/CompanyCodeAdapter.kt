@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.proshiftteam.proshift.DataFiles.CompanyCodeObject
 import com.proshiftteam.proshift.R
 
-
+// Adapter to display a list of company codes generated
 class CompanyCodeAdapter(
     val tokenCode: String,
     val accessCode: Int,
@@ -45,6 +45,7 @@ class CompanyCodeAdapter(
         val tvCode: TextView = cardView.findViewById(R.id.cardCodeCode)
     }
 
+    // Creates a view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val cardView = LayoutInflater.from(parent.context)
             .inflate(R.layout.card_code_item, parent, false)
@@ -53,10 +54,12 @@ class CompanyCodeAdapter(
         return ViewHolder(cardView)
     }
 
+    // Gets total number of items
     override fun getItemCount(): Int {
         return companyCodeList.size
     }
 
+    // Binds the data to items in the view holder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val companyCode = companyCodeList.get(position)
 
@@ -67,11 +70,13 @@ class CompanyCodeAdapter(
         holder.itemView.setOnClickListener { onItemClick(holder, holder.itemView.context) }
     }
 
+    // Performs action when item is clicked
     fun onItemClick(holder: ViewHolder, context: Context) {
         context.copyToClipboard(holder.tvCode.text.toString())
         Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show()
     }
 
+    // Copies the code
     fun Context.copyToClipboard(text: String) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("clipboard", text)

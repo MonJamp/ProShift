@@ -38,16 +38,22 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 
+
+// Adapter to display all the shifts
 class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private val viewAllShiftsList: List<ViewAllShiftsObject>) : RecyclerView.Adapter<ViewAllShiftsAdapter.ViewAllShiftsViewHolder>() {
+
+    // Creates a view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewAllShiftsAdapter.ViewAllShiftsViewHolder {
         val shiftView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_view_all_shifts, parent, false)
         return ViewAllShiftsViewHolder(shiftView)
     }
 
+    // Gets total number of items in the list
     override fun getItemCount(): Int {
         return viewAllShiftsList.size
     }
 
+    // Binds data to the views in the card items
     override fun onBindViewHolder(holder: ViewAllShiftsAdapter.ViewAllShiftsViewHolder, position: Int) {
         val context = this
 
@@ -74,6 +80,7 @@ class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private va
         val isOpenToPass: Boolean = viewAllShiftsList.get(position).is_open
         val shiftIdToPass: Int = viewAllShiftsList.get(position).id
 
+        // Allows the user to edit a shift
         holder.itemView.view_all_shifts_edit_button.setOnClickListener { v->
             val context = v.context
             val intentToModifyShiftActivity = Intent(context, ModifyShiftActivity::class.java)
@@ -89,6 +96,7 @@ class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private va
             context.startActivity(intentToModifyShiftActivity)
         }
     }
+
     class ViewAllShiftsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val date: TextView = itemView.findViewById(R.id.view_all_shifts_date)
         val startTime: TextView = itemView.findViewById(R.id.view_all_shifts_time_start)

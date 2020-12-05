@@ -38,6 +38,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 
+// Adapter to show a list of time off requests
 class TimeOffRequestsManagerAdapter(
     val accessCode: Int,
     val tokenCode: String,
@@ -53,6 +54,7 @@ class TimeOffRequestsManagerAdapter(
         val ibDeny: ImageButton = cardView.findViewById(R.id.cardTimeOffManagerDeny)
     }
 
+    // Create a view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeOffRequestsManagerAdapter.ViewHolder {
         val cardView = LayoutInflater.from(parent.context)
             .inflate(R.layout.card_time_off_manager_item, parent, false)
@@ -61,10 +63,12 @@ class TimeOffRequestsManagerAdapter(
         return ViewHolder(cardView)
     }
 
+    // Gets total number of items in the list
     override fun getItemCount(): Int {
         return timeOffRequestsList.size
     }
 
+    // Performs an action on clicking an item
     private fun onItemClickHandler(holder: ViewHolder, position: Int) {
         holder.llControls.visibility = if(holder.llControls.visibility == View.VISIBLE) {
             View.GONE
@@ -73,6 +77,7 @@ class TimeOffRequestsManagerAdapter(
         }
     }
 
+    // Binds data to the views in the card items
     override fun onBindViewHolder(holder: TimeOffRequestsManagerAdapter.ViewHolder, position: Int) {
         val timeOff = timeOffRequestsList.get(position)
 
@@ -108,12 +113,14 @@ class TimeOffRequestsManagerAdapter(
             onItemClickHandler(holder, position)
         }
 
+        // Button to approve a request
         holder.ibApprove.setOnClickListener {v ->
             val context = v.context
             val requestID = timeOffRequestsList.get(position).id
             val approveTimeOffRequestObject = ApproveDenyTimeOffRequestsObject(requestID)
             val callApiApproveTimeOffRequestObject = connectJsonApiCalls.approveTimeOffRequest("Token $tokenCode", approveTimeOffRequestObject)
 
+            // API call to process approving a request
             callApiApproveTimeOffRequestObject.enqueue(object: Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(context, "Cannot connect! Error approving time off request", Toast.LENGTH_SHORT).show()
@@ -137,10 +144,14 @@ class TimeOffRequestsManagerAdapter(
                 }
             })
         }
+
+        // Button to deny a request
         holder.ibDeny.setOnClickListener {v ->
             val context = v.context
             val requestID = timeOffRequestsList.get(position).id
             val denyTimeOffRequestsObject = ApproveDenyTimeOffRequestsObject(requestID)
+
+            // API call to deny a request
             val callApiApproveDenyTimeOffRequestsObject = connectJsonApiCalls.denyTimeOffRequest("Token $tokenCode", denyTimeOffRequestsObject)
             callApiApproveDenyTimeOffRequestsObject.enqueue(object: Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

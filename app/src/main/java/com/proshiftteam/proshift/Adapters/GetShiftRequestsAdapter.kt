@@ -36,30 +36,40 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+// Get a list of submitted shift requests
 class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, private val shiftRequestsList: List<GetShiftRequestsObject>) : RecyclerView.Adapter<GetShiftRequestsAdapter.GetShiftRequestsViewHolder>(){
+
+    // on create function for the view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GetShiftRequestsAdapter.GetShiftRequestsViewHolder {
         val getShiftRequestsView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_get_shift_requests, parent, false)
         return GetShiftRequestsViewHolder(getShiftRequestsView)
     }
 
+    // Get total number of items in the list
     override fun getItemCount(): Int {
         return shiftRequestsList.size
     }
 
+    // Binds data to the views in the card item
     override fun onBindViewHolder(holder: GetShiftRequestsAdapter.GetShiftRequestsViewHolder, position: Int) {
         holder.company_name.text = shiftRequestsList.get(position).company_name
         holder.employee_name.text = shiftRequestsList.get(position).employee_name
         holder.shift.text = shiftRequestsList.get(position).shift.toString()
 
+        // Approve button click listener
         holder.itemView.card_get_shift_requests_approve_button.setOnClickListener {v ->
             val context = v.context
             val requestID = shiftRequestsList.get(position).id
             val approveShiftRequestObject = ApproveDenyShiftRequestObject(requestID)
+
+            // API call if the manager decides to approve a request
             val callApiApproveShiftObject = connectJsonApiCalls.approveShiftRequest("Token $tokenCode", approveShiftRequestObject)
             callApiApproveShiftObject.enqueue(object: Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(context, "Cannot connect! Error approving shift request.", Toast.LENGTH_SHORT).show()
                 }
+
+                // Lets the user know the shift request is approved if the response is successful
                 override fun onResponse(
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
@@ -79,15 +89,21 @@ class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, priva
 
             })
         }
+
+        // Deny button click listener
         holder.itemView.card_get_shift_requests_deny_button.setOnClickListener {v ->
             val context = v.context
             val requestID = shiftRequestsList.get(position).id
             val denyShiftRequestObject = ApproveDenyShiftRequestObject(requestID)
+
+            // API call if the manager decides to denies a request
             val callApiDenyShiftObject = connectJsonApiCalls.denyShiftRequest("Token $tokenCode", denyShiftRequestObject)
             callApiDenyShiftObject.enqueue(object: Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(context, "Cannot connect! Error denying shift request.", Toast.LENGTH_SHORT).show()
                 }
+
+                // Lets the manager know that the request is denied successfully
                 override fun onResponse(
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
