@@ -21,29 +21,41 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.proshiftteam.proshift.Activities.ApproveShiftRequestActivity
+import com.google.android.material.button.MaterialButton
 import com.proshiftteam.proshift.Activities.SearchOpenShiftsActivity
 import com.proshiftteam.proshift.DataFiles.OpenShiftsObject
 import com.proshiftteam.proshift.DataFiles.PickUpShiftObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
-import kotlinx.android.synthetic.main.card_item_search_open_shifts.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.util.*
 
 // Adapter to show a list of open shifts
-class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, private val openShiftsList: List<OpenShiftsObject>) : RecyclerView.Adapter<SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder>() {
+class SearchOpenShiftsAdapter(
+    val accessCode: Int,
+    val tokenCode: String,
+    private val openShiftsList: List<OpenShiftsObject>)
+    : RecyclerView.Adapter<SearchOpenShiftsAdapter.ViewHolder>()
+{
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvDate: TextView = itemView.findViewById(R.id.cardOpenShiftDate)
+        val tvTime: TextView = itemView.findViewById(R.id.cardOpenShiftTime)
+        val tvStatus: TextView = itemView.findViewById(R.id.cardOpenShiftStatus)
+        val llControls: LinearLayout = itemView.findViewById(R.id.cardOpenShiftControls)
+        val mbRequest: MaterialButton = itemView.findViewById(R.id.cardOpenShiftRequest)
+    }
 
-    // Create a view holder
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder {
-        val shiftView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_search_open_shifts, parent, false)
-        return ShowOpenShiftsViewHolder(shiftView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val shiftView = LayoutInflater.from(parent.context).inflate(R.layout.card_open_shift_item, parent, false)
+        return ViewHolder(shiftView)
     }
 
     // Gets total number of items in the list
@@ -51,22 +63,44 @@ class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, privat
         return openShiftsList.size
     }
 
-    // Binds data to views in the card item
-    override fun onBindViewHolder(holder: SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder, position: Int) {
-        holder.date.text = openShiftsList.get(position).date
+    fun onItemClick(holder: ViewHolder) {
+        holder.llControls.visibility = if(holder.llControls.visibility == View.VISIBLE) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
 
-        val shift = openShiftsList.get(position)
+    // Binds data to views in the card item
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val openShift = openShiftsList.get(position)
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date: Date = dateFormat.parse(openShift.date)
+        val newDateFormat = SimpleDateFormat("MMM dd (E)")
+        val strDate: String = newDateFormat.format(date).toString()
+
         val timeFormat = SimpleDateFormat("HH:mm:ss")
-        val startTime = timeFormat.parse(shift.time_start)
-        val endTime = timeFormat.parse(shift.time_end)
+        val startTime = timeFormat.parse(openShift.time_start)
+        val endTime = timeFormat.parse(openShift.time_end)
         val newTimeFormat = SimpleDateFormat("hh:mm a")
         val strStartTime: String = newTimeFormat.format(startTime)
         val strEndTime: String = newTimeFormat.format(endTime)
-        holder.startTime.text = strStartTime
-        holder.endTime.text = strEndTime
+        val strShiftTime: String = strStartTime + " - " + strEndTime
+
+        var strStatus: String = "Unassigned Shift"
+        if(openShift.is_dropped && openShift.employee != null) {
+            strStatus = "Dropped by ${openShift.employee_name}"
+        }
+
+        holder.tvDate.text = strDate
+        holder.tvTime.text = strShiftTime
+        holder.tvStatus.text = strStatus
+
+        holder.itemView.setOnClickListener { onItemClick(holder) }
 
         // Button to pick up a shift
-        holder.itemView.pickUpImageShowShifts_search_open.setOnClickListener {v ->
+        holder.mbRequest.setOnClickListener {v ->
             val context = v.context
             val shiftId = openShiftsList.get(position).id
             val shiftInfoSendPickUp = PickUpShiftObject(shiftId)
@@ -98,10 +132,5 @@ class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, privat
                 }
             })
         }
-    }
-    class ShowOpenShiftsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val date: TextView = itemView.findViewById(R.id.card_show_shifts_date_search_open)
-        val startTime: TextView = itemView.findViewById(R.id.cardShowShiftsStartTime_search_open)
-        val endTime: TextView = itemView.findViewById(R.id.cardShowShiftsEndTime_search_open)
     }
 }
