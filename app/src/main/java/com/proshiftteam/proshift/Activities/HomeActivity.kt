@@ -60,7 +60,6 @@ class HomeActivity : AppCompatActivity() {
             }
             override fun onResponse(call: Call<List<AssignedShiftsObject>>, response: Response<List<AssignedShiftsObject>>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Successfully loaded shifts" + response.code(), Toast.LENGTH_LONG).show()
                     val listOfShiftsScheduled = response.body()!!
                     showShiftsRecyclerView.adapter = AssignedShiftsAdapter(accessCode!!,tokenCode.toString(), listOfShiftsScheduled)
                 }

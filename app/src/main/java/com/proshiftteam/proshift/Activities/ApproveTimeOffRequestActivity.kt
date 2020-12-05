@@ -37,7 +37,7 @@ class ApproveTimeOffRequestActivity: AppCompatActivity() {
 
             override fun onResponse(call: Call<List<GetTimeOffRequestsObject>>, response: Response<List<GetTimeOffRequestsObject>>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Successfully loaded time off requests" + response.code(), Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(context, "Successfully loaded time off requests" + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfTimeOffRequests = response.body()!!
                     approve_time_off_requests_recycler_view.adapter = TimeOffRequestsManagerAdapter(accessCode!!,tokenCode.toString(), listOfTimeOffRequests)
                 } else {

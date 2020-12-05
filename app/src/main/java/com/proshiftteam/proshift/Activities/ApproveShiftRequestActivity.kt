@@ -36,7 +36,7 @@ class ApproveShiftRequestActivity: AppCompatActivity() {
                 response: Response<List<GetShiftRequestsObject>>
             ) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Successfully loaded shift requests" + response.code(), Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(context, "Successfully loaded shift requests" + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfShiftRequests = response.body()!!
                     approve_shift_requests_recycler_view.adapter = GetShiftRequestsAdapter(accessCode!!,tokenCode.toString(), listOfShiftRequests)
                 } else {

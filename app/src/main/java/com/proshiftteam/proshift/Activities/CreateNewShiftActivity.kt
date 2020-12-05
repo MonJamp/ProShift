@@ -70,7 +70,7 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
 
             override fun onResponse(call: Call<List<EmployeeObject>>, response: Response<List<EmployeeObject>>) {
                 if(response.code() == 200) {
-                    Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
                     val employeeList = response.body()
 
                     employeeNames.add("None")
@@ -112,7 +112,7 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
                 override fun onResponse(call: Call<ShiftObject>, response: Response<ShiftObject>) {
                     if(response.code() == 201)
                     {
-                        Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
+                        // Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
 
                         val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
                         intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)

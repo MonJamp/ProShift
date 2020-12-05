@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                         intentToHome.putExtra("accessCode", accessCode)
                         intentToHome.putExtra("tokenCode", tokenCode)
                         startActivity(intentToHome)
-                        Toast.makeText(mContext, "Welcome " + email + "! \nToken: " + tokenCode + " \nAccess level: " + accessCode, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mContext, "Welcome " + email, Toast.LENGTH_SHORT).show()
                     }
                     else if(!userInfo.is_manager) {
                         val accessCode = 0
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                         intentToHome.putExtra("accessCode", accessCode)
                         intentToHome.putExtra("tokenCode", tokenCode)
                         startActivity(intentToHome)
-                        Toast.makeText(mContext, "Welcome " + email + "! \nToken: " + tokenCode + " \nAccess level: " + accessCode, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mContext, "Welcome " + email, Toast.LENGTH_SHORT).show()
                     }
                     else {
                         Toast.makeText(mContext, "Unknown error", Toast.LENGTH_SHORT).show()

@@ -33,7 +33,7 @@ class PendingShiftRequestActivity: AppCompatActivity() {
 
             override fun onResponse(call: Call<List<PendingShiftRequestsObject>>, response: Response<List<PendingShiftRequestsObject>>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Successfully loaded pending shifts " + response.code(), Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(context, "Successfully loaded pending shifts " + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfPendingShifts = response.body()!!
                     pendingShiftRequestsRecyclerView.adapter = PendingShiftsAdapter(tokenCode.toString(), listOfPendingShifts)
                 } else {

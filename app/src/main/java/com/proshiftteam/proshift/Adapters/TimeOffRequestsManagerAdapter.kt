@@ -107,7 +107,7 @@ class TimeOffRequestsManagerAdapter(
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful) {
-                        Toast.makeText(context, "Approved Time Off Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Approved Time Off Request", Toast.LENGTH_SHORT).show()
 
                         val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
                         intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)
@@ -135,7 +135,7 @@ class TimeOffRequestsManagerAdapter(
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful) {
-                        Toast.makeText(context, "Successfully denied Time Off Request. Response Code " + response.code(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Denied Time Off Request.", Toast.LENGTH_SHORT).show()
 
                         val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
                         intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)

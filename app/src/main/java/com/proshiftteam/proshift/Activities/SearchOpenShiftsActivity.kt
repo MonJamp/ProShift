@@ -42,7 +42,7 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
 
             override fun onResponse(call: Call<List<OpenShiftsObject>>, response: Response<List<OpenShiftsObject>>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Successfully loaded open shifts" + response.code(), Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(context, "Successfully loaded open shifts" + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfOpenShifts = response.body()!!
                     showSearchOpenShiftsRecyclerView.adapter = SearchOpenShiftsAdapter(accessCode!!, tokenCode.toString(), listOfOpenShifts)
                 } else {

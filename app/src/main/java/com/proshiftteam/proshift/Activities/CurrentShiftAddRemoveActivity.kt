@@ -44,7 +44,7 @@ class CurrentShiftAddRemoveActivity: AppCompatActivity() {
                 response: Response<List<ViewAllShiftsObject>>
             ) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Successfully displaying all the shifts " + response.code(), Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(context, "Successfully displaying all the shifts " + response.code(), Toast.LENGTH_SHORT).show()
                     val listOfEveryShift = response.body()!!
                     recycler_view_View_all_shifts.adapter = ViewAllShiftsAdapter(accessCode!!,tokenCode.toString(), listOfEveryShift)
                 } else {
