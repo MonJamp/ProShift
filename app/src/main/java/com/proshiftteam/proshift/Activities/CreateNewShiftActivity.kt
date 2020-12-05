@@ -43,6 +43,8 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
     var employeeNames: ArrayList<String> = ArrayList<String>()
     var selectEmployee: String = "None"
 
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_new_shift)
@@ -52,6 +54,8 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
+
+        // Back button to go back to the manager controls activity
         findViewById<ImageView>(R.id.backArrowButtonCreateNewShift).setOnClickListener {
             val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
@@ -79,6 +83,8 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
         shift_begin.asTimePicker(context, timeFormat)
         shift_end.asTimePicker(context, timeFormat)
 
+
+        // API call to get a list of employees for the spinner
         val callApiGetEmployees: Call<List<EmployeeObject>> = connectJsonApiCalls.getEmployees("Token $tokenCode")
         callApiGetEmployees.enqueue(object: Callback<List<EmployeeObject>> {
             override fun onFailure(call: Call<List<EmployeeObject>>, t: Throwable) {
@@ -110,6 +116,7 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
             }
         })
 
+        // Creates a shift button
         btnCreateShift.setOnClickListener{
             val employee: Int? = employeeMap[selectEmployee]
             val is_open: Boolean = employee == null // If none is selected make it an open shift
@@ -120,17 +127,17 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
 
             val shiftObject = ShiftObject(employee, is_open, is_dropped, date, time_start, time_end)
 
+            // API request to send a create new shift request
             val callApiCreateShift: Call<ShiftObject> = connectJsonApiCalls.createShift("Token $tokenCode", shiftObject)
             callApiCreateShift.enqueue(object: Callback<ShiftObject> {
                 override fun onFailure(call: Call<ShiftObject>, t: Throwable) {
                     Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show()
                 }
 
+                // Sends the user back to manager controls on successfully creating a shift
                 override fun onResponse(call: Call<ShiftObject>, response: Response<ShiftObject>) {
                     if(response.code() == 201)
                     {
-                        // Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
-
                         val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
                         intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)
                         intentToManagerControlsActivity.putExtra("accessCode", accessCode)
@@ -151,6 +158,8 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
         return list.toTypedArray()
     }
 
+
+    // Gets the employee selected
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         selectEmployee = parent?.getItemAtPosition(position).toString()
     }

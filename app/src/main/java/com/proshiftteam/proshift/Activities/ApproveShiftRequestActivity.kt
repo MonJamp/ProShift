@@ -32,6 +32,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ApproveShiftRequestActivity: AppCompatActivity() {
+
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,12 +45,14 @@ class ApproveShiftRequestActivity: AppCompatActivity() {
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
+        // Api request to get a list of shift requests to process
         val callApiGetShiftRequests: Call<List<GetShiftRequestsObject>> = RetrofitBuilderObject.connectJsonApiCalls.getShiftRequests("Token $tokenCode")
         callApiGetShiftRequests.enqueue(object: Callback<List<GetShiftRequestsObject>> {
             override fun onFailure(call: Call<List<GetShiftRequestsObject>>, t: Throwable) {
                 Toast.makeText(context, "Cannot connect! Error displaying shift requests!", Toast.LENGTH_SHORT).show()
             }
 
+            // Displays a list of shifts requests using the adapter
             override fun onResponse(
                 call: Call<List<GetShiftRequestsObject>>,
                 response: Response<List<GetShiftRequestsObject>>
@@ -62,6 +67,8 @@ class ApproveShiftRequestActivity: AppCompatActivity() {
             }
 
         })
+
+        // Back arrow button that sends the user to manager control activity
         findViewById<ImageView>(R.id.backArrowButtonApproveShiftRequests).setOnClickListener {
             val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)

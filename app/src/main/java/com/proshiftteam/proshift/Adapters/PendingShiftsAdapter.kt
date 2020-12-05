@@ -25,16 +25,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.proshiftteam.proshift.DataFiles.PendingShiftRequestsObject
 import com.proshiftteam.proshift.R
 
+// Adapter to display a list of pending shift requests
 class PendingShiftsAdapter(val tokenCode: String, private val pendingShiftsList: List<PendingShiftRequestsObject>) : RecyclerView.Adapter<PendingShiftsAdapter.ShowPendingShiftsViewHolder>() {
+
+    // Creates a view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PendingShiftsAdapter.ShowPendingShiftsViewHolder {
         val shiftView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_list_of_shift_requests, parent, false)
         return ShowPendingShiftsViewHolder(shiftView)
     }
 
+    // Get total number of items in the list
     override fun getItemCount(): Int {
         return pendingShiftsList.size
     }
 
+    // Binds the data in the views in the card item
     override fun onBindViewHolder(holder: PendingShiftsAdapter.ShowPendingShiftsViewHolder, position: Int) {
         holder.shiftId.text = pendingShiftsList.get(position).shift.toString()
         holder.employeeId.text = pendingShiftsList.get(position).employee.toString()

@@ -49,15 +49,13 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     lateinit var prefs: SharedPreferences
 
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         prefs = this.getSharedPreferences(getString(R.string.PREFERENCES_FILE), Context.MODE_PRIVATE)
 
-        /*  TEMPORARILY REMOVED DUE TO ISSUES
-        val bundle: Bundle? = intent.extras
-        accessCode= bundle!!.getInt("accessCode"
-         */
         viewManager = LinearLayoutManager(this)
 
         val drawerLayoutManagerControls: DrawerLayout = findViewById(R.id.drawer_home_controls)
@@ -67,14 +65,16 @@ class HomeActivity : AppCompatActivity() {
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
-        //Intent(context, AssignedShiftsAdapter::class.java).putExtra("tokenCode", tokenCode)
 
+        // API call to get a list of assigned shifts
         val callApiGetAssignedShiftsObject: Call<List<AssignedShiftsObject>> = connectJsonApiCalls.getAssignedShifts("Token $tokenCode")
 
         callApiGetAssignedShiftsObject.enqueue(object : Callback<List<AssignedShiftsObject>> {
             override fun onFailure(call: Call<List<AssignedShiftsObject>>, t: Throwable) {
                 Toast.makeText(context, "Cannot connect! Error displaying user shifts!", Toast.LENGTH_LONG).show()
             }
+
+            // Displays a list of shifts using an adapter
             override fun onResponse(call: Call<List<AssignedShiftsObject>>, response: Response<List<AssignedShiftsObject>>) {
                 if (response.isSuccessful) {
                     val listOfShiftsScheduled = response.body()!!
@@ -86,21 +86,26 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
+        // Shows the navigation drawer
         findViewById<ImageView>(R.id.imageMenuButton).setOnClickListener {
             drawerLayoutManagerControls.openDrawer(GravityCompat.START)
         }
 
         val navigationViewItems : NavigationView = findViewById(R.id.menuNavigationView)
 
+
+        // Disables the manager controls button if the user is an employee
         if (accessCode == 0) {
             navigationViewItems.menu.removeItem(R.id.managerControlsButton)
         }
 
-
+        // Items in the navigation view
         navigationViewItems.setNavigationItemSelectedListener { MenuItem ->
             MenuItem.isChecked = true
 
             when (MenuItem.itemId) {
+
+                // Sends users to manager controls
                 R.id.managerControlsButton -> {
                     if (accessCode == 1) {
                         val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
@@ -112,27 +117,37 @@ class HomeActivity : AppCompatActivity() {
                         Toast.makeText(context, "Manager controls not available for employees", Toast.LENGTH_SHORT).show()
                     }
                 }
+
+                // Displays the current schedule
                 R.id.myScheduleButton -> {
                     drawerLayoutManagerControls.closeDrawer(GravityCompat.START)
                 }
+
+                // Sends user to request time off screen
                 R.id.requestTimeOffButton -> {
                     val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
                     intentToListOfTimeOffRequestsActivity.putExtra("tokenCode", tokenCode)
                     intentToListOfTimeOffRequestsActivity.putExtra("accessCode", accessCode)
                     startActivity(intentToListOfTimeOffRequestsActivity)
                 }
+
+                // Sends user to search open shift screen
                 R.id.searchOpenShiftsButton -> {
                     val intentToOpenShiftsActivity = Intent(context, SearchOpenShiftsActivity::class.java)
                     intentToOpenShiftsActivity.putExtra("tokenCode", tokenCode)
                     intentToOpenShiftsActivity.putExtra("accessCode", accessCode)
                     startActivity(intentToOpenShiftsActivity)
                 }
+
+                // Display pending shifts screen
                 R.id.pendingShiftsButton -> {
                     val intentToPendingShiftRequestActivity = Intent(context, PendingShiftRequestActivity::class.java)
                     intentToPendingShiftRequestActivity.putExtra("tokenCode", tokenCode)
                     intentToPendingShiftRequestActivity.putExtra("accessCode", accessCode)
                     startActivity(intentToPendingShiftRequestActivity)
                 }
+
+                // Button to log out
                 R.id.logOutButtonMenu -> {
                     with(prefs.edit()) {
                         putBoolean(getString(R.string.IS_LOGGED_OUT), true)

@@ -36,6 +36,7 @@ class GenerateCodeActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
     var positionNames: ArrayList<String> = ArrayList<String>()
     var selectPosition: String = "Employee"
 
+
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         selectPosition = parent?.getItemAtPosition(position).toString()
     }
@@ -44,6 +45,8 @@ class GenerateCodeActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     }
 
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,6 +56,7 @@ class GenerateCodeActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
+        // Back button to go back to the previous activity
         findViewById<ImageView>(R.id.backArrowButtonGenerateCodeActivity).setOnClickListener {
             val intentToCompanyCodeActivity = Intent(context, CompanyCodeActivity::class.java)
             intentToCompanyCodeActivity.putExtra("tokenCode", tokenCode)
@@ -62,12 +66,14 @@ class GenerateCodeActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         val positionSpinner: Spinner = findViewById(R.id.codePositionSpinner)
 
+        // API call to get a list of positions. This allows the user to add more positions in the future.
         val callApiGetPositions: Call<List<PositionObject>> = connectJsonApiCalls.getPositions("Token $tokenCode")
         callApiGetPositions.enqueue(object : Callback<List<PositionObject>> {
             override fun onFailure(call: Call<List<PositionObject>>, t: Throwable) {
 
             }
 
+            // Adds the list to a spinner view
             override fun onResponse(
                 call: Call<List<PositionObject>>,
                 response: Response<List<PositionObject>>
@@ -88,6 +94,7 @@ class GenerateCodeActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
             }
         })
 
+        // Button to generate the code
         codeGenerate.setOnClickListener {
             val position: Int = positionMap[selectPosition]!!
 
@@ -96,6 +103,8 @@ class GenerateCodeActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
             val emailAddressToSend = codeEmail.text.toString()
 
             val generateCodeObjectToSend = GenerateUserCodeObject(position, emailAddressToSend)
+
+            // API call to get the code assigned by entering an email address and selecting a position
             val callApiGenerateCode = connectJsonApiCalls.generateUserCode("Token $tokenCode", generateCodeObjectToSend)
             callApiGenerateCode.enqueue(object: Callback<GenerateUserCodeObject> {
                 override fun onFailure(call: Call<GenerateUserCodeObject>, t: Throwable) {

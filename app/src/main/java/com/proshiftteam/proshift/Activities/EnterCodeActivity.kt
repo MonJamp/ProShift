@@ -36,6 +36,8 @@ import retrofit2.Response
 class EnterCodeActivity:AppCompatActivity() {
     lateinit var prefs: SharedPreferences
 
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prefs = this.getSharedPreferences(getString(R.string.PREFERENCES_FILE), Context.MODE_PRIVATE)
@@ -46,6 +48,7 @@ class EnterCodeActivity:AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         val tokenCode: String? = bundle?.getString("tokenCode")
 
+        // Back arrow button to go back to the previous activity (Main/Login)
         backArrowButtonEnterCodeScreen.setOnClickListener{
             with(prefs.edit()) {
                 putBoolean(getString(R.string.IS_LOGGED_OUT), true)
@@ -55,6 +58,8 @@ class EnterCodeActivity:AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
+        // Button to submit the code given to the user
         oneTimeCompanyCodeButton.setOnClickListener {
             val codeEntered: Int = (numberEnteredForCompanyCode.text).toString().toInt()
             val codeSendObject = RedeemCodeObject(codeEntered)
@@ -64,14 +69,18 @@ class EnterCodeActivity:AppCompatActivity() {
                     Toast.makeText(context, "Cannot connect! Error redeeming code.", Toast.LENGTH_SHORT).show()
                 }
 
+                // Sends the code to the server to verify user
                 override fun onResponse(call: Call<RedeemCodeObject>, response: Response<RedeemCodeObject>) {
                     if (response.code() == 202) {
+
+                        // API call to test if the user is a manager
                         val callApiCheckIfManager: Call<ResponseBody> = RetrofitBuilderObject.connectJsonApiCalls.testIfManager("Token $tokenCode")
                         callApiCheckIfManager.enqueue(object: Callback<ResponseBody> {
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                                 Toast.makeText(context, "Cannot connect! Error logging in, please try again!", Toast.LENGTH_SHORT).show()
                             }
 
+                            // Determines the value of accessCode based on what the server returns, 1 is for managers and 0 for employees
                             override fun onResponse(
                                 call: Call<ResponseBody>,
                                 response: Response<ResponseBody>
@@ -102,6 +111,7 @@ class EnterCodeActivity:AppCompatActivity() {
         }
     }
 
+    // Back button
     override fun onBackPressed() {
         super.onBackPressed()
         with(prefs.edit()) {

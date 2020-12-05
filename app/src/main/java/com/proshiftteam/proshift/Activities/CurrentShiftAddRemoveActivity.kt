@@ -41,6 +41,9 @@ class CurrentShiftAddRemoveActivity: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_current_shift_add_remove)
@@ -50,12 +53,14 @@ class CurrentShiftAddRemoveActivity: AppCompatActivity() {
         val tokenCode: String? = bundle?.getString("tokenCode")
         val accessCode: Int? = bundle?.getInt("accessCode")
 
+        // API request to view a list of ALL the shifts
         val callApiViewAllShifts: Call<List<ViewAllShiftsObject>> = RetrofitBuilderObject.connectJsonApiCalls.viewAllShifts("Token $tokenCode")
         callApiViewAllShifts.enqueue(object: Callback<List<ViewAllShiftsObject>> {
             override fun onFailure(call: Call<List<ViewAllShiftsObject>>, t: Throwable) {
                 Toast.makeText(context, "Cannot connect! Error displaying all the shifts!", Toast.LENGTH_SHORT).show()
             }
 
+            // Displays all the shifts using an adapter
             override fun onResponse(
                 call: Call<List<ViewAllShiftsObject>>,
                 response: Response<List<ViewAllShiftsObject>>
@@ -71,6 +76,7 @@ class CurrentShiftAddRemoveActivity: AppCompatActivity() {
 
         })
 
+        // Back arrow button to go back to manager controls activity
         findViewById<ImageView>(R.id.backArrowButtonAddRemove).setOnClickListener {
             val intentToManagerControlsActivity = Intent(context, ManagerControlsActivity::class.java)
             intentToManagerControlsActivity.putExtra("tokenCode", tokenCode)

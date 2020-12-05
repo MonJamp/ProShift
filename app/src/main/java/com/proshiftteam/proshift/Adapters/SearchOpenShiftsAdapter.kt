@@ -37,16 +37,21 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 
+// Adapter to show a list of open shifts
 class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, private val openShiftsList: List<OpenShiftsObject>) : RecyclerView.Adapter<SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder>() {
+
+    // Create a view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder {
         val shiftView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_search_open_shifts, parent, false)
         return ShowOpenShiftsViewHolder(shiftView)
     }
 
+    // Gets total number of items in the list
     override fun getItemCount(): Int {
         return openShiftsList.size
     }
 
+    // Binds data to views in the card item
     override fun onBindViewHolder(holder: SearchOpenShiftsAdapter.ShowOpenShiftsViewHolder, position: Int) {
         holder.date.text = openShiftsList.get(position).date
 
@@ -60,11 +65,13 @@ class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, privat
         holder.startTime.text = strStartTime
         holder.endTime.text = strEndTime
 
+        // Button to pick up a shift
         holder.itemView.pickUpImageShowShifts_search_open.setOnClickListener {v ->
             val context = v.context
             val shiftId = openShiftsList.get(position).id
             val shiftInfoSendPickUp = PickUpShiftObject(shiftId)
 
+            // API call to request to pick up a shift
             val callApiPickUpShiftObject = connectJsonApiCalls.requestShiftPickUp("Token $tokenCode", shiftInfoSendPickUp)
 
             callApiPickUpShiftObject.enqueue(object : Callback<ResponseBody> {
@@ -72,6 +79,8 @@ class SearchOpenShiftsAdapter(val accessCode: Int, val tokenCode: String, privat
                     Toast.makeText(context, "Cannot connect! Error picking up shift.", Toast.LENGTH_SHORT).show()
                 }
 
+
+                // Lets the user know that the request is submitted succesfully
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
                         if (response.code() == 208) {

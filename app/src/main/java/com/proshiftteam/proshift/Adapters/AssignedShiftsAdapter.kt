@@ -39,6 +39,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+// Adapter to show a list of assigned shifts
 class AssignedShiftsAdapter(
     private val accessCode: Int,
     private val tokenCode: String,
@@ -53,6 +54,7 @@ class AssignedShiftsAdapter(
         val mbDropBtn = cardView.findViewById<MaterialButton>(R.id.cardScheduleDrop)
     }
 
+    // Creates a view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val cardView = LayoutInflater.from(parent.context)
             .inflate(R.layout.card_assigned_shift_item, parent, false)
@@ -61,6 +63,7 @@ class AssignedShiftsAdapter(
         return ViewHolder(cardView)
     }
 
+    // Binds the values to the views within the card
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val shift = assignedShiftList.get(position)
 
@@ -104,10 +107,12 @@ class AssignedShiftsAdapter(
         }
     }
 
+    // Gets the total number of items in the array
     override fun getItemCount(): Int {
         return assignedShiftList.size
     }
 
+    // Performs action if an item is clicked
     private fun onItemClickHandler(holder: ViewHolder, position: Int) {
         holder.llButtons.visibility =
             if(holder.llButtons.visibility == View.VISIBLE) {
@@ -117,9 +122,12 @@ class AssignedShiftsAdapter(
             }
     }
 
+    // Performs action if a shift is dropped
     private fun onDropShiftClicked(
         context: Context, shift: AssignedShiftsObject, holder: ViewHolder, position: Int) {
         val dropShiftObject = DropShiftObject(shift.id)
+
+        // API call to drop a selected shift and send a request to a manager to allow
         val callApiDropShift =
             connectJsonApiCalls.dropSelectedShift("Token $tokenCode",dropShiftObject)
         callApiDropShift.enqueue(object : Callback<ShiftObject> {

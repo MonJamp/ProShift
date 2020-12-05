@@ -28,6 +28,7 @@ import com.proshiftteam.proshift.R
 import java.text.SimpleDateFormat
 import android.R.color
 
+// Adapter to display time off requests
 class TimeOffRequestsAdapter(
     val tokenCode: String,
     val accessCode: Int,
@@ -40,6 +41,7 @@ class TimeOffRequestsAdapter(
         val tvStatusValue: TextView = cardView.findViewById(R.id.cardTimeOffStatusValue)
     }
 
+    // Creates a view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val shiftView = LayoutInflater.from(parent.context)
             .inflate(R.layout.card_time_off_item, parent, false)
@@ -48,10 +50,12 @@ class TimeOffRequestsAdapter(
         return ViewHolder(shiftView)
     }
 
+    // Gets total number of items in the list
     override fun getItemCount(): Int {
         return timeOffRequestsList.size
     }
 
+    // Binds data to the views in the card item
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val timeOff = timeOffRequestsList.get(position)
 

@@ -45,10 +45,12 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     lateinit var context: Context
     lateinit var tokenCode: String
     var accessCode: Int = 0
-
+  
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_open_shifts)
@@ -58,12 +60,14 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
         tokenCode = bundle!!.getString("tokenCode")!!
         accessCode = bundle!!.getInt("accessCode")
 
+        // API call to get a list of open shifts
         val callApiGetOpenShifts: Call<List<OpenShiftsObject>> = RetrofitBuilderObject.connectJsonApiCalls.getOpenShifts("Token $tokenCode")
         callApiGetOpenShifts.enqueue(object: Callback<List<OpenShiftsObject>> {
             override fun onFailure(call: Call<List<OpenShiftsObject>>, t: Throwable) {
                 Toast.makeText(context, "Cannot connect! Error displaying open shifts!", Toast.LENGTH_SHORT).show()
             }
 
+            // Displays a list of open shifts using an adapter
             override fun onResponse(call: Call<List<OpenShiftsObject>>, response: Response<List<OpenShiftsObject>>) {
                 if (response.isSuccessful) {
                     // Toast.makeText(context, "Successfully loaded open shifts" + response.code(), Toast.LENGTH_SHORT).show()
@@ -75,7 +79,8 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
             }
 
         })
-        
+
+        // Back arrow button to go to home activity
         findViewById<ImageView>(R.id.backArrowButtonSearchOpen).setOnClickListener {
             val intentToHomeActivity = Intent(context, HomeActivity::class.java)
             intentToHomeActivity.putExtra("tokenCode", tokenCode)

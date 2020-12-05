@@ -33,6 +33,8 @@ class ManagerControlsActivity: AppCompatActivity() {
     lateinit var tokenCode: String
     var accessCode: Int = 0
 
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,6 +46,7 @@ class ManagerControlsActivity: AppCompatActivity() {
         accessCode = bundle!!.getInt("accessCode")
 
 
+        // Button to go back to the home activity
         findViewById<ImageView>(R.id.backArrowButton).setOnClickListener {
             val intentToHomeActivity = Intent(context, HomeActivity::class.java)
             intentToHomeActivity.putExtra("tokenCode", tokenCode)
@@ -51,6 +54,7 @@ class ManagerControlsActivity: AppCompatActivity() {
             startActivity(intentToHomeActivity)
         }
 
+        // Button to go to the generate code activity
         generateCodeButton.setOnClickListener {
             val intentToCompanyCodeActivity = Intent(context, CompanyCodeActivity::class.java)
             intentToCompanyCodeActivity.putExtra("tokenCode", tokenCode)
@@ -58,31 +62,37 @@ class ManagerControlsActivity: AppCompatActivity() {
             startActivity(intentToCompanyCodeActivity)
         }
 
+        // Button to go to add/remove shift requests activity
         addRemoveShiftsButton.setOnClickListener {
             val intentToCurrentShiftAddRemoveActivity = Intent(context, CurrentShiftAddRemoveActivity::class.java)
             intentToCurrentShiftAddRemoveActivity.putExtra("tokenCode", tokenCode)
             intentToCurrentShiftAddRemoveActivity.putExtra("accessCode", accessCode)
             startActivity(intentToCurrentShiftAddRemoveActivity)
         }
+
+        // Button to go to the create new shift activity
         createNewShiftButton.setOnClickListener {
             val intentToCreateNewShiftActivity = Intent(context, CreateNewShiftActivity::class.java)
             intentToCreateNewShiftActivity.putExtra("tokenCode", tokenCode)
             intentToCreateNewShiftActivity.putExtra("accessCode", accessCode)
             startActivity(intentToCreateNewShiftActivity)
         }
+
+        // Button to go to the approve/deny shift requests activity
         approveShiftRequestsButton.setOnClickListener {
             val intentToApproveShiftRequestActivity = Intent(context, ApproveShiftRequestActivity::class.java)
             intentToApproveShiftRequestActivity.putExtra("tokenCode", tokenCode)
             intentToApproveShiftRequestActivity.putExtra("accessCode", accessCode)
             startActivity(intentToApproveShiftRequestActivity)
         }
+
+        // Button to go to approve/deny time off request activity
         approveTimeOffRequestButton.setOnClickListener {
             val intentToApproveTimeOffRequestActivity = Intent(context, ApproveTimeOffRequestActivity::class.java)
             intentToApproveTimeOffRequestActivity.putExtra("tokenCode", tokenCode)
             intentToApproveTimeOffRequestActivity.putExtra("accessCode", accessCode)
             startActivity(intentToApproveTimeOffRequestActivity)
         }
-
     }
 
     override fun onBackPressed() {

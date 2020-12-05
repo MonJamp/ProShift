@@ -42,13 +42,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var prefs: SharedPreferences
     lateinit var accountManager: AccountManager
 
+    // Function to login a user
     fun loginAccount(email: String, tokenCode: String) {
+
+        // Api call to get the user information to check if the user belongs to a company
         val callApiUserInformation: Call<UserInfoObject> = connectJsonApiCalls.getUserInformation("Token $tokenCode")
         callApiUserInformation.enqueue(object: Callback<UserInfoObject> {
             override fun onFailure(call: Call<UserInfoObject>, t: Throwable) {
                 Toast.makeText(mContext, t.message, Toast.LENGTH_SHORT).show()
             }
 
+            // If the response is successful, logs in the user or directs them to company code activity
             override fun onResponse(call: Call<UserInfoObject>, response: Response<UserInfoObject>) {
                 if (response.isSuccessful) {
                     val userInfo = response.body()!!
@@ -115,6 +119,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // On create function that assigns a layout, performs click actions for buttons.
+    // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
