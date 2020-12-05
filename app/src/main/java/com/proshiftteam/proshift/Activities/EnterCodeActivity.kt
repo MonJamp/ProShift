@@ -1,6 +1,8 @@
 package com.proshiftteam.proshift.Activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +17,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class EnterCodeActivity:AppCompatActivity() {
+    lateinit var prefs: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        prefs = this.getSharedPreferences(getString(R.string.PREFERENCES_FILE), Context.MODE_PRIVATE)
 
         setContentView(R.layout.activity_enter_code)
 
@@ -25,6 +30,11 @@ class EnterCodeActivity:AppCompatActivity() {
         val tokenCode: String? = bundle?.getString("tokenCode")
 
         backArrowButtonEnterCodeScreen.setOnClickListener{
+            with(prefs.edit()) {
+                putBoolean(getString(R.string.IS_LOGGED_OUT), true)
+                apply()
+            }
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -73,5 +83,16 @@ class EnterCodeActivity:AppCompatActivity() {
 
             })
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        with(prefs.edit()) {
+            putBoolean(getString(R.string.IS_LOGGED_OUT), true)
+            apply()
+        }
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
