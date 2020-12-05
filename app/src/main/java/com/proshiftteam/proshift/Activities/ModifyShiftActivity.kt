@@ -35,6 +35,8 @@ import kotlinx.android.synthetic.main.activity_modify_shift.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -64,9 +66,20 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
         val employeeId: Int? = bundle?.getInt("employeeId")
         val position: String? = bundle?.getString("position")
         val openStatus: Boolean? = bundle?.getBoolean("is_open")
+        val employeeNameDefault: String? = bundle?.getString("employee_name")
         val id = bundle?.getInt("id")
 
+        // Formatting the time to 12-hour
+        val timeFormatOld = SimpleDateFormat("HH:mm:ss")
+        val startTimeOld = timeFormatOld.parse(startTime)
+        val endTimeOld = timeFormatOld.parse(endTime)
+        val newTimeFormatOld = SimpleDateFormat("hh:mm a")
+        val startTimeNew: String = newTimeFormatOld.format(startTimeOld)
+        val endTimeNew: String = newTimeFormatOld.format(endTimeOld)
 
+        // Displaying the default time
+        shiftBeginTimeInModifyShift.setText(startTimeNew, TextView.BufferType.EDITABLE)
+        shiftEndTimeInModifyShift.setText(endTimeNew, TextView.BufferType.EDITABLE)
 
         val calView: CalendarView = findViewById<CalendarView>(R.id.calrenderViewSelectDateInModifyShift)
         val shift_begin: EditText = findViewById<EditText>(R.id.shiftBeginTimeInModifyShift)
@@ -74,12 +87,28 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
         val employeeSpinner: Spinner = findViewById(R.id.selectEmployeeSpinnerInUpdateShift)
         val btnUpdateShift: Button = findViewById<Button>(R.id.updateShiftButtonInModifyShift)
 
+        // Splits the date string to create an array
+        val splitBy = "-"
+        val listOfDateItems = date!!.split(splitBy)
+
+        // Change the array to int
+        val listOfIntItems = listOfDateItems.map { it.toInt()}
+
+        Toast.makeText(context, listOfIntItems.toString(), Toast.LENGTH_SHORT).show()
+
+        // Sets the value in calender
+        var cal1 = Calendar.getInstance()
+        cal1.set(Calendar.YEAR, listOfIntItems[0])
+        cal1.set(Calendar.MONTH, listOfIntItems[1]-1)
+        cal1.set(Calendar.DAY_OF_MONTH, listOfIntItems[2])
+        calView.date = cal1.timeInMillis
+
+        // If the user changes calender
         var cal = Calendar.getInstance()
         calView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, month)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
             calView.date = cal.timeInMillis
         }
 
