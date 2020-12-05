@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package com.proshiftteam.proshift.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -28,16 +29,19 @@ import com.proshiftteam.proshift.R
 import kotlinx.android.synthetic.main.activity_manager_controls.*
 
 class ManagerControlsActivity: AppCompatActivity() {
+    lateinit var context: Context
+    lateinit var tokenCode: String
+    var accessCode: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_manager_controls)
 
-        val context = this
+        context = this
         val bundle: Bundle? = intent.extras
-        val tokenCode: String? = bundle?.getString("tokenCode")
-        val accessCode: Int? = bundle?.getInt("accessCode")
+        tokenCode = bundle!!.getString("tokenCode")!!
+        accessCode = bundle!!.getInt("accessCode")
 
 
         findViewById<ImageView>(R.id.backArrowButton).setOnClickListener {
@@ -79,5 +83,13 @@ class ManagerControlsActivity: AppCompatActivity() {
             startActivity(intentToApproveTimeOffRequestActivity)
         }
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intentToHomeActivity = Intent(context, HomeActivity::class.java)
+        intentToHomeActivity.putExtra("tokenCode", tokenCode)
+        intentToHomeActivity.putExtra("accessCode", accessCode)
+        startActivity(intentToHomeActivity)
     }
 }

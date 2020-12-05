@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package com.proshiftteam.proshift.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -43,13 +44,19 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+
+    lateinit var context: Context
+    lateinit var tokenCode: String
+    var accessCode: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_open_shifts)
-        val context = this
+
+        context = this
         val bundle: Bundle? = intent.extras
-        val tokenCode: String? = bundle?.getString("tokenCode")
-        val accessCode: Int? = bundle?.getInt("accessCode")
+        tokenCode = bundle!!.getString("tokenCode")!!
+        accessCode = bundle!!.getInt("accessCode")
 
         val callApiGetOpenShifts: Call<List<OpenShiftsObject>> = RetrofitBuilderObject.connectJsonApiCalls.getOpenShifts("Token $tokenCode")
         callApiGetOpenShifts.enqueue(object: Callback<List<OpenShiftsObject>> {
@@ -75,5 +82,13 @@ class SearchOpenShiftsActivity: AppCompatActivity() {
             intentToHomeActivity.putExtra("accessCode", accessCode)
             startActivity(intentToHomeActivity)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intentToHomeActivity = Intent(context, HomeActivity::class.java)
+        intentToHomeActivity.putExtra("tokenCode", tokenCode)
+        intentToHomeActivity.putExtra("accessCode", accessCode)
+        startActivity(intentToHomeActivity)
     }
 }
