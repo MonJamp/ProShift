@@ -22,7 +22,7 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
     val dateFormat: SimpleDateFormat = SimpleDateFormat("YYYY-MM-dd")
     val timeFormat: String = "HH:mm"
 
-    var employeeMap: HashMap<String, Int> = HashMap<String, Int>()
+    var employeeMap: HashMap<String, Int?> = HashMap<String, Int?>()
     var employeeNames: ArrayList<String> = ArrayList<String>()
     var selectEmployee: String = "None"
 
@@ -73,16 +73,13 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
                     Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
                     val employeeList = response.body()
 
-                    employeeNames.add("None ")
+                    employeeNames.add("None")
+                    employeeMap.put("None", null)
 
                     // Get employee names and use a hashmap to keep track of employee ids
                     for(employee in employeeList?.asIterable()!!) {
-                        if(employee.employee_name == "None ") {
-                            employeeMap.put("None ", employee.id)
-                        } else {
                             employeeMap.put(employee.employee_name, employee.id)
                             employeeNames.add(employee.employee_name)
-                        }
                     }
 
                     val spinnerAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, employeeNames)
@@ -97,8 +94,8 @@ class CreateNewShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedLis
         })
 
         btnCreateShift.setOnClickListener{
-            val employee: Int = employeeMap[selectEmployee]!!
-            val is_open: Boolean = selectEmployee == "None " // If none is selected make it an open shift
+            val employee: Int? = employeeMap[selectEmployee]
+            val is_open: Boolean = employee == null // If none is selected make it an open shift
             val is_dropped: Boolean = false
             val date: String = dateFormat.format(Date(calView.date))
             val time_start: String = shift_begin.text.toString()

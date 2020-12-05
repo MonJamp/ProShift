@@ -1,7 +1,7 @@
 package com.proshiftteam.proshift.DataFiles
 
 data class ShiftObject (
-    var employee: Int,
+    var employee: Int?,
     var is_open: Boolean,
     var is_dropped: Boolean,
     var date: String,
