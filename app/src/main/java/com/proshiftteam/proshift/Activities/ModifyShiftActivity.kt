@@ -40,7 +40,7 @@ import kotlin.collections.HashMap
 
 class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListener {
     val dateFormat: SimpleDateFormat = SimpleDateFormat("YYYY-MM-dd")
-    val timeFormat: String = "HH:mm"
+    val timeFormat: String = "hh:mm a"
 
     var employeeMap: HashMap<String, Int> = HashMap<String, Int>()
     var employeeNames: ArrayList<String> = ArrayList<String>()
@@ -66,12 +66,13 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
         val openStatus: Boolean? = bundle?.getBoolean("is_open")
         val id = bundle?.getInt("id")
 
+
+
         val calView: CalendarView = findViewById<CalendarView>(R.id.calrenderViewSelectDateInModifyShift)
         val shift_begin: EditText = findViewById<EditText>(R.id.shiftBeginTimeInModifyShift)
         val shift_end: EditText = findViewById<EditText>(R.id.shiftEndTimeInModifyShift)
         val employeeSpinner: Spinner = findViewById(R.id.selectEmployeeSpinnerInUpdateShift)
         val btnUpdateShift: Button = findViewById<Button>(R.id.updateShiftButtonInModifyShift)
-
 
         var cal = Calendar.getInstance()
         calView.setOnDateChangeListener { view, year, month, dayOfMonth ->
@@ -122,8 +123,15 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
             val employee: Int = employeeMap[selectEmployee]!!
             val is_open: Boolean = false
             val date: String = dateFormat.format(Date(calView.date))
-            val time_start: String = shift_begin.text.toString()
-            val time_end: String = shift_end.text.toString()
+
+            val time_start_ampm: String = shift_begin.text.toString()
+            val time_end_ampm: String = shift_end.text.toString()
+            val timeFormat = SimpleDateFormat("hh:mm a")
+            val startTimeAgain = timeFormat.parse(time_start_ampm)
+            val endTimeAgain = timeFormat.parse(time_end_ampm)
+            val newTimeFormat = SimpleDateFormat("HH:mm:ss")
+            val time_start: String = newTimeFormat.format(startTimeAgain)
+            val time_end: String = newTimeFormat.format(endTimeAgain)
 
             val updateShiftObject = UpdateShiftObject(id!!, employee, is_open, date, time_start, time_end)
 
