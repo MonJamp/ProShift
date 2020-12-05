@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package com.proshiftteam.proshift.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -35,15 +36,19 @@ class PendingShiftRequestActivity: AppCompatActivity() {
 
     // On create function that assigns a layout, performs click actions for buttons.
     // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
+    lateinit var context: Context
+    lateinit var tokenCode: String
+    var accessCode: Int = 0
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_pending_shift_requests)
 
-        val context = this
+        context = this
         val bundle: Bundle? = intent.extras
-        val tokenCode: String? = bundle?.getString("tokenCode")
-        val accessCode: Int? = bundle?.getInt("accessCode")
+        tokenCode = bundle!!.getString("tokenCode")!!
+        accessCode = bundle!!.getInt("accessCode")
 
         // API request to show a list of pending shift requests
         val callApiShowPendingShifts: Call<List<PendingShiftRequestsObject>> = RetrofitBuilderObject.connectJsonApiCalls.showPendingShiftRequests("Token $tokenCode")
@@ -72,5 +77,13 @@ class PendingShiftRequestActivity: AppCompatActivity() {
             intentToHomeActivity.putExtra("accessCode", accessCode)
             startActivity(intentToHomeActivity)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intentToHomeActivity = Intent(context, HomeActivity::class.java)
+        intentToHomeActivity.putExtra("tokenCode", tokenCode)
+        intentToHomeActivity.putExtra("accessCode", accessCode)
+        startActivity(intentToHomeActivity)
     }
 }

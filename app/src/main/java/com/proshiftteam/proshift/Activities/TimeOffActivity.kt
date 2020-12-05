@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package com.proshiftteam.proshift.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -33,19 +34,23 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ListOfTimeOffRequestsActivity:AppCompatActivity() {
-
+  
     // On create function that assigns a layout, performs click actions for buttons.
     // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
+    lateinit var context: Context
+    lateinit var tokenCode: String
+    var accessCode: Int = 0
+  
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_time_off)
 
 
-        val context = this
+        context = this
         val bundle: Bundle? = intent.extras
-        val tokenCode: String? = bundle?.getString("tokenCode")
-        val accessCode: Int? = bundle?.getInt("accessCode")
+        tokenCode = bundle!!.getString("tokenCode")!!
+        accessCode = bundle!!.getInt("accessCode")
 
         // API request to show a list of time off requests
         val callApiShowListOfTimeOffRequests: Call<List<ListOfTimeOffRequestsObject>> = RetrofitBuilderObject.connectJsonApiCalls.showListOffTimeOffRequests("Token $tokenCode")
@@ -82,5 +87,13 @@ class ListOfTimeOffRequestsActivity:AppCompatActivity() {
             startActivity(intentToRequestTimeOffActivity)
         }
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intentToHomeActivity = Intent(context, HomeActivity::class.java)
+        intentToHomeActivity.putExtra("tokenCode", tokenCode)
+        intentToHomeActivity.putExtra("accessCode", accessCode)
+        startActivity(intentToHomeActivity)
     }
 }

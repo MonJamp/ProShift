@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package com.proshiftteam.proshift.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.CalendarView
@@ -42,14 +43,18 @@ class RequestTimeOffActivity: AppCompatActivity() {
 
     // On create function that assigns a layout, performs click actions for buttons.
     // Also responsible for sending and receiving tokenCode throughout the app to process various API requests.
+    lateinit var context: Context
+    lateinit var tokenCode: String
+    var accessCode: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_time_off)
 
-        val context = this
+        context = this
         val bundle: Bundle? = intent.extras
-        val tokenCode: String? = bundle?.getString("tokenCode")
-        val accessCode: Int? = bundle?.getInt("accessCode")
+        tokenCode = bundle!!.getString("tokenCode")!!
+        accessCode = bundle!!.getInt("accessCode")
 
         // Back button to go to the activity that displays a list of time off requests
         findViewById<ImageView>(R.id.backArrowButtonRequestTimeOff).setOnClickListener {
@@ -119,5 +124,13 @@ class RequestTimeOffActivity: AppCompatActivity() {
 
             })
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intentToListOfTimeOffRequestsActivity = Intent(context, ListOfTimeOffRequestsActivity::class.java)
+        intentToListOfTimeOffRequestsActivity.putExtra("tokenCode", tokenCode)
+        intentToListOfTimeOffRequestsActivity.putExtra("accessCode", accessCode)
+        startActivity(intentToListOfTimeOffRequestsActivity)
     }
 }
