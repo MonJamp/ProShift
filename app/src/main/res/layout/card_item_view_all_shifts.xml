@@ -1,100 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardTimeOffItem"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginRight="5dp"
-    android:elevation="10dp"
-    card_view:cardCornerRadius="5dp">
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@color/colorAccent"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- Main context of card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <TextView
+                android:id="@+id/view_all_shifts_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="September 21 (Monday) • 8 Hours"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="16dp" />
+            <TextView
+                android:id="@+id/view_all_shifts_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                tools:text="9:00 AM - 5:00 PM"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/view_all_shifts_employee_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                tools:text="Bill Gates"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="16dp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/view_all_shifts_date"
-            android:layout_width="101dp"
-            android:layout_height="27dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="86dp"
-            android:layout_marginBottom="6dp"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/view_all_shifts_time_start"
-            app:layout_constraintEnd_toStartOf="@+id/view_all_shifts_job_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="2020-20-20" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="50dp"
+            android:background="@android:color/holo_purple">
+        </View>
 
-        <TextView
-            android:id="@+id/view_all_shifts_time_start"
-            android:layout_width="119dp"
-            android:layout_height="29dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="56dp"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/view_all_shifts_time_end"
-            app:layout_constraintEnd_toStartOf="@+id/view_all_shifts_edit_button"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_all_shifts_date"
-            tools:text="00:00:00" />
-
-        <TextView
-            android:id="@+id/view_all_shifts_time_end"
-            android:layout_width="130dp"
-            android:layout_height="31dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="47dp"
-            android:layout_marginBottom="24dp"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/view_all_shifts_edit_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_all_shifts_time_start"
-            tools:text="00:00:00" />
-
-        <TextView
-            android:id="@+id/view_all_shifts_job_title"
-            android:layout_width="107dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="95dp"
-            android:layout_marginBottom="1dp"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/view_all_shifts_employee_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/view_all_shifts_date"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Title" />
-
-        <TextView
-            android:id="@+id/view_all_shifts_employee_name"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="2dp"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/view_all_shifts_edit_button"
-            app:layout_constraintEnd_toEndOf="@+id/view_all_shifts_edit_button"
-            app:layout_constraintStart_toStartOf="@+id/view_all_shifts_job_title"
-            app:layout_constraintTop_toBottomOf="@+id/view_all_shifts_job_title"
-            tools:text="Employee Name" />
-
-        <ImageView
-            android:id="@+id/view_all_shifts_edit_button"
-            android:layout_width="187dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="29dp"
-            android:layout_marginBottom="15dp"
-            android:paddingLeft="80dp"
-            android:src="@drawable/ic_edit_shift"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/view_all_shifts_time_end"
-            app:layout_constraintTop_toBottomOf="@+id/view_all_shifts_employee_name" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+        <!-- Buttons -->
+        <LinearLayout android:id="@+id/cardOpenShiftControls2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"> <!-- Set this to visible to expand card and show action buttons-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/view_all_shifts_edit_button"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="Modify Shift" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="50dp"
+                android:background="@android:color/holo_purple">
+            </View>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
