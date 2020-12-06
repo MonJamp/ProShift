@@ -41,6 +41,6 @@
         android:layout_marginTop="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:context=".Activities.HomeActivity"
-        tools:listitem="@layout/card_item_get_shift_requests"/>
+        tools:listitem="@layout/card_shift_request_manager_item"/>
 
 </LinearLayout>
