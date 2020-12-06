@@ -21,28 +21,45 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.proshiftteam.proshift.Activities.ApproveShiftRequestActivity
-import com.proshiftteam.proshift.Activities.ApproveTimeOffRequestActivity
 import com.proshiftteam.proshift.DataFiles.ApproveDenyShiftRequestObject
 import com.proshiftteam.proshift.DataFiles.GetShiftRequestsObject
+import com.proshiftteam.proshift.DataFiles.OpenShiftsObject
+import com.proshiftteam.proshift.DataFiles.PickUpShiftObject
 import com.proshiftteam.proshift.Interfaces.RetrofitBuilderObject.connectJsonApiCalls
 import com.proshiftteam.proshift.R
-import kotlinx.android.synthetic.main.card_item_get_shift_requests.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 // Get a list of submitted shift requests
-class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, private val shiftRequestsList: List<GetShiftRequestsObject>) : RecyclerView.Adapter<GetShiftRequestsAdapter.GetShiftRequestsViewHolder>(){
-
+class GetShiftRequestsAdapter (
+    val accessCode: Int,
+    val tokenCode: String,
+    private val shiftRequestsList: List<GetShiftRequestsObject>)
+    : RecyclerView.Adapter<GetShiftRequestsAdapter.ViewHolder>()
+{
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvDate: TextView = itemView.findViewById(R.id.cardShiftRequestManagerDate)
+        val tvTime: TextView = itemView.findViewById(R.id.cardShiftRequestManagerTime)
+        val tvAssigngment: TextView = itemView.findViewById(R.id.cardShiftRequestManagerAssignment)
+        val llControls: LinearLayout = itemView.findViewById(R.id.cardShiftRequestfManagerControls)
+        val ibApprove: ImageButton = itemView.findViewById(R.id.cardShiftRequestManagerApprove)
+        val ibDeny: ImageButton = itemView.findViewById(R.id.cardShiftRequestManagerDeny)
+    }
     // on create function for the view holder
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GetShiftRequestsAdapter.GetShiftRequestsViewHolder {
-        val getShiftRequestsView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_get_shift_requests, parent, false)
-        return GetShiftRequestsViewHolder(getShiftRequestsView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GetShiftRequestsAdapter.ViewHolder {
+        val getShiftRequestsView = LayoutInflater.from(parent.context).inflate(R.layout.card_shift_request_manager_item, parent, false)
+        return ViewHolder(getShiftRequestsView)
     }
 
     // Get total number of items in the list
@@ -50,14 +67,57 @@ class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, priva
         return shiftRequestsList.size
     }
 
+    // Performs an action on clicking an item
+    private fun onItemClickHandler(holder: ViewHolder, position: Int) {
+        holder.llControls.visibility = if(holder.llControls.visibility == View.VISIBLE) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
+
     // Binds data to the views in the card item
-    override fun onBindViewHolder(holder: GetShiftRequestsAdapter.GetShiftRequestsViewHolder, position: Int) {
-        holder.company_name.text = shiftRequestsList.get(position).company_name
-        holder.employee_name.text = shiftRequestsList.get(position).employee_name
-        holder.shift.text = shiftRequestsList.get(position).shift.toString()
+    override fun onBindViewHolder(holder: GetShiftRequestsAdapter.ViewHolder, position: Int) {
+        val shiftRequest = shiftRequestsList.get(position)
+        val shiftId = shiftRequest.shift
+
+        val callApiGetShift = connectJsonApiCalls.getShift("Token $tokenCode", PickUpShiftObject(shiftId))
+        callApiGetShift.enqueue(object: Callback<OpenShiftsObject> {
+            override fun onFailure(call: Call<OpenShiftsObject>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<OpenShiftsObject>, response: Response<OpenShiftsObject>) {
+                val shift = response.body()!!
+
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                val date: Date = dateFormat.parse(shift.date)
+                val newDateFormat = SimpleDateFormat("MMM dd (E)")
+                val strDate: String = newDateFormat.format(date).toString()
+
+                val timeFormat = SimpleDateFormat("HH:mm:ss")
+                val startTime = timeFormat.parse(shift.time_start)
+                val endTime = timeFormat.parse(shift.time_end)
+                val newTimeFormat = SimpleDateFormat("hh:mm a")
+                val strStartTime: String = newTimeFormat.format(startTime)
+                val strEndTime: String = newTimeFormat.format(endTime)
+                val strShiftTime: String = strStartTime + " - " + strEndTime
+
+                var strAssignment: String = "Unassigned"
+                if(shift.is_dropped && shift.employee != null) {
+                    strAssignment = "Dropped by ${shift.employee_name}"
+                }
+
+                holder.tvDate.text = strDate
+                holder.tvTime.text = strShiftTime
+                holder.tvAssigngment.text = strAssignment
+            }
+        })
+
+        holder.itemView.setOnClickListener { onItemClickHandler(holder, position) }
 
         // Approve button click listener
-        holder.itemView.card_get_shift_requests_approve_button.setOnClickListener {v ->
+        holder.ibApprove.setOnClickListener {v ->
             val context = v.context
             val requestID = shiftRequestsList.get(position).id
             val approveShiftRequestObject = ApproveDenyShiftRequestObject(requestID)
@@ -91,7 +151,7 @@ class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, priva
         }
 
         // Deny button click listener
-        holder.itemView.card_get_shift_requests_deny_button.setOnClickListener {v ->
+        holder.ibDeny.setOnClickListener {v ->
             val context = v.context
             val requestID = shiftRequestsList.get(position).id
             val denyShiftRequestObject = ApproveDenyShiftRequestObject(requestID)
@@ -121,10 +181,5 @@ class GetShiftRequestsAdapter (val accessCode: Int, val tokenCode: String, priva
 
             })
         }
-    }
-    class GetShiftRequestsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val shift: TextView = itemView.findViewById(R.id.card_get_shift_requests_shift_id)
-        val employee_name: TextView = itemView.findViewById(R.id.card_get_shift_requests_employee_name)
-        val company_name: TextView = itemView.findViewById(R.id.card_get_shift_requests_company_name)
     }
 }
