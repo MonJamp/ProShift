@@ -1,6 +1,6 @@
 Android code.
 
-This application is designed for companies to manage their employee scheduling system. The app has seperate functions for regular employees and maangers.
+This application is designed for companies to manage their employee scheduling system. The app has separate functions for regular employees and managers.
 
 Some of the features available for regular employees (non-managers) are:
 -Ability to see their schedule.
