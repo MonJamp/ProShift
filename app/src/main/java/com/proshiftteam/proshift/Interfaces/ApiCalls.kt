@@ -133,4 +133,8 @@ interface ApiCalls {
     // Get a list of codes
     @GET("manager/get_codes")
     fun getCodes(@Header("Authorization") token: String?): Call<List<CompanyCodeObject>>
+
+    // Get information for a specific shift
+    @POST("manager/get_shift")
+    fun getShift(@Header("Authorization") token: String?, @Body pickUpShiftObject: PickUpShiftObject): Call<OpenShiftsObject>
 }
