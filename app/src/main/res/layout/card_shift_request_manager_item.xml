@@ -75,7 +75,6 @@
                     android:text="Bill Gates"
                     android:textSize="18sp"
                     android:layout_marginBottom="5dp"
-                    android:textAlignment="center"
                     android:textColor="@android:color/primary_text_light" />
                 <TextView
                     android:id="@+id/cardShiftRequestManagerDate"
@@ -84,7 +83,6 @@
                     android:text="12/30/20"
                     android:textSize="18sp"
                     android:layout_marginBottom="5dp"
-                    android:textAlignment="center"
                     android:textColor="@android:color/primary_text_light" />
                 <TextView
                     android:id="@+id/cardShiftRequestManagerTime"
@@ -93,7 +91,6 @@
                     android:text="9:00 AM - 5:00 PM"
                     android:textSize="18sp"
                     android:layout_marginBottom="5dp"
-                    android:textAlignment="center"
                     android:textColor="@android:color/primary_text_light" />
                 <TextView
                     android:id="@+id/cardShiftRequestManagerAssignment"
@@ -102,7 +99,6 @@
                     android:text="Dropped by Bill Gates"
                     android:textSize="18sp"
                     android:layout_marginBottom="5dp"
-                    android:textAlignment="center"
                     android:textColor="@android:color/primary_text_light" />
             </LinearLayout>
 

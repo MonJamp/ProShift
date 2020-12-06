@@ -67,7 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="0dp">
                 <TextView
                     android:id="@+id/cardPendingShiftDate"
                     android:layout_width="match_parent"
@@ -75,7 +76,6 @@
                     android:text="12/30/20"
                     android:textSize="18sp"
                     android:layout_marginBottom="5dp"
-                    android:textAlignment="center"
                     android:textColor="@android:color/primary_text_light" />
                 <TextView
                     android:id="@+id/cardPendingShiftTime"
@@ -84,7 +84,6 @@
                     android:text="9:00 AM - 5:00 PM"
                     android:textSize="18sp"
                     android:layout_marginBottom="5dp"
-                    android:textAlignment="center"
                     android:textColor="@android:color/primary_text_light" />
                 <TextView
                     android:id="@+id/cardPendingShiftAssignment"
@@ -93,7 +92,6 @@
                     android:text="Dropped by Bill Gates"
                     android:textSize="18sp"
                     android:layout_marginBottom="5dp"
-                    android:textAlignment="center"
                     android:textColor="@android:color/primary_text_light" />
                 <TextView
                     android:id="@+id/cardPendingShiftStatusValue"
@@ -102,7 +100,6 @@
                     android:text="Pending"
                     android:textSize="18sp"
                     android:layout_marginBottom="5dp"
-                    android:textAlignment="center"
                     android:textColor="@android:color/primary_text_light" />
             </LinearLayout>
 
