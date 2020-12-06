@@ -22,6 +22,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
@@ -42,6 +43,14 @@ import java.text.SimpleDateFormat
 // Adapter to display all the shifts
 class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private val viewAllShiftsList: List<ViewAllShiftsObject>) : RecyclerView.Adapter<ViewAllShiftsAdapter.ViewAllShiftsViewHolder>() {
 
+    class ViewAllShiftsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val date: TextView = itemView.findViewById(R.id.view_all_shifts_date)
+        val time: TextView = itemView.findViewById(R.id.view_all_shifts_time)
+        val employeeName: TextView = itemView.findViewById(R.id.view_all_shifts_employee_name)
+        val clickOpenControl: LinearLayout = itemView.findViewById(R.id.cardOpenShiftControls2)
+        //val llControls2: LinearLayout = itemView.findViewById(R.id.cardOpenShiftControls2)
+    }
+
     // Creates a view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewAllShiftsAdapter.ViewAllShiftsViewHolder {
         val shiftView = LayoutInflater.from(parent.context).inflate(R.layout.card_item_view_all_shifts, parent, false)
@@ -51,6 +60,14 @@ class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private va
     // Gets total number of items in the list
     override fun getItemCount(): Int {
         return viewAllShiftsList.size
+    }
+
+    fun onItemClick(holder: ViewAllShiftsViewHolder) {
+        holder.clickOpenControl.visibility = if (holder.clickOpenControl.visibility == View.VISIBLE) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
     }
 
     // Binds data to the views in the card items
@@ -65,14 +82,13 @@ class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private va
         val strStartTime: String = newTimeFormat.format(startTime)
         val strEndTime: String = newTimeFormat.format(endTime)
         val employeeName: String = viewAllShiftsList.get(position).employee_name
-        holder.startTime.text = strStartTime
-        holder.endTime.text = strEndTime
+        holder.time.text = strStartTime + " - " + strEndTime
 
+        holder.itemView.setOnClickListener { onItemClick(holder) }
         holder.date.text = viewAllShiftsList.get(position).date
         // holder.startTime.text = viewAllShiftsList.get(position).time_start
         // holder.endTime.text = viewAllShiftsList.get(position).time_end
-        holder.jobTitle.text = viewAllShiftsList.get(position).position
-        holder.employeeName.text = viewAllShiftsList.get(position).employee_name
+        holder.employeeName.text = viewAllShiftsList.get(position).employee_name + " - " + viewAllShiftsList.get(position).position
         val dateToPass: String = viewAllShiftsList.get(position).date
         val startTimeToPass: String = viewAllShiftsList.get(position).time_start
         val endTimeToPass: String = viewAllShiftsList.get(position).time_end
@@ -97,14 +113,6 @@ class ViewAllShiftsAdapter(val accessCode: Int,val tokenCode: String, private va
             intentToModifyShiftActivity.putExtra("employee_name", employeeName)
             context.startActivity(intentToModifyShiftActivity)
         }
-    }
-
-    class ViewAllShiftsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val date: TextView = itemView.findViewById(R.id.view_all_shifts_date)
-        val startTime: TextView = itemView.findViewById(R.id.view_all_shifts_time_start)
-        val endTime: TextView = itemView.findViewById(R.id.view_all_shifts_time_end)
-        val jobTitle: TextView = itemView.findViewById(R.id.view_all_shifts_job_title)
-        val employeeName: TextView = itemView.findViewById(R.id.view_all_shifts_employee_name)
     }
 }
 
