@@ -49,6 +49,7 @@ class GetShiftRequestsAdapter (
     : RecyclerView.Adapter<GetShiftRequestsAdapter.ViewHolder>()
 {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvEmployee: TextView = itemView.findViewById(R.id.cardShiftRequestManagerEmployee)
         val tvDate: TextView = itemView.findViewById(R.id.cardShiftRequestManagerDate)
         val tvTime: TextView = itemView.findViewById(R.id.cardShiftRequestManagerTime)
         val tvAssigngment: TextView = itemView.findViewById(R.id.cardShiftRequestManagerAssignment)
@@ -108,6 +109,7 @@ class GetShiftRequestsAdapter (
                     strAssignment = "Dropped by ${shift.employee_name}"
                 }
 
+                holder.tvEmployee.text = shiftRequest.employee_name
                 holder.tvDate.text = strDate
                 holder.tvTime.text = strShiftTime
                 holder.tvAssigngment.text = strAssignment
