@@ -94,7 +94,7 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
         // Change the array to int
         val listOfIntItems = listOfDateItems.map { it.toInt()}
 
-        Toast.makeText(context, listOfIntItems.toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, listOfIntItems.toString() + " " + employeeNameDefault, Toast.LENGTH_SHORT).show()
 
         // Sets the value in calender
         var cal1 = Calendar.getInstance()
@@ -130,15 +130,27 @@ class ModifyShiftActivity: AppCompatActivity(), AdapterView.OnItemSelectedListen
                     Toast.makeText(context, "Success: " + response.code(), Toast.LENGTH_SHORT).show()
                     val employeeList = response.body()
 
+                    var count = 0
+                    var defaultEmp: Int = 0
                     // Get employee names and use a hashmap to keep track of employee ids
                     for(employee in employeeList?.asIterable()!!) {
                         employeeMap.put(employee.employee_name, employee.id)
                         employeeNames.add(employee.employee_name)
                     }
 
+                    // Sets the default value by counting the index
+                    for (employee in employeeNames) {
+                        if (employee == employeeNameDefault) {
+                            defaultEmp = count
+                        }
+                        count++
+                    }
+
+
                     val spinnerAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, employeeNames)
                     spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     employeeSpinner.adapter = spinnerAdapter
+                    employeeSpinner.setSelection(defaultEmp)
                     employeeSpinner.onItemSelectedListener = context
 
                 } else {
