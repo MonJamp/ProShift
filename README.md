@@ -1,4 +1,4 @@
-Android code.
+Link to back-end server source code: https://github.com/MonJamp/ProShift-Server
 
 This application is designed for companies to manage their employee scheduling system. The app has separate functions for regular employees and managers.
 
